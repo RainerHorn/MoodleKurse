@@ -1,0 +1,955 @@
+/* =============================================================
+   VT Kursmaster – Gemeinsames CSS (Quelle der Wahrheit)
+   =============================================================
+   WICHTIG: Diese Datei wird NICHT per <link> eingebunden!
+   Moodle entfernt externe CSS-Referenzen.
+   
+   Workflow:
+   1. CSS hier bearbeiten (Syntax-Highlighting, Kommentare)
+   2. _update_templates.ps1 ausführen → schreibt diesen Text
+      als Template-Literal in den <script>-IIFE-Block aller
+      HTML-Seiten unter LF*/Seiten/ und Templates/html/
+   
+   Alle Regeln MÜSSEN !important haben, damit Moodle-Styles
+   nicht überschreiben.
+   ============================================================= */
+
+/* ===================
+   Reset & Scoping
+   ===================
+   Scope auf .container, damit der externe Chatbot (MMBBSBOT)
+   nicht beeinflusst wird. */
+
+.container, .container * {
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* ===================
+   Body & Background
+   =================== */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    line-height: 1.6 !important;
+    color: #333 !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    min-height: 100vh !important;
+    padding: 2rem !important;
+}
+
+/* ===================
+   Layout Container
+   =================== */
+
+.container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    background: white !important;
+    border-radius: 20px !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+    overflow: hidden !important;
+}
+
+/* ===================
+   Header
+   =================== */
+
+.header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+    color: white !important;
+    padding: 2rem !important;
+    text-align: center !important;
+}
+
+.header h1 {
+    font-size: 2.5rem !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 700 !important;
+}
+
+.header p {
+    font-size: 1.2rem !important;
+    opacity: 0.9 !important;
+}
+
+/* ===================
+   Content & Sections
+   =================== */
+
+.content {
+    padding: 2rem !important;
+}
+
+.section {
+    margin-bottom: 2.5rem !important;
+}
+
+/* Überschriften – scoped, damit Moodle-Styles nicht stören */
+
+.container .section h2,
+.container h2 {
+    color: #1e3c72 !important;
+    border-bottom: 3px solid #667eea !important;
+    padding-bottom: 0.5rem !important;
+    margin: 2rem 0 0.1rem 0 !important;
+    font-size: 2rem !important;
+}
+
+.container .section h3,
+.container h3 {
+    color: #2a5298 !important;
+    margin: 1.8rem 0 0.1rem 0 !important;
+    font-size: 1.5rem !important;
+}
+
+.container .section h4,
+.container h4 {
+    color: #4a6cf7 !important;
+    margin: 1.5rem 0 0.1rem 0 !important;
+    font-size: 1.2rem !important;
+}
+
+.section:first-child h2,
+.section h2:first-child {
+    margin-top: 0 !important;
+}
+
+/* Überschriften in spezifischen Boxen */
+
+.tech-specs h4 {
+    color: #01579b !important;
+    margin: 0 0 0.5rem 0 !important;
+}
+
+.phase h4 {
+    color: #1e3c72 !important;
+    margin: 0 0 0.5rem 0 !important;
+    padding-top: 0.5rem !important;
+}
+
+.praxis-box h4 {
+    color: #2e7d32 !important;
+    margin: 0 0 1rem 0 !important;
+}
+
+/* Listen & Absätze */
+
+.container ul,
+.container ol {
+    margin: 1rem 0 !important;
+    padding-left: 2rem !important;
+}
+
+.container li {
+    margin: 0.5rem 0 !important;
+}
+
+.container p {
+    margin: 1rem 0 !important;
+    line-height: 1.6 !important;
+}
+
+/* ======================
+   Semantische Inhaltsboxen
+   ======================
+   Farb-Kodierung:
+   intro       → Grau       (Einführung / Kontext)
+   task        → Grün       (Übung – wird NICHT abgegeben)
+   moodle-upload → Blassrot (Moodle-Abgabe – bewusst andere Farbe als .task,
+                              damit Übung und Abgabe nicht verwechselt werden)
+   question    → Gelb       (Kontrollfragen)
+   tech-specs  → Blau       (Technische Details)
+   warning     → Rot        (Warnung / Achtung)
+   praxis-box  → Grün       (Praxistipp / Laboraufgabe)
+   ====================== */
+
+.intro {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-left: 4px solid #667eea !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.1) !important;
+}
+
+.task {
+    background: linear-gradient(135deg, #e8f5e8 0%, #d4f1d4 100%) !important;
+    border-left: 4px solid #4caf50 !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(76, 175, 80, 0.1) !important;
+}
+
+.task strong {
+    color: #2e7d32 !important;
+    font-size: 1.1rem !important;
+    display: block !important;
+    margin-bottom: 0.8rem !important;
+}
+
+.task p {
+    margin: 0.5rem 0 !important;
+    padding-left: 0 !important;
+    border-left: none !important;
+}
+
+/* moodle-upload ist bewusst eine eigene Box, NICHT mit .task kombiniert:
+   Übung (.task, grün) und Moodle-Abgabe (.moodle-upload, blassrot) sind
+   didaktisch verschiedene Dinge und dürfen farblich nicht verwechselbar sein. */
+
+.moodle-upload {
+    background: linear-gradient(135deg, #fff1f2 0%, #ffd6dc 100%) !important;
+    border-left: 4px solid #e11d48 !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(225, 29, 72, 0.15) !important;
+}
+
+.moodle-upload strong {
+    color: #9f1239 !important;
+    font-size: 1.1rem !important;
+    display: block !important;
+    margin-bottom: 0.8rem !important;
+}
+
+.moodle-upload p {
+    margin: 0.5rem 0 !important;
+    padding-left: 0 !important;
+    border-left: none !important;
+}
+
+.moodle-upload h3,
+.moodle-upload h4 {
+    color: #9f1239 !important;
+    margin: 0 0 0.8rem 0 !important;
+}
+
+.question {
+    background: linear-gradient(135deg, #fff3cd 0%, #fdeaa7 100%) !important;
+    border-left: 4px solid #f39c12 !important;
+    padding: 1.2rem !important;
+    margin: 1rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(243, 156, 18, 0.1) !important;
+    color: #b7950b !important;
+    font-weight: 500 !important;
+}
+
+.tech-specs {
+    background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%) !important;
+    border-left: 4px solid #0288d1 !important;
+    padding: 1.5rem !important;
+    margin: 1.2rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(2, 136, 209, 0.1) !important;
+}
+
+.warning {
+    background: linear-gradient(135deg, #ffe6e6 0%, #ffb3b3 100%) !important;
+    border-left: 4px solid #e74c3c !important;
+    padding: 1.5rem !important;
+    margin: 1.2rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(231, 76, 60, 0.1) !important;
+    color: #c0392b !important;
+}
+
+.praxis-box {
+    background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%) !important;
+    border-left: 4px solid #4caf50 !important;
+    padding: 1.5rem !important;
+    margin: 1.2rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(76, 175, 80, 0.1) !important;
+}
+
+/* ======================
+   Phasen-Grid (Karten)
+   ====================== */
+
+.phases {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+    gap: 1.5rem !important;
+    margin: 2rem 0 !important;
+}
+
+.phase {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+    border: 1px solid #e9ecef !important;
+    position: relative !important;
+    transition: transform 0.3s ease !important;
+}
+
+.phase:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+}
+
+.phase-number {
+    position: absolute !important;
+    top: -15px !important;
+    left: 20px !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: bold !important;
+    font-size: 0.9rem !important;
+}
+
+/* ======================
+   Tabellen
+   ====================== */
+
+.comparison-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 1.2rem 0 !important;
+    background: white !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+}
+
+.comparison-table th {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+    color: white !important;
+    padding: 1rem !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+}
+
+.comparison-table td {
+    padding: 1rem !important;
+    border-bottom: 1px solid #e9ecef !important;
+}
+
+.comparison-table tr:nth-child(even) {
+    background-color: #f8f9fa !important;
+}
+
+.comparison-table tr:hover {
+    background-color: #e3f2fd !important;
+}
+
+/* ======================
+   Akkordeon
+   ====================== */
+
+.accordion {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border: 2px solid #667eea !important;
+    border-radius: 12px !important;
+    margin: 1.5rem 0 !important;
+    overflow: hidden !important;
+}
+
+.accordion-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    padding: 1.2rem 1.5rem !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    transition: background 0.3s ease !important;
+    user-select: none !important;
+}
+
+.accordion-header:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #653a89 100%) !important;
+}
+
+.accordion-icon {
+    font-size: 1.3rem !important;
+    transition: transform 0.3s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.accordion-icon.open {
+    transform: rotate(90deg) !important;
+}
+
+.accordion-content {
+    max-height: 0 !important;
+    overflow: hidden !important;
+    transition: max-height 0.4s ease, padding 0.4s ease !important;
+    padding: 0 1.5rem !important;
+    background: white !important;
+}
+
+.accordion-content.open {
+    max-height: 5000px !important;
+    padding: 1.5rem !important;
+}
+
+/* ======================
+   Interaktive Demo-Fläche
+   ====================== */
+
+.interactive-demo {
+    background: linear-gradient(135deg, #fffde7 0%, #fff9c4 100%) !important;
+    border: 2px solid #ff9800 !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    margin: 2rem 0 !important;
+    text-align: center !important;
+}
+
+.demo-button {
+    background: linear-gradient(135deg, #ff9800 0%, #f57f17 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.8rem 1.5rem !important;
+    border-radius: 25px !important;
+    cursor: pointer !important;
+    font-size: 1rem !important;
+    margin: 0.5rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.demo-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4) !important;
+}
+
+/* ======================
+   Chatbot-Button senden
+   ====================== */
+
+.chatbot-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.6rem 1.2rem !important;
+    border-radius: 20px !important;
+    cursor: pointer !important;
+    font-size: 0.9rem !important;
+    margin: 0.3rem !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+}
+
+.chatbot-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4) !important;
+}
+
+/* ======================
+   Fußzeilen-Navigation (Kapitel-Vor/Zurück-Leiste)
+   ====================== */
+
+.navigation {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+    margin-top: 2rem !important;
+    padding: 1.5rem !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-radius: 12px !important;
+    text-align: center !important;
+}
+
+.nav-button {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+    color: white !important;
+    padding: 0.7rem 1.4rem !important;
+    border-radius: 25px !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.nav-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(30,60,114,0.4) !important;
+}
+
+/* ======================
+   SVG / Bild-Container
+   ====================== */
+
+.svg-container {
+    margin: 1.2rem 0 !important;
+    text-align: center !important;
+}
+
+.svg-container svg {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* Lokal referenzierte Visuals innerhalb von Inhalts-Panels */
+.container figure.section {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+.container figure.section > img,
+.container figure.section > svg {
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    max-height: 65vh !important;
+    height: auto !important;
+    object-fit: contain !important;
+    margin: 0 auto 1rem !important;
+}
+
+/* ======================
+   Connector-Grid (für Steckverbinder-Darstellungen)
+   ====================== */
+
+.connector-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+    gap: 1rem !important;
+    margin: 1.5rem 0 !important;
+}
+
+/* ======================
+   Signal-Visualisierungen
+   ====================== */
+
+.signal-visual {
+    text-align: center !important;
+    margin: 2rem 0 !important;
+    padding: 1.5rem !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-radius: 12px !important;
+    border: 2px solid #667eea !important;
+}
+
+.signal-wave {
+    font-family: monospace !important;
+    font-size: 1.2rem !important;
+    margin: 1rem 0 !important;
+    padding: 1rem !important;
+    background: #2c3e50 !important;
+    color: #00ff00 !important;
+    border-radius: 8px !important;
+    letter-spacing: 2px !important;
+}
+
+/* ======================
+   Formular-Elemente
+   ====================== */
+
+.container textarea {
+    width: 100% !important;
+    padding: 1rem !important;
+    border: 2px solid #667eea !important;
+    border-radius: 8px !important;
+    font-family: inherit !important;
+    font-size: 1rem !important;
+    margin: 1rem 0 !important;
+    resize: vertical !important;
+    min-height: 100px !important;
+}
+
+.container input[type="text"],
+.container input[type="number"] {
+    padding: 0.6rem 1rem !important;
+    border: 2px solid #667eea !important;
+    border-radius: 8px !important;
+    font-family: inherit !important;
+    font-size: 1rem !important;
+}
+
+/* Mehrzeilige, automatisch mitwachsende Arbeitsfelder */
+.container .rich-editor {
+    display: block !important;
+    width: 100% !important;
+    min-height: 12rem !important;
+    padding: 1rem !important;
+    border: 2px solid #667eea !important;
+    border-radius: 8px !important;
+    background: #fff !important;
+    box-sizing: border-box !important;
+    line-height: 1.5 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+}
+
+.container .rich-editor:empty::before {
+    content: attr(data-placeholder) !important;
+    color: #5f6368 !important;
+    pointer-events: none !important;
+}
+
+.container .rich-editor:focus {
+    outline: 3px solid rgba(102, 126, 234, 0.25) !important;
+    outline-offset: 2px !important;
+}
+
+/* ======================
+   Schwebendes Navigationsmenü
+   ====================== */
+
+.nav-menu {
+    position: fixed !important;
+    background: rgba(255,255,255,0.96) !important;
+    backdrop-filter: blur(6px) !important;
+    border-radius: 10px !important;
+    padding: 0.35rem !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18) !important;
+    z-index: 99999 !important;
+    border: 1px solid rgba(102,126,234,0.4) !important;
+    user-select: none !important;
+    width: fit-content !important;
+    height: fit-content !important;
+}
+
+.nav-menu:active {
+    cursor: grabbing !important;
+}
+
+.nav-menu-header {
+    cursor: move !important;
+    padding: 0.15rem 0.2rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    border-bottom: 1px solid rgba(102,126,234,0.2) !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.nav-menu-control {
+    appearance: none !important;
+    border: 1px solid rgba(102,126,234,0.5) !important;
+    background: transparent !important;
+    color: #667eea !important;
+    border-radius: 50% !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    cursor: pointer !important;
+    font-size: 0.7rem !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.nav-menu-control:hover {
+    background: rgba(102,126,234,0.12) !important;
+}
+
+.nav-menu.is-hidden {
+    display: none !important;
+}
+
+.nav-menu-launcher {
+    position: fixed !important;
+    right: 2rem !important;
+    bottom: 2rem !important;
+    z-index: 99999 !important;
+    border: 1px solid rgba(102,126,234,0.5) !important;
+    background: rgba(255,255,255,0.96) !important;
+    color: #667eea !important;
+    border-radius: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18) !important;
+    display: none !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.1rem !important;
+    user-select: none !important;
+}
+
+.nav-menu-launcher.is-visible {
+    display: inline-flex !important;
+}
+
+.nav-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.25rem !important;
+}
+
+.nav-divider {
+    height: 1px !important;
+    background: rgba(102,126,234,0.25) !important;
+    margin: 0.15rem 0 !important;
+}
+
+.nav-btn {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+    color: white !important;
+    border: none !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    border-radius: 7px !important;
+    cursor: pointer !important;
+    font-size: 0.95rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 6px rgba(30,60,114,0.3) !important;
+    transition: box-shadow 0.2s ease, background 0.2s ease !important;
+}
+
+.nav-btn:hover {
+    box-shadow: 0 4px 12px rgba(30,60,114,0.5) !important;
+    background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%) !important;
+}
+
+/* ======================
+   Inline-Code (Chip-Optik)
+   ====================== */
+
+.container code {
+    background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%) !important;
+    color: #01579b !important;
+    padding: 2px 6px !important;
+    border-radius: 6px !important;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+    font-size: 0.9em !important;
+    font-weight: 600 !important;
+    border: 1px solid #81d4fa !important;
+}
+
+/* ======================
+   Lösungsseite (Eigene Überprüfung)
+   ====================== */
+
+.header.loesung {
+    background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%) !important;
+}
+
+.teacher-solution {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%) !important;
+    border-left: 4px solid #dc2626 !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(220, 38, 38, 0.1) !important;
+}
+
+/* ======================
+   Mini-Spiel: Memory
+   ======================
+   Engine: window.vtMemoryInit(pairs) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele" */
+
+.vt-memory { max-width: 640px !important; margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-memory-stats { display: flex !important; justify-content: space-around !important; margin-bottom: 1rem !important; padding: 0.7rem !important; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important; border-radius: 10px !important; }
+.vt-memory-stat { text-align: center !important; }
+.vt-memory-stat-label { display: block !important; font-size: 0.8rem !important; color: #666 !important; margin-bottom: 0.2rem !important; }
+.vt-memory-stat-value { font-size: 1.3rem !important; font-weight: 700 !important; color: #1e3c72 !important; }
+.vt-memory-board { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 8px !important; margin-bottom: 1rem !important; }
+.vt-memory-card { aspect-ratio: 1 !important; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; border-radius: 8px !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 0.72rem !important; font-weight: 700 !important; color: white !important; text-align: center !important; padding: 4px !important; transition: all 0.25s ease !important; box-shadow: 0 3px 6px rgba(0,0,0,0.2) !important; position: relative !important; }
+.vt-memory-card:hover:not(.flipped):not(.matched) { transform: scale(1.05) !important; }
+.vt-memory-card.flipped { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%) !important; color: #1e3c72 !important; }
+.vt-memory-card.matched { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important; animation: vtmemPulse 0.6s ease !important; cursor: default !important; opacity: 0.7 !important; }
+.vt-memory-card.wrong { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%) !important; animation: vtmemShake 0.4s ease !important; }
+.vt-memory-card-back { display: flex !important; align-items: center !important; justify-content: center !important; font-size: 1.6rem !important; }
+.vt-memory-card-front { display: none !important; }
+.vt-memory-card.flipped .vt-memory-card-back { display: none !important; }
+.vt-memory-card.flipped .vt-memory-card-front { display: flex !important; align-items: center !important; justify-content: center !important; height: 100% !important; padding: 4px !important; word-break: break-word !important; hyphens: auto !important; }
+@keyframes vtmemPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+@keyframes vtmemShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.vt-memory-message { text-align: center !important; margin-bottom: 0.8rem !important; font-weight: 700 !important; color: #1e3c72 !important; min-height: 1.4rem !important; }
+.vt-memory-controls { display: flex !important; justify-content: center !important; }
+.vt-memory-btn { padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; transition: all 0.25s ease !important; box-shadow: 0 3px 6px rgba(0,0,0,0.2) !important; }
+.vt-memory-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; color: white !important; }
+.vt-memory-btn-primary:hover { transform: translateY(-2px) !important; }
+@media (max-width: 480px) { .vt-memory-card { font-size: 0.6rem !important; } .vt-memory-card-back { font-size: 1.2rem !important; } }
+
+/* ======================
+   Mini-Spiel: Hangman
+   ======================
+   Engine: window.vtHangmanInit(words) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele" */
+
+.vt-hangman { max-width: 620px !important; margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-hangman-stats { display: flex !important; justify-content: space-around !important; margin-bottom: 1rem !important; padding: 0.7rem !important; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important; border-radius: 10px !important; }
+.vt-hangman-stat { text-align: center !important; }
+.vt-hangman-stat-label { display: block !important; font-size: 0.8rem !important; color: #666 !important; margin-bottom: 0.2rem !important; }
+.vt-hangman-stat-value { font-size: 1.3rem !important; font-weight: 700 !important; color: #1e3c72 !important; }
+.vt-hangman-area { display: flex !important; gap: 1rem !important; align-items: flex-start !important; flex-wrap: wrap !important; margin-bottom: 0.8rem !important; }
+#vthang-canvas { background: white !important; border: 2px solid #667eea !important; border-radius: 8px !important; flex-shrink: 0 !important; }
+.vt-hangman-hint { flex: 1 1 220px !important; background: #fef3c7 !important; border: 2px solid #f59e0b !important; border-radius: 10px !important; padding: 0.8rem !important; color: #92400e !important; }
+.vt-hangman-word { display: flex !important; justify-content: center !important; gap: 0.4rem !important; flex-wrap: wrap !important; margin: 0.8rem 0 !important; }
+.vt-hangman-letter { min-width: 26px !important; height: 34px !important; border-bottom: 3px solid #1e3c72 !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 1.3rem !important; font-weight: 700 !important; color: #1e3c72 !important; }
+.vt-hangman-message { text-align: center !important; margin-bottom: 0.6rem !important; font-weight: 700 !important; min-height: 1.4rem !important; }
+.vt-hangman-keyboard { display: grid !important; grid-template-columns: repeat(9, 1fr) !important; gap: 0.3rem !important; max-width: 500px !important; margin: 0 auto 1rem !important; }
+.vt-hangman-key { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; color: white !important; border: none !important; padding: 0.5rem 0 !important; font-size: 0.85rem !important; font-weight: 700 !important; border-radius: 6px !important; cursor: pointer !important; transition: all 0.2s ease !important; }
+.vt-hangman-key:hover:not(:disabled) { transform: translateY(-2px) !important; }
+.vt-hangman-key:disabled { opacity: 0.4 !important; cursor: not-allowed !important; }
+.vt-hangman-key.correct { background: linear-gradient(135deg, #2ed573 0%, #1e7e34 100%) !important; }
+.vt-hangman-key.wrong { background: linear-gradient(135deg, #ff4757 0%, #c0392b 100%) !important; }
+.vt-hangman-controls { display: flex !important; justify-content: center !important; }
+.vt-hangman-btn { padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; color: white !important; transition: all 0.25s ease !important; }
+.vt-hangman-btn:hover { transform: translateY(-2px) !important; }
+@media (max-width: 480px) { .vt-hangman-keyboard { grid-template-columns: repeat(7, 1fr) !important; } }
+
+/* ======================
+   Mini-Spiel: Sortierspiel
+   ======================
+   Engine: window.vtSortInit(terms, categoryIds) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele"
+   .vt-sort-categories = 2 Kategorien, .vt-sort-categories-3 = 3 Kategorien */
+
+.vt-sort { max-width: 720px !important; margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-sort-stats { display: flex !important; justify-content: space-around !important; margin-bottom: 1rem !important; padding: 0.7rem !important; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important; border-radius: 10px !important; }
+.vt-sort-stat { text-align: center !important; }
+.vt-sort-stat-label { display: block !important; font-size: 0.8rem !important; color: #666 !important; margin-bottom: 0.2rem !important; }
+.vt-sort-stat-value { font-size: 1.3rem !important; font-weight: 700 !important; color: #1e3c72 !important; }
+.vt-sort-pool { display: flex !important; flex-wrap: wrap !important; gap: 0.5rem !important; justify-content: center !important; min-height: 2.6rem !important; margin-bottom: 1rem !important; padding: 0.6rem !important; background: #f1f5f9 !important; border-radius: 10px !important; }
+.vt-sort-chip { padding: 0.5rem 0.9rem !important; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; color: white !important; border-radius: 20px !important; font-size: 0.85rem !important; font-weight: 600 !important; cursor: pointer !important; transition: all 0.2s ease !important; box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important; }
+.vt-sort-chip:hover { transform: translateY(-2px) !important; }
+.vt-sort-chip.selected { background: linear-gradient(135deg, #ffd700 0%, #f59e0b 100%) !important; color: #1e3c72 !important; box-shadow: 0 0 0 3px rgba(245,158,11,0.4) !important; }
+.vt-sort-categories { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 1rem !important; margin-bottom: 1rem !important; }
+.vt-sort-categories-3 { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 0.8rem !important; margin-bottom: 1rem !important; }
+.vt-sort-category { background: white !important; border: 2px solid #cbd5e1 !important; border-radius: 10px !important; padding: 0.8rem !important; cursor: pointer !important; transition: all 0.2s ease !important; min-height: 100px !important; }
+.vt-sort-category:hover { border-color: #667eea !important; }
+.vt-sort-category h4 { margin: 0 0 0.5rem 0 !important; color: #1e3c72 !important; text-align: center !important; font-size: 0.95rem !important; }
+.vt-sort-category.flash-correct { background: #d1fae5 !important; border-color: #4caf50 !important; animation: vtsortPulse 0.5s ease !important; }
+.vt-sort-category.flash-wrong { background: #fee2e2 !important; border-color: #e74c3c !important; animation: vtsortShake 0.4s ease !important; }
+@keyframes vtsortPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+@keyframes vtsortShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+.vt-sort-dropped { display: flex !important; flex-wrap: wrap !important; gap: 0.3rem !important; justify-content: center !important; }
+.vt-sort-dropped .vt-sort-chip { cursor: default !important; opacity: 0.85 !important; font-size: 0.75rem !important; padding: 0.35rem 0.7rem !important; background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%) !important; }
+.vt-sort-message { text-align: center !important; margin-bottom: 0.6rem !important; font-weight: 700 !important; min-height: 1.4rem !important; }
+.vt-sort-controls { display: flex !important; justify-content: center !important; }
+.vt-sort-btn { padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; color: white !important; transition: all 0.25s ease !important; }
+.vt-sort-btn:hover { transform: translateY(-2px) !important; }
+@media (max-width: 600px) { .vt-sort-categories, .vt-sort-categories-3 { grid-template-columns: 1fr !important; } }
+
+/* ======================
+   Mini-Spiel: Blitz-Quiz
+   ======================
+   Engine: window.vtQuizInit(questions, options) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele" */
+
+.vt-quiz { max-width: 640px !important; margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-quiz-counter { font-size: 0.85rem !important; color: #888 !important; margin-bottom: 0.5rem !important; }
+.vt-quiz-timerbar { height: 7px !important; background: #e0e0e0 !important; border-radius: 4px !important; overflow: hidden !important; margin-bottom: 1rem !important; }
+.vt-quiz-timerfill { height: 100% !important; background: linear-gradient(90deg, #9C27B0, #E91E63) !important; border-radius: 4px !important; transition: width 0.12s linear !important; }
+.vt-quiz-question { font-size: 1.1rem !important; font-weight: 700 !important; color: #1e3c72 !important; margin-bottom: 1rem !important; min-height: 2.6rem !important; line-height: 1.4 !important; }
+.vt-quiz-options { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 10px !important; margin-bottom: 0.8rem !important; }
+.vt-quiz-opt { padding: 0.75rem !important; border: 2px solid #ddd !important; border-radius: 10px !important; cursor: pointer !important; font-size: 0.88rem !important; font-weight: 500 !important; transition: all 0.15s ease !important; background: white !important; text-align: left !important; font-family: inherit !important; line-height: 1.4 !important; }
+.vt-quiz-opt:hover:not(.answered) { border-color: #9C27B0 !important; background: #f3e5f5 !important; }
+.vt-quiz-opt.correct { border-color: #4caf50 !important; background: #e8f5e9 !important; color: #1B5E20 !important; }
+.vt-quiz-opt.wrong { border-color: #f44336 !important; background: #ffebee !important; color: #b71c1c !important; }
+.vt-quiz-opt.answered { pointer-events: none !important; }
+.vt-quiz-msg { text-align: center !important; font-weight: 700 !important; font-size: 1.05rem !important; margin-bottom: 0.8rem !important; }
+.vt-quiz-btn { display: block !important; margin: 0 auto !important; padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; background: linear-gradient(135deg, #9C27B0, #4A148C) !important; color: white !important; transition: all 0.25s ease !important; }
+.vt-quiz-btn:hover { transform: translateY(-2px) !important; }
+@media (max-width: 600px) { .vt-quiz-options { grid-template-columns: 1fr !important; } }
+
+/* ======================
+   Mini-Spiel: Wortsuche
+   ======================
+   Engine: window.vtWordSearchInit(words, options) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele" */
+
+.vt-ws { margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-ws-layout { display: flex !important; gap: 1.5rem !important; flex-wrap: wrap !important; align-items: flex-start !important; justify-content: center !important; }
+.vt-ws-gridwrap { flex: 0 0 auto !important; }
+#vtws-grid { display: grid !important; user-select: none !important; border: 3px solid #009688 !important; border-radius: 8px !important; overflow: hidden !important; cursor: crosshair !important; }
+.vt-ws-cell { width: 30px !important; height: 30px !important; display: flex !important; align-items: center !important; justify-content: center !important; font-weight: 700 !important; font-size: 0.8rem !important; border: 1px solid #e0e0e0 !important; background: white !important; transition: background 0.08s !important; }
+.vt-ws-cell.selecting { background: #B2EBF2 !important; }
+.vt-ws-cell.found-1 { background: #4CAF50 !important; color: white !important; border-color: #388E3C !important; }
+.vt-ws-cell.found-2 { background: #2196F3 !important; color: white !important; border-color: #1565C0 !important; }
+.vt-ws-cell.found-3 { background: #9C27B0 !important; color: white !important; border-color: #6A1B9A !important; }
+.vt-ws-cell.found-4 { background: #FF5722 !important; color: white !important; border-color: #BF360C !important; }
+.vt-ws-cell.found-5 { background: #FF9800 !important; color: white !important; border-color: #E65100 !important; }
+.vt-ws-cell.found-6 { background: #009688 !important; color: white !important; border-color: #004D40 !important; }
+.vt-ws-cell.found-7 { background: #E91E63 !important; color: white !important; border-color: #880E4F !important; }
+.vt-ws-cell.found-8 { background: #795548 !important; color: white !important; border-color: #3E2723 !important; }
+.vt-ws-aside { flex: 1 1 160px !important; min-width: 160px !important; }
+.vt-ws-word { padding: 0.35rem 0.7rem !important; margin: 0.25rem 0 !important; border-left: 3px solid #ccc !important; font-weight: 600 !important; font-size: 0.85rem !important; transition: all 0.2s ease !important; color: #333 !important; }
+.vt-ws-hint { color: #999 !important; font-weight: 400 !important; font-size: 0.76rem !important; }
+.vt-ws-word.found { color: #4CAF50 !important; border-color: #4CAF50 !important; text-decoration: line-through !important; }
+.vt-ws-btn { padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; background: linear-gradient(135deg, #009688, #004D40) !important; color: white !important; transition: all 0.25s ease !important; }
+.vt-ws-btn:hover { transform: translateY(-2px) !important; }
+@media (max-width: 600px) { .vt-ws-cell { width: 24px !important; height: 24px !important; font-size: 0.7rem !important; } }
+
+/* ======================
+   Mini-Spiel: Pixel-Retter
+   ======================
+   Engine: window.vtPixelDefenderInit(options) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele"
+   Reines Reaktionsspiel ohne Fachinhalte – ueberall als Auflockerung einsetzbar. */
+
+.vt-pixel { max-width: 560px !important; margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-pixel-status { font-size: 0.82rem !important; color: #888 !important; margin-bottom: 0.4rem !important; }
+.vt-pixel-dangerwrap { height: 20px !important; background: #e0e0e0 !important; border-radius: 20px !important; overflow: hidden !important; margin: 0.4rem 0 !important; }
+#vtpixel-danger { height: 100% !important; background: linear-gradient(90deg, #4CAF50 0%, #FFC107 50%, #f44336 100%) !important; border-radius: 20px !important; transition: width 0.25s !important; }
+#vtpixel-grid { display: grid !important; gap: 4px !important; padding: 12px !important; background: #111 !important; border-radius: 10px !important; margin: 0 auto 0.8rem !important; border: 3px solid #333 !important; }
+.vt-pixel-cell { width: 100% !important; aspect-ratio: 1 !important; border-radius: 4px !important; background: #39ff14 !important; cursor: pointer !important; transition: background 0.15s ease, transform 0.1s ease !important; }
+.vt-pixel-cell.vt-pixel-dirty { background: #222 !important; animation: vtPixelPulse 0.7s infinite alternate !important; }
+.vt-pixel-cell.vt-pixel-pop { background: #fff176 !important; transform: scale(1.25) !important; }
+@keyframes vtPixelPulse { from { background: #2d2d2d; box-shadow: 0 0 4px #f44336; } to { background: #555; box-shadow: 0 0 10px #f44336; } }
+.vt-pixel-message { text-align: center !important; font-weight: 700 !important; margin-top: 0.6rem !important; min-height: 1.4rem !important; }
+.vt-pixel-btn { padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; background: linear-gradient(135deg, #E91E63, #880E4F) !important; color: white !important; transition: all 0.25s ease !important; }
+.vt-pixel-btn:hover { transform: translateY(-2px) !important; }
+
+/* ======================
+   Mini-Spiel: Timing-Spiel (Sweet-Spot-Reaktionsspiel)
+   ======================
+   Engine: window.vtTimingGameInit(options) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele"
+   Generisch fuer jedes "treffe den Sweet-Spot"-Szenario (Belichtung, Pegel, Timing). */
+
+.vt-timing { max-width: 560px !important; margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-timing-dots { display: flex !important; gap: 8px !important; justify-content: center !important; flex-wrap: wrap !important; margin: 0.5rem 0 !important; }
+.vt-timing-dot { width: 30px !important; height: 30px !important; border-radius: 50% !important; border: 2px solid #bbb !important; background: #eee !important; font-size: 0.78rem !important; display: flex !important; align-items: center !important; justify-content: center !important; font-weight: 700 !important; transition: all 0.3s ease !important; }
+.vt-timing-dot.active { border-color: #FF9800 !important; animation: vtTimingPulse 0.5s infinite alternate !important; }
+.vt-timing-dot.hit { background: #4CAF50 !important; border-color: #2E7D32 !important; color: white !important; }
+.vt-timing-dot.miss { background: #f44336 !important; border-color: #b71c1c !important; color: white !important; }
+@keyframes vtTimingPulse { from { transform: scale(1); border-color: #FF9800; } to { transform: scale(1.18); border-color: #FFF176; } }
+#vttiming-track { position: relative !important; height: 56px !important; background: linear-gradient(90deg, #1a237e 0%, #283593 15%, #4CAF50 33%, #4CAF50 67%, #E65100 82%, #b71c1c 100%) !important; border-radius: 30px !important; overflow: hidden !important; margin: 1rem 0 !important; box-shadow: inset 0 2px 8px rgba(0,0,0,0.3) !important; }
+#vttiming-sweet { position: absolute !important; top: 0 !important; bottom: 0 !important; background: rgba(255,255,255,0.28) !important; pointer-events: none !important; border-left: 2px solid rgba(255,255,255,0.6) !important; border-right: 2px solid rgba(255,255,255,0.6) !important; }
+#vttiming-marker { position: absolute !important; top: 8px !important; bottom: 8px !important; width: 10px !important; background: white !important; border-radius: 5px !important; box-shadow: 0 2px 8px rgba(0,0,0,0.5) !important; transform: translateX(-50%) !important; }
+.vt-timing-feedback { text-align: center !important; min-height: 34px !important; font-size: 1rem !important; font-weight: 700 !important; display: flex !important; align-items: center !important; justify-content: center !important; color: #333 !important; }
+.vt-timing-shootbtn { display: flex !important; align-items: center !important; justify-content: center !important; width: 96px !important; height: 96px !important; border-radius: 50% !important; margin: 0.8rem auto !important; background: radial-gradient(circle, #ef5350, #b71c1c) !important; border: 6px solid white !important; box-shadow: 0 4px 20px rgba(183,28,28,0.5) !important; font-size: 2.1rem !important; color: white !important; cursor: pointer !important; transition: transform 0.1s ease !important; font-family: inherit !important; }
+.vt-timing-shootbtn:hover:not(:disabled) { transform: scale(1.08) !important; }
+.vt-timing-shootbtn:disabled { opacity: 0.4 !important; cursor: default !important; transform: none !important; }
+.vt-timing-message { text-align: center !important; font-weight: 700 !important; margin-top: 0.6rem !important; min-height: 1.4rem !important; }
+.vt-timing-btn { display: block !important; margin: 0 auto !important; padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; background: linear-gradient(135deg, #FF9800, #E65100) !important; color: white !important; transition: all 0.25s ease !important; }
+.vt-timing-btn:hover { transform: translateY(-2px) !important; }
+
+/* ======================
+   Responsive (768px)
+   ====================== */
+
+@media (max-width: 768px) {
+    body { padding: 1rem !important; }
+    .container { border-radius: 10px !important; }
+    .header h1 { font-size: 2rem !important; }
+    .content { padding: 1.5rem !important; }
+    .phases { grid-template-columns: 1fr !important; }
+    .nav-menu { left: 1rem !important; top: 1rem !important; }
+    .nav-btn { width: 45px !important; height: 45px !important; font-size: 1.1rem !important; }
+    .nav-menu-launcher { right: 1rem !important; bottom: 1rem !important; width: 50px !important; height: 50px !important; }
+}

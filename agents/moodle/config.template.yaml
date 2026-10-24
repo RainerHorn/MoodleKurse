@@ -1,0 +1,49 @@
+# Versionierbare Vorlage.
+# Keine Secrets in diese Datei schreiben.
+
+terminal:
+  backend: local
+  cwd: "C:/Users/Horn/Projekte/Moodle-Kurse"
+
+mcp_servers:
+  moodle:
+    command: "node"
+    args:
+      - "C:/Users/Horn/Projekte/moodle2/MoodleMcp/moodle-mcp.js"
+    enabled: true
+    timeout: 120
+    connect_timeout: 60
+    tools:
+      include:
+        - moodle_get_courses
+        - moodle_get_sections
+        - moodle_create_section
+        - moodle_get_modules
+        - moodle_get_assign_content
+        - moodle_get_label_content
+        - moodle_get_page_content
+        - moodle_update_section
+        - moodle_create_label
+        - moodle_update_label
+        - moodle_create_page
+        - moodle_update_page
+        - moodle_create_url
+        - moodle_update_url
+        - moodle_create_assign
+        - moodle_update_assign
+        - moodle_upload_assignfile
+        - moodle_set_completion
+        - moodle_set_restriction
+        - moodle_set_module_visibility
+        - moodle_get_question_categories
+        - moodle_get_question_types
+        - moodle_create_question_category
+        - moodle_import_questions_xml
+        - moodle_create_quiz
+        - moodle_add_quiz_questions
+        - moodle_update_quiz
+      resources: false
+      prompts: false
+
+# ABSICHTLICH NICHT FREIGEGEBEN:
+# - moodle_delete_module

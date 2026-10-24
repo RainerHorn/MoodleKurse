@@ -1,0 +1,2520 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VT LF[X] – [TITEL DER LERNEINHEIT]</title>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         CSS-INJECTION via JavaScript-IIFE
+         ───────────────────────────────────────────────────────────
+         PFLICHT für Moodle: <link> und <style> werden entfernt.
+         Quelle: Templates/css/vt-styles.css
+         Update: _update_templates.ps1 ausführen
+         ═══════════════════════════════════════════════════════════ -->
+    <script>
+        (function () {
+            const styles = `
+/* =============================================================
+   VT Kursmaster – Gemeinsames CSS (Quelle der Wahrheit)
+   =============================================================
+   WICHTIG: Diese Datei wird NICHT per <link> eingebunden!
+   Moodle entfernt externe CSS-Referenzen.
+   
+   Workflow:
+   1. CSS hier bearbeiten (Syntax-Highlighting, Kommentare)
+   2. _update_templates.ps1 ausführen → schreibt diesen Text
+      als Template-Literal in den <script>-IIFE-Block aller
+      HTML-Seiten unter LF*/Seiten/ und Templates/html/
+   
+   Alle Regeln MÜSSEN !important haben, damit Moodle-Styles
+   nicht überschreiben.
+   ============================================================= */
+
+/* ===================
+   Reset & Scoping
+   ===================
+   Scope auf .container, damit der externe Chatbot (MMBBSBOT)
+   nicht beeinflusst wird. */
+
+.container, .container * {
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* ===================
+   Body & Background
+   =================== */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    line-height: 1.6 !important;
+    color: #333 !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    min-height: 100vh !important;
+    padding: 2rem !important;
+}
+
+/* ===================
+   Layout Container
+   =================== */
+
+.container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    background: white !important;
+    border-radius: 20px !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+    overflow: hidden !important;
+}
+
+/* ===================
+   Header
+   =================== */
+
+.header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+    color: white !important;
+    padding: 2rem !important;
+    text-align: center !important;
+}
+
+.header h1 {
+    font-size: 2.5rem !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 700 !important;
+}
+
+.header p {
+    font-size: 1.2rem !important;
+    opacity: 0.9 !important;
+}
+
+/* ===================
+   Content & Sections
+   =================== */
+
+.content {
+    padding: 2rem !important;
+}
+
+.section {
+    margin-bottom: 2.5rem !important;
+}
+
+/* Überschriften – scoped, damit Moodle-Styles nicht stören */
+
+.container .section h2,
+.container h2 {
+    color: #1e3c72 !important;
+    border-bottom: 3px solid #667eea !important;
+    padding-bottom: 0.5rem !important;
+    margin: 2rem 0 0.1rem 0 !important;
+    font-size: 2rem !important;
+}
+
+.container .section h3,
+.container h3 {
+    color: #2a5298 !important;
+    margin: 1.8rem 0 0.1rem 0 !important;
+    font-size: 1.5rem !important;
+}
+
+.container .section h4,
+.container h4 {
+    color: #4a6cf7 !important;
+    margin: 1.5rem 0 0.1rem 0 !important;
+    font-size: 1.2rem !important;
+}
+
+.section:first-child h2,
+.section h2:first-child {
+    margin-top: 0 !important;
+}
+
+/* Überschriften in spezifischen Boxen */
+
+.tech-specs h4 {
+    color: #01579b !important;
+    margin: 0 0 0.5rem 0 !important;
+}
+
+.phase h4 {
+    color: #1e3c72 !important;
+    margin: 0 0 0.5rem 0 !important;
+    padding-top: 0.5rem !important;
+}
+
+.praxis-box h4 {
+    color: #2e7d32 !important;
+    margin: 0 0 1rem 0 !important;
+}
+
+/* Listen & Absätze */
+
+.container ul,
+.container ol {
+    margin: 1rem 0 !important;
+    padding-left: 2rem !important;
+}
+
+.container li {
+    margin: 0.5rem 0 !important;
+}
+
+.container p {
+    margin: 1rem 0 !important;
+    line-height: 1.6 !important;
+}
+
+/* ======================
+   Semantische Inhaltsboxen
+   ======================
+   Farb-Kodierung:
+   intro       → Grau       (Einführung / Kontext)
+   task        → Grün       (Übung – wird NICHT abgegeben)
+   moodle-upload → Blassrot (Moodle-Abgabe – bewusst andere Farbe als .task,
+                              damit Übung und Abgabe nicht verwechselt werden)
+   question    → Gelb       (Kontrollfragen)
+   tech-specs  → Blau       (Technische Details)
+   warning     → Rot        (Warnung / Achtung)
+   praxis-box  → Grün       (Praxistipp / Laboraufgabe)
+   ====================== */
+
+.intro {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-left: 4px solid #667eea !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.1) !important;
+}
+
+.task {
+    background: linear-gradient(135deg, #e8f5e8 0%, #d4f1d4 100%) !important;
+    border-left: 4px solid #4caf50 !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(76, 175, 80, 0.1) !important;
+}
+
+.task strong {
+    color: #2e7d32 !important;
+    font-size: 1.1rem !important;
+    display: block !important;
+    margin-bottom: 0.8rem !important;
+}
+
+.task p {
+    margin: 0.5rem 0 !important;
+    padding-left: 0 !important;
+    border-left: none !important;
+}
+
+/* moodle-upload ist bewusst eine eigene Box, NICHT mit .task kombiniert:
+   Übung (.task, grün) und Moodle-Abgabe (.moodle-upload, blassrot) sind
+   didaktisch verschiedene Dinge und dürfen farblich nicht verwechselbar sein. */
+
+.moodle-upload {
+    background: linear-gradient(135deg, #fff1f2 0%, #ffd6dc 100%) !important;
+    border-left: 4px solid #e11d48 !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(225, 29, 72, 0.15) !important;
+}
+
+.moodle-upload strong {
+    color: #9f1239 !important;
+    font-size: 1.1rem !important;
+    display: block !important;
+    margin-bottom: 0.8rem !important;
+}
+
+.moodle-upload p {
+    margin: 0.5rem 0 !important;
+    padding-left: 0 !important;
+    border-left: none !important;
+}
+
+.moodle-upload h3,
+.moodle-upload h4 {
+    color: #9f1239 !important;
+    margin: 0 0 0.8rem 0 !important;
+}
+
+.question {
+    background: linear-gradient(135deg, #fff3cd 0%, #fdeaa7 100%) !important;
+    border-left: 4px solid #f39c12 !important;
+    padding: 1.2rem !important;
+    margin: 1rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(243, 156, 18, 0.1) !important;
+    color: #b7950b !important;
+    font-weight: 500 !important;
+}
+
+.tech-specs {
+    background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%) !important;
+    border-left: 4px solid #0288d1 !important;
+    padding: 1.5rem !important;
+    margin: 1.2rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(2, 136, 209, 0.1) !important;
+}
+
+.warning {
+    background: linear-gradient(135deg, #ffe6e6 0%, #ffb3b3 100%) !important;
+    border-left: 4px solid #e74c3c !important;
+    padding: 1.5rem !important;
+    margin: 1.2rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(231, 76, 60, 0.1) !important;
+    color: #c0392b !important;
+}
+
+.praxis-box {
+    background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%) !important;
+    border-left: 4px solid #4caf50 !important;
+    padding: 1.5rem !important;
+    margin: 1.2rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(76, 175, 80, 0.1) !important;
+}
+
+/* ======================
+   Phasen-Grid (Karten)
+   ====================== */
+
+.phases {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+    gap: 1.5rem !important;
+    margin: 2rem 0 !important;
+}
+
+.phase {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+    border: 1px solid #e9ecef !important;
+    position: relative !important;
+    transition: transform 0.3s ease !important;
+}
+
+.phase:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+}
+
+.phase-number {
+    position: absolute !important;
+    top: -15px !important;
+    left: 20px !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: bold !important;
+    font-size: 0.9rem !important;
+}
+
+/* ======================
+   Tabellen
+   ====================== */
+
+.comparison-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 1.2rem 0 !important;
+    background: white !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+}
+
+.comparison-table th {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+    color: white !important;
+    padding: 1rem !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+}
+
+.comparison-table td {
+    padding: 1rem !important;
+    border-bottom: 1px solid #e9ecef !important;
+}
+
+.comparison-table tr:nth-child(even) {
+    background-color: #f8f9fa !important;
+}
+
+.comparison-table tr:hover {
+    background-color: #e3f2fd !important;
+}
+
+/* ======================
+   Akkordeon
+   ====================== */
+
+.accordion {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border: 2px solid #667eea !important;
+    border-radius: 12px !important;
+    margin: 1.5rem 0 !important;
+    overflow: hidden !important;
+}
+
+.accordion-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    padding: 1.2rem 1.5rem !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    transition: background 0.3s ease !important;
+    user-select: none !important;
+}
+
+.accordion-header:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #653a89 100%) !important;
+}
+
+.accordion-icon {
+    font-size: 1.3rem !important;
+    transition: transform 0.3s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.accordion-icon.open {
+    transform: rotate(90deg) !important;
+}
+
+.accordion-content {
+    max-height: 0 !important;
+    overflow: hidden !important;
+    transition: max-height 0.4s ease, padding 0.4s ease !important;
+    padding: 0 1.5rem !important;
+    background: white !important;
+}
+
+.accordion-content.open {
+    max-height: 5000px !important;
+    padding: 1.5rem !important;
+}
+
+/* ======================
+   Interaktive Demo-Fläche
+   ====================== */
+
+.interactive-demo {
+    background: linear-gradient(135deg, #fffde7 0%, #fff9c4 100%) !important;
+    border: 2px solid #ff9800 !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    margin: 2rem 0 !important;
+    text-align: center !important;
+}
+
+.demo-button {
+    background: linear-gradient(135deg, #ff9800 0%, #f57f17 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.8rem 1.5rem !important;
+    border-radius: 25px !important;
+    cursor: pointer !important;
+    font-size: 1rem !important;
+    margin: 0.5rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.demo-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4) !important;
+}
+
+/* ======================
+   Chatbot-Button senden
+   ====================== */
+
+.chatbot-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.6rem 1.2rem !important;
+    border-radius: 20px !important;
+    cursor: pointer !important;
+    font-size: 0.9rem !important;
+    margin: 0.3rem !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+}
+
+.chatbot-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4) !important;
+}
+
+/* ======================
+   Fußzeilen-Navigation (Kapitel-Vor/Zurück-Leiste)
+   ====================== */
+
+.navigation {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+    margin-top: 2rem !important;
+    padding: 1.5rem !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-radius: 12px !important;
+    text-align: center !important;
+}
+
+.nav-button {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+    color: white !important;
+    padding: 0.7rem 1.4rem !important;
+    border-radius: 25px !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.nav-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(30,60,114,0.4) !important;
+}
+
+/* ======================
+   SVG / Bild-Container
+   ====================== */
+
+.svg-container {
+    margin: 1.2rem 0 !important;
+    text-align: center !important;
+}
+
+.svg-container svg {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* ======================
+   Connector-Grid (für Steckverbinder-Darstellungen)
+   ====================== */
+
+.connector-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+    gap: 1rem !important;
+    margin: 1.5rem 0 !important;
+}
+
+/* ======================
+   Signal-Visualisierungen
+   ====================== */
+
+.signal-visual {
+    text-align: center !important;
+    margin: 2rem 0 !important;
+    padding: 1.5rem !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-radius: 12px !important;
+    border: 2px solid #667eea !important;
+}
+
+.signal-wave {
+    font-family: monospace !important;
+    font-size: 1.2rem !important;
+    margin: 1rem 0 !important;
+    padding: 1rem !important;
+    background: #2c3e50 !important;
+    color: #00ff00 !important;
+    border-radius: 8px !important;
+    letter-spacing: 2px !important;
+}
+
+/* ======================
+   Formular-Elemente
+   ====================== */
+
+.container textarea {
+    width: 100% !important;
+    padding: 1rem !important;
+    border: 2px solid #667eea !important;
+    border-radius: 8px !important;
+    font-family: inherit !important;
+    font-size: 1rem !important;
+    margin: 1rem 0 !important;
+    resize: vertical !important;
+    min-height: 100px !important;
+}
+
+.container input[type="text"],
+.container input[type="number"] {
+    padding: 0.6rem 1rem !important;
+    border: 2px solid #667eea !important;
+    border-radius: 8px !important;
+    font-family: inherit !important;
+    font-size: 1rem !important;
+}
+
+/* ======================
+   Schwebendes Navigationsmenü
+   ====================== */
+
+.nav-menu {
+    position: fixed !important;
+    background: rgba(255,255,255,0.96) !important;
+    backdrop-filter: blur(6px) !important;
+    border-radius: 10px !important;
+    padding: 0.35rem !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18) !important;
+    z-index: 99999 !important;
+    border: 1px solid rgba(102,126,234,0.4) !important;
+    user-select: none !important;
+    width: fit-content !important;
+    height: fit-content !important;
+}
+
+.nav-menu:active {
+    cursor: grabbing !important;
+}
+
+.nav-menu-header {
+    cursor: move !important;
+    padding: 0.15rem 0.2rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    border-bottom: 1px solid rgba(102,126,234,0.2) !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.nav-menu-control {
+    appearance: none !important;
+    border: 1px solid rgba(102,126,234,0.5) !important;
+    background: transparent !important;
+    color: #667eea !important;
+    border-radius: 50% !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    cursor: pointer !important;
+    font-size: 0.7rem !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.nav-menu-control:hover {
+    background: rgba(102,126,234,0.12) !important;
+}
+
+.nav-menu.is-hidden {
+    display: none !important;
+}
+
+.nav-menu-launcher {
+    position: fixed !important;
+    right: 2rem !important;
+    bottom: 2rem !important;
+    z-index: 99999 !important;
+    border: 1px solid rgba(102,126,234,0.5) !important;
+    background: rgba(255,255,255,0.96) !important;
+    color: #667eea !important;
+    border-radius: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18) !important;
+    display: none !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.1rem !important;
+    user-select: none !important;
+}
+
+.nav-menu-launcher.is-visible {
+    display: inline-flex !important;
+}
+
+.nav-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.25rem !important;
+}
+
+.nav-divider {
+    height: 1px !important;
+    background: rgba(102,126,234,0.25) !important;
+    margin: 0.15rem 0 !important;
+}
+
+.nav-btn {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+    color: white !important;
+    border: none !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    border-radius: 7px !important;
+    cursor: pointer !important;
+    font-size: 0.95rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 6px rgba(30,60,114,0.3) !important;
+    transition: box-shadow 0.2s ease, background 0.2s ease !important;
+}
+
+.nav-btn:hover {
+    box-shadow: 0 4px 12px rgba(30,60,114,0.5) !important;
+    background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%) !important;
+}
+
+/* ======================
+   Inline-Code (Chip-Optik)
+   ====================== */
+
+.container code {
+    background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%) !important;
+    color: #01579b !important;
+    padding: 2px 6px !important;
+    border-radius: 6px !important;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+    font-size: 0.9em !important;
+    font-weight: 600 !important;
+    border: 1px solid #81d4fa !important;
+}
+
+/* ======================
+   Lösungsseite (Eigene Überprüfung)
+   ====================== */
+
+.header.loesung {
+    background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%) !important;
+}
+
+.teacher-solution {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%) !important;
+    border-left: 4px solid #dc2626 !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(220, 38, 38, 0.1) !important;
+}
+
+/* ======================
+   Mini-Spiel: Memory
+   ======================
+   Engine: window.vtMemoryInit(pairs) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele" */
+
+.vt-memory { max-width: 640px !important; margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-memory-stats { display: flex !important; justify-content: space-around !important; margin-bottom: 1rem !important; padding: 0.7rem !important; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important; border-radius: 10px !important; }
+.vt-memory-stat { text-align: center !important; }
+.vt-memory-stat-label { display: block !important; font-size: 0.8rem !important; color: #666 !important; margin-bottom: 0.2rem !important; }
+.vt-memory-stat-value { font-size: 1.3rem !important; font-weight: 700 !important; color: #1e3c72 !important; }
+.vt-memory-board { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 8px !important; margin-bottom: 1rem !important; }
+.vt-memory-card { aspect-ratio: 1 !important; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; border-radius: 8px !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 0.72rem !important; font-weight: 700 !important; color: white !important; text-align: center !important; padding: 4px !important; transition: all 0.25s ease !important; box-shadow: 0 3px 6px rgba(0,0,0,0.2) !important; position: relative !important; }
+.vt-memory-card:hover:not(.flipped):not(.matched) { transform: scale(1.05) !important; }
+.vt-memory-card.flipped { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%) !important; color: #1e3c72 !important; }
+.vt-memory-card.matched { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important; animation: vtmemPulse 0.6s ease !important; cursor: default !important; opacity: 0.7 !important; }
+.vt-memory-card.wrong { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%) !important; animation: vtmemShake 0.4s ease !important; }
+.vt-memory-card-back { display: flex !important; align-items: center !important; justify-content: center !important; font-size: 1.6rem !important; }
+.vt-memory-card-front { display: none !important; }
+.vt-memory-card.flipped .vt-memory-card-back { display: none !important; }
+.vt-memory-card.flipped .vt-memory-card-front { display: flex !important; align-items: center !important; justify-content: center !important; height: 100% !important; padding: 4px !important; word-break: break-word !important; hyphens: auto !important; }
+@keyframes vtmemPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+@keyframes vtmemShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.vt-memory-message { text-align: center !important; margin-bottom: 0.8rem !important; font-weight: 700 !important; color: #1e3c72 !important; min-height: 1.4rem !important; }
+.vt-memory-controls { display: flex !important; justify-content: center !important; }
+.vt-memory-btn { padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; transition: all 0.25s ease !important; box-shadow: 0 3px 6px rgba(0,0,0,0.2) !important; }
+.vt-memory-btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; color: white !important; }
+.vt-memory-btn-primary:hover { transform: translateY(-2px) !important; }
+@media (max-width: 480px) { .vt-memory-card { font-size: 0.6rem !important; } .vt-memory-card-back { font-size: 1.2rem !important; } }
+
+/* ======================
+   Mini-Spiel: Hangman
+   ======================
+   Engine: window.vtHangmanInit(words) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele" */
+
+.vt-hangman { max-width: 620px !important; margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-hangman-stats { display: flex !important; justify-content: space-around !important; margin-bottom: 1rem !important; padding: 0.7rem !important; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important; border-radius: 10px !important; }
+.vt-hangman-stat { text-align: center !important; }
+.vt-hangman-stat-label { display: block !important; font-size: 0.8rem !important; color: #666 !important; margin-bottom: 0.2rem !important; }
+.vt-hangman-stat-value { font-size: 1.3rem !important; font-weight: 700 !important; color: #1e3c72 !important; }
+.vt-hangman-area { display: flex !important; gap: 1rem !important; align-items: flex-start !important; flex-wrap: wrap !important; margin-bottom: 0.8rem !important; }
+#vthang-canvas { background: white !important; border: 2px solid #667eea !important; border-radius: 8px !important; flex-shrink: 0 !important; }
+.vt-hangman-hint { flex: 1 1 220px !important; background: #fef3c7 !important; border: 2px solid #f59e0b !important; border-radius: 10px !important; padding: 0.8rem !important; color: #92400e !important; }
+.vt-hangman-word { display: flex !important; justify-content: center !important; gap: 0.4rem !important; flex-wrap: wrap !important; margin: 0.8rem 0 !important; }
+.vt-hangman-letter { min-width: 26px !important; height: 34px !important; border-bottom: 3px solid #1e3c72 !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 1.3rem !important; font-weight: 700 !important; color: #1e3c72 !important; }
+.vt-hangman-message { text-align: center !important; margin-bottom: 0.6rem !important; font-weight: 700 !important; min-height: 1.4rem !important; }
+.vt-hangman-keyboard { display: grid !important; grid-template-columns: repeat(9, 1fr) !important; gap: 0.3rem !important; max-width: 500px !important; margin: 0 auto 1rem !important; }
+.vt-hangman-key { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; color: white !important; border: none !important; padding: 0.5rem 0 !important; font-size: 0.85rem !important; font-weight: 700 !important; border-radius: 6px !important; cursor: pointer !important; transition: all 0.2s ease !important; }
+.vt-hangman-key:hover:not(:disabled) { transform: translateY(-2px) !important; }
+.vt-hangman-key:disabled { opacity: 0.4 !important; cursor: not-allowed !important; }
+.vt-hangman-key.correct { background: linear-gradient(135deg, #2ed573 0%, #1e7e34 100%) !important; }
+.vt-hangman-key.wrong { background: linear-gradient(135deg, #ff4757 0%, #c0392b 100%) !important; }
+.vt-hangman-controls { display: flex !important; justify-content: center !important; }
+.vt-hangman-btn { padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; color: white !important; transition: all 0.25s ease !important; }
+.vt-hangman-btn:hover { transform: translateY(-2px) !important; }
+@media (max-width: 480px) { .vt-hangman-keyboard { grid-template-columns: repeat(7, 1fr) !important; } }
+
+/* ======================
+   Mini-Spiel: Sortierspiel
+   ======================
+   Engine: window.vtSortInit(terms, categoryIds) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele"
+   .vt-sort-categories = 2 Kategorien, .vt-sort-categories-3 = 3 Kategorien */
+
+.vt-sort { max-width: 720px !important; margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-sort-stats { display: flex !important; justify-content: space-around !important; margin-bottom: 1rem !important; padding: 0.7rem !important; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important; border-radius: 10px !important; }
+.vt-sort-stat { text-align: center !important; }
+.vt-sort-stat-label { display: block !important; font-size: 0.8rem !important; color: #666 !important; margin-bottom: 0.2rem !important; }
+.vt-sort-stat-value { font-size: 1.3rem !important; font-weight: 700 !important; color: #1e3c72 !important; }
+.vt-sort-pool { display: flex !important; flex-wrap: wrap !important; gap: 0.5rem !important; justify-content: center !important; min-height: 2.6rem !important; margin-bottom: 1rem !important; padding: 0.6rem !important; background: #f1f5f9 !important; border-radius: 10px !important; }
+.vt-sort-chip { padding: 0.5rem 0.9rem !important; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; color: white !important; border-radius: 20px !important; font-size: 0.85rem !important; font-weight: 600 !important; cursor: pointer !important; transition: all 0.2s ease !important; box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important; }
+.vt-sort-chip:hover { transform: translateY(-2px) !important; }
+.vt-sort-chip.selected { background: linear-gradient(135deg, #ffd700 0%, #f59e0b 100%) !important; color: #1e3c72 !important; box-shadow: 0 0 0 3px rgba(245,158,11,0.4) !important; }
+.vt-sort-categories { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 1rem !important; margin-bottom: 1rem !important; }
+.vt-sort-categories-3 { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 0.8rem !important; margin-bottom: 1rem !important; }
+.vt-sort-category { background: white !important; border: 2px solid #cbd5e1 !important; border-radius: 10px !important; padding: 0.8rem !important; cursor: pointer !important; transition: all 0.2s ease !important; min-height: 100px !important; }
+.vt-sort-category:hover { border-color: #667eea !important; }
+.vt-sort-category h4 { margin: 0 0 0.5rem 0 !important; color: #1e3c72 !important; text-align: center !important; font-size: 0.95rem !important; }
+.vt-sort-category.flash-correct { background: #d1fae5 !important; border-color: #4caf50 !important; animation: vtsortPulse 0.5s ease !important; }
+.vt-sort-category.flash-wrong { background: #fee2e2 !important; border-color: #e74c3c !important; animation: vtsortShake 0.4s ease !important; }
+@keyframes vtsortPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+@keyframes vtsortShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+.vt-sort-dropped { display: flex !important; flex-wrap: wrap !important; gap: 0.3rem !important; justify-content: center !important; }
+.vt-sort-dropped .vt-sort-chip { cursor: default !important; opacity: 0.85 !important; font-size: 0.75rem !important; padding: 0.35rem 0.7rem !important; background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%) !important; }
+.vt-sort-message { text-align: center !important; margin-bottom: 0.6rem !important; font-weight: 700 !important; min-height: 1.4rem !important; }
+.vt-sort-controls { display: flex !important; justify-content: center !important; }
+.vt-sort-btn { padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; color: white !important; transition: all 0.25s ease !important; }
+.vt-sort-btn:hover { transform: translateY(-2px) !important; }
+@media (max-width: 600px) { .vt-sort-categories, .vt-sort-categories-3 { grid-template-columns: 1fr !important; } }
+
+/* ======================
+   Mini-Spiel: Blitz-Quiz
+   ======================
+   Engine: window.vtQuizInit(questions, options) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele" */
+
+.vt-quiz { max-width: 640px !important; margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-quiz-counter { font-size: 0.85rem !important; color: #888 !important; margin-bottom: 0.5rem !important; }
+.vt-quiz-timerbar { height: 7px !important; background: #e0e0e0 !important; border-radius: 4px !important; overflow: hidden !important; margin-bottom: 1rem !important; }
+.vt-quiz-timerfill { height: 100% !important; background: linear-gradient(90deg, #9C27B0, #E91E63) !important; border-radius: 4px !important; transition: width 0.12s linear !important; }
+.vt-quiz-question { font-size: 1.1rem !important; font-weight: 700 !important; color: #1e3c72 !important; margin-bottom: 1rem !important; min-height: 2.6rem !important; line-height: 1.4 !important; }
+.vt-quiz-options { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 10px !important; margin-bottom: 0.8rem !important; }
+.vt-quiz-opt { padding: 0.75rem !important; border: 2px solid #ddd !important; border-radius: 10px !important; cursor: pointer !important; font-size: 0.88rem !important; font-weight: 500 !important; transition: all 0.15s ease !important; background: white !important; text-align: left !important; font-family: inherit !important; line-height: 1.4 !important; }
+.vt-quiz-opt:hover:not(.answered) { border-color: #9C27B0 !important; background: #f3e5f5 !important; }
+.vt-quiz-opt.correct { border-color: #4caf50 !important; background: #e8f5e9 !important; color: #1B5E20 !important; }
+.vt-quiz-opt.wrong { border-color: #f44336 !important; background: #ffebee !important; color: #b71c1c !important; }
+.vt-quiz-opt.answered { pointer-events: none !important; }
+.vt-quiz-msg { text-align: center !important; font-weight: 700 !important; font-size: 1.05rem !important; margin-bottom: 0.8rem !important; }
+.vt-quiz-btn { display: block !important; margin: 0 auto !important; padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; background: linear-gradient(135deg, #9C27B0, #4A148C) !important; color: white !important; transition: all 0.25s ease !important; }
+.vt-quiz-btn:hover { transform: translateY(-2px) !important; }
+@media (max-width: 600px) { .vt-quiz-options { grid-template-columns: 1fr !important; } }
+
+/* ======================
+   Mini-Spiel: Wortsuche
+   ======================
+   Engine: window.vtWordSearchInit(words, options) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele" */
+
+.vt-ws { margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-ws-layout { display: flex !important; gap: 1.5rem !important; flex-wrap: wrap !important; align-items: flex-start !important; justify-content: center !important; }
+.vt-ws-gridwrap { flex: 0 0 auto !important; }
+#vtws-grid { display: grid !important; user-select: none !important; border: 3px solid #009688 !important; border-radius: 8px !important; overflow: hidden !important; cursor: crosshair !important; }
+.vt-ws-cell { width: 30px !important; height: 30px !important; display: flex !important; align-items: center !important; justify-content: center !important; font-weight: 700 !important; font-size: 0.8rem !important; border: 1px solid #e0e0e0 !important; background: white !important; transition: background 0.08s !important; }
+.vt-ws-cell.selecting { background: #B2EBF2 !important; }
+.vt-ws-cell.found-1 { background: #4CAF50 !important; color: white !important; border-color: #388E3C !important; }
+.vt-ws-cell.found-2 { background: #2196F3 !important; color: white !important; border-color: #1565C0 !important; }
+.vt-ws-cell.found-3 { background: #9C27B0 !important; color: white !important; border-color: #6A1B9A !important; }
+.vt-ws-cell.found-4 { background: #FF5722 !important; color: white !important; border-color: #BF360C !important; }
+.vt-ws-cell.found-5 { background: #FF9800 !important; color: white !important; border-color: #E65100 !important; }
+.vt-ws-cell.found-6 { background: #009688 !important; color: white !important; border-color: #004D40 !important; }
+.vt-ws-cell.found-7 { background: #E91E63 !important; color: white !important; border-color: #880E4F !important; }
+.vt-ws-cell.found-8 { background: #795548 !important; color: white !important; border-color: #3E2723 !important; }
+.vt-ws-aside { flex: 1 1 160px !important; min-width: 160px !important; }
+.vt-ws-word { padding: 0.35rem 0.7rem !important; margin: 0.25rem 0 !important; border-left: 3px solid #ccc !important; font-weight: 600 !important; font-size: 0.85rem !important; transition: all 0.2s ease !important; color: #333 !important; }
+.vt-ws-hint { color: #999 !important; font-weight: 400 !important; font-size: 0.76rem !important; }
+.vt-ws-word.found { color: #4CAF50 !important; border-color: #4CAF50 !important; text-decoration: line-through !important; }
+.vt-ws-btn { padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; background: linear-gradient(135deg, #009688, #004D40) !important; color: white !important; transition: all 0.25s ease !important; }
+.vt-ws-btn:hover { transform: translateY(-2px) !important; }
+@media (max-width: 600px) { .vt-ws-cell { width: 24px !important; height: 24px !important; font-size: 0.7rem !important; } }
+
+/* ======================
+   Mini-Spiel: Pixel-Retter
+   ======================
+   Engine: window.vtPixelDefenderInit(options) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele"
+   Reines Reaktionsspiel ohne Fachinhalte – ueberall als Auflockerung einsetzbar. */
+
+.vt-pixel { max-width: 560px !important; margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-pixel-status { font-size: 0.82rem !important; color: #888 !important; margin-bottom: 0.4rem !important; }
+.vt-pixel-dangerwrap { height: 20px !important; background: #e0e0e0 !important; border-radius: 20px !important; overflow: hidden !important; margin: 0.4rem 0 !important; }
+#vtpixel-danger { height: 100% !important; background: linear-gradient(90deg, #4CAF50 0%, #FFC107 50%, #f44336 100%) !important; border-radius: 20px !important; transition: width 0.25s !important; }
+#vtpixel-grid { display: grid !important; gap: 4px !important; padding: 12px !important; background: #111 !important; border-radius: 10px !important; margin: 0 auto 0.8rem !important; border: 3px solid #333 !important; }
+.vt-pixel-cell { width: 100% !important; aspect-ratio: 1 !important; border-radius: 4px !important; background: #39ff14 !important; cursor: pointer !important; transition: background 0.15s ease, transform 0.1s ease !important; }
+.vt-pixel-cell.vt-pixel-dirty { background: #222 !important; animation: vtPixelPulse 0.7s infinite alternate !important; }
+.vt-pixel-cell.vt-pixel-pop { background: #fff176 !important; transform: scale(1.25) !important; }
+@keyframes vtPixelPulse { from { background: #2d2d2d; box-shadow: 0 0 4px #f44336; } to { background: #555; box-shadow: 0 0 10px #f44336; } }
+.vt-pixel-message { text-align: center !important; font-weight: 700 !important; margin-top: 0.6rem !important; min-height: 1.4rem !important; }
+.vt-pixel-btn { padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; background: linear-gradient(135deg, #E91E63, #880E4F) !important; color: white !important; transition: all 0.25s ease !important; }
+.vt-pixel-btn:hover { transform: translateY(-2px) !important; }
+
+/* ======================
+   Mini-Spiel: Timing-Spiel (Sweet-Spot-Reaktionsspiel)
+   ======================
+   Engine: window.vtTimingGameInit(options) in Templates/js/defaults.js
+   Markup-Vorlage: Templates/html/template.html, Abschnitt "Mini-Spiele"
+   Generisch fuer jedes "treffe den Sweet-Spot"-Szenario (Belichtung, Pegel, Timing). */
+
+.vt-timing { max-width: 560px !important; margin: 1rem auto 0 !important; text-align: left !important; }
+.vt-timing-dots { display: flex !important; gap: 8px !important; justify-content: center !important; flex-wrap: wrap !important; margin: 0.5rem 0 !important; }
+.vt-timing-dot { width: 30px !important; height: 30px !important; border-radius: 50% !important; border: 2px solid #bbb !important; background: #eee !important; font-size: 0.78rem !important; display: flex !important; align-items: center !important; justify-content: center !important; font-weight: 700 !important; transition: all 0.3s ease !important; }
+.vt-timing-dot.active { border-color: #FF9800 !important; animation: vtTimingPulse 0.5s infinite alternate !important; }
+.vt-timing-dot.hit { background: #4CAF50 !important; border-color: #2E7D32 !important; color: white !important; }
+.vt-timing-dot.miss { background: #f44336 !important; border-color: #b71c1c !important; color: white !important; }
+@keyframes vtTimingPulse { from { transform: scale(1); border-color: #FF9800; } to { transform: scale(1.18); border-color: #FFF176; } }
+#vttiming-track { position: relative !important; height: 56px !important; background: linear-gradient(90deg, #1a237e 0%, #283593 15%, #4CAF50 33%, #4CAF50 67%, #E65100 82%, #b71c1c 100%) !important; border-radius: 30px !important; overflow: hidden !important; margin: 1rem 0 !important; box-shadow: inset 0 2px 8px rgba(0,0,0,0.3) !important; }
+#vttiming-sweet { position: absolute !important; top: 0 !important; bottom: 0 !important; background: rgba(255,255,255,0.28) !important; pointer-events: none !important; border-left: 2px solid rgba(255,255,255,0.6) !important; border-right: 2px solid rgba(255,255,255,0.6) !important; }
+#vttiming-marker { position: absolute !important; top: 8px !important; bottom: 8px !important; width: 10px !important; background: white !important; border-radius: 5px !important; box-shadow: 0 2px 8px rgba(0,0,0,0.5) !important; transform: translateX(-50%) !important; }
+.vt-timing-feedback { text-align: center !important; min-height: 34px !important; font-size: 1rem !important; font-weight: 700 !important; display: flex !important; align-items: center !important; justify-content: center !important; color: #333 !important; }
+.vt-timing-shootbtn { display: flex !important; align-items: center !important; justify-content: center !important; width: 96px !important; height: 96px !important; border-radius: 50% !important; margin: 0.8rem auto !important; background: radial-gradient(circle, #ef5350, #b71c1c) !important; border: 6px solid white !important; box-shadow: 0 4px 20px rgba(183,28,28,0.5) !important; font-size: 2.1rem !important; color: white !important; cursor: pointer !important; transition: transform 0.1s ease !important; font-family: inherit !important; }
+.vt-timing-shootbtn:hover:not(:disabled) { transform: scale(1.08) !important; }
+.vt-timing-shootbtn:disabled { opacity: 0.4 !important; cursor: default !important; transform: none !important; }
+.vt-timing-message { text-align: center !important; font-weight: 700 !important; margin-top: 0.6rem !important; min-height: 1.4rem !important; }
+.vt-timing-btn { display: block !important; margin: 0 auto !important; padding: 0.6rem 1.4rem !important; font-size: 0.95rem !important; font-weight: 700 !important; border: none !important; border-radius: 25px !important; cursor: pointer !important; background: linear-gradient(135deg, #FF9800, #E65100) !important; color: white !important; transition: all 0.25s ease !important; }
+.vt-timing-btn:hover { transform: translateY(-2px) !important; }
+
+/* ======================
+   Responsive (768px)
+   ====================== */
+
+@media (max-width: 768px) {
+    body { padding: 1rem !important; }
+    .container { border-radius: 10px !important; }
+    .header h1 { font-size: 2rem !important; }
+    .content { padding: 1.5rem !important; }
+    .phases { grid-template-columns: 1fr !important; }
+    .nav-menu { left: 1rem !important; top: 1rem !important; }
+    .nav-btn { width: 45px !important; height: 45px !important; font-size: 1.1rem !important; }
+    .nav-menu-launcher { right: 1rem !important; bottom: 1rem !important; width: 50px !important; height: 50px !important; }
+}
+            `;
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = styles;
+            document.head.appendChild(styleSheet);
+        })();
+
+        // Chatbot-Button Styling (Position unten links, damit er nicht mit dem Nav-Menü kollidiert)
+        (function () {
+            const chatStyles = `
+                #chat-icon { position: fixed !important; bottom: 20px !important; left: 20px !important; z-index: 99998 !important; cursor: pointer !important; width: 60px !important; height: 60px !important; border-radius: 50% !important; box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important; transition: transform 0.3s ease !important; background: white !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; }
+                #chat-icon:hover { transform: scale(1.1) !important; box-shadow: 0 6px 25px rgba(0,0,0,0.4) !important; }
+                #chat-icon img { width: 100% !important; height: 100% !important; object-fit: cover !important; border-radius: 50% !important; display: block !important; }
+                #chat-container { color: white !important; }
+                #chat-container * { color: white !important; }
+                #chat-container .bot-message { color: white !important; background-color: rgba(59,130,246,0.8) !important; }
+                #chat-container .user-message { color: white !important; background-color: rgba(107,114,128,0.8) !important; }
+                #chat-container input, #chat-container textarea { color: white !important; background-color: rgba(55,65,81,0.9) !important; }
+            `;
+            const s = document.createElement('style');
+            s.textContent = chatStyles;
+            document.head.appendChild(s);
+        })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         JAVASCRIPT – inline (kein <script src>, Moodle blockiert das)
+         Quelle: Templates/js/defaults.js
+         Update: _update_templates.ps1 ausführen
+         ═══════════════════════════════════════════════════════════ -->
+    <script>
+        'use strict';
+
+// =============================================================
+// VT Kursmaster – Gemeinsames JavaScript (Quelle der Wahrheit)
+// =============================================================
+// WICHTIG: Diese Datei wird NICHT per <script src> eingebunden!
+// Moodle blockiert externe Script-Referenzen.
+//
+// Workflow:
+// 1. JS hier bearbeiten
+// 2. _update_templates.ps1 ausführen → schreibt diesen Inhalt
+//    in den <script>-Block aller HTML-Seiten
+// =============================================================
+
+// ─── Clipboard ───────────────────────────────────────────────
+
+window.copyToClipboard = function (code) {
+    navigator.clipboard.writeText(code).catch(() => {});
+};
+
+// ─── Chatbot-Integration (MMBBSBOT) ──────────────────────────
+
+window.sendToChatbot = function (message) {
+    const chatButton = document.getElementById('chat-icon');
+    if (chatButton) chatButton.click();
+    setTimeout(() => {
+        const chatInput = document.getElementById('chat-input');
+        const sendButton = document.getElementById('send-button');
+        if (chatInput && sendButton) {
+            chatInput.value = message;
+            sendButton.click();
+        }
+    }, 500);
+};
+
+window.simulateChatbotClick = function () {
+    const chatButton = document.getElementById('chat-icon');
+    if (chatButton) chatButton.click();
+};
+
+window.explainCode = function (code) {
+    window.sendToChatbot('Erkläre mir folgenden Code:\n\n' + code);
+};
+
+// ─── Akkordeon ────────────────────────────────────────────────
+
+window.toggleAccordion = function (element) {
+    const content = element.nextElementSibling;
+    const icon = element.querySelector('.accordion-icon');
+    if (content && icon) {
+        content.classList.toggle('open');
+        icon.classList.toggle('open');
+    }
+};
+
+window.expandAllAccordions = function () {
+    document.querySelectorAll('.accordion-content').forEach(c => c.classList.add('open'));
+    document.querySelectorAll('.accordion-icon').forEach(i => i.classList.add('open'));
+};
+
+window.collapseAllAccordions = function () {
+    document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+    document.querySelectorAll('.accordion-icon').forEach(i => i.classList.remove('open'));
+};
+
+// ─── Mini-Spiele ──────────────────────────────────────────────
+// Generische Spiel-Engines, übernommen aus LF10 Kapitel 2. Jede
+// Seite ruft die passende Init-Funktion einmal mit ihren eigenen
+// Daten auf (Begriffspaare/Wörter/Sortier-Begriffe) — Markup und
+// IDs siehe Templates/html/template.html, Abschnitt "Mini-Spiele".
+// Aufruf direkt in einem <script>-Tag NACH dem Spiel-Markup, nicht
+// in DOMContentLoaded (die Elemente müssen zu diesem Zeitpunkt
+// schon im DOM stehen).
+
+// Memory: pairs = [{ pair: 'A', text: '...' }, { pair: 'A', text: '...' }, ...]
+// Erwartet Markup mit IDs vtmem-board / vtmem-moves / vtmem-matches /
+// vtmem-timer / vtmem-message / vtmem-newgame.
+window.vtMemoryInit = function (pairs) {
+    const total = pairs.length / 2;
+    let flipped = [], matched = 0, moves = 0, started = false, startTime = null, timerInterval = null;
+
+    function shuffle(array) {
+        const arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function init() {
+        const cards = shuffle(pairs);
+        const board = document.getElementById('vtmem-board');
+        board.innerHTML = '';
+        cards.forEach((card, index) => {
+            const el = document.createElement('div');
+            el.className = 'vt-memory-card';
+            el.dataset.index = index;
+            el.dataset.pair = card.pair;
+            el.innerHTML = '<div class="vt-memory-card-back">❓</div><div class="vt-memory-card-front">' + card.text + '</div>';
+            el.addEventListener('click', () => flip(index));
+            board.appendChild(el);
+        });
+    }
+
+    function flip(index) {
+        if (!started) startTimer();
+        const el = document.querySelector('.vt-memory-card[data-index="' + index + '"]');
+        if (el.classList.contains('flipped') || el.classList.contains('matched') || flipped.length >= 2) return;
+        el.classList.add('flipped');
+        flipped.push({ index, pair: el.dataset.pair, element: el });
+        if (flipped.length === 2) {
+            moves++;
+            document.getElementById('vtmem-moves').textContent = moves;
+            checkMatch();
+        }
+    }
+
+    function checkMatch() {
+        const [c1, c2] = flipped;
+        if (c1.pair === c2.pair) {
+            setTimeout(() => {
+                c1.element.classList.add('matched');
+                c2.element.classList.add('matched');
+                c1.element.classList.remove('flipped');
+                c2.element.classList.remove('flipped');
+                matched++;
+                document.getElementById('vtmem-matches').textContent = matched + ' / ' + total;
+                flipped = [];
+                if (matched === total) end();
+            }, 600);
+        } else {
+            c1.element.classList.add('wrong');
+            c2.element.classList.add('wrong');
+            setTimeout(() => {
+                c1.element.classList.remove('flipped', 'wrong');
+                c2.element.classList.remove('flipped', 'wrong');
+                flipped = [];
+            }, 1000);
+        }
+    }
+
+    function startTimer() {
+        started = true;
+        startTime = Date.now();
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const m = Math.floor(elapsed / 60), s = elapsed % 60;
+        document.getElementById('vtmem-timer').textContent = m + ':' + String(s).padStart(2, '0');
+    }
+
+    function end() {
+        clearInterval(timerInterval);
+        started = false;
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const m = Math.floor(elapsed / 60), s = elapsed % 60;
+        document.getElementById('vtmem-message').textContent =
+            '🎉 Geschafft! Alle ' + total + ' Paare in ' + moves + ' Zügen und ' + m + ':' + String(s).padStart(2, '0') + ' Minuten gefunden.';
+    }
+
+    function reset() {
+        clearInterval(timerInterval);
+        started = false;
+        flipped = [];
+        matched = 0;
+        moves = 0;
+        startTime = null;
+        document.getElementById('vtmem-moves').textContent = '0';
+        document.getElementById('vtmem-matches').textContent = '0 / ' + total;
+        document.getElementById('vtmem-timer').textContent = '0:00';
+        document.getElementById('vtmem-message').textContent = '';
+        init();
+    }
+
+    const newGameBtn = document.getElementById('vtmem-newgame');
+    if (newGameBtn) newGameBtn.addEventListener('click', reset);
+    init();
+};
+
+// Hangman: words = [{ word: 'BEGRIFF', hint: '...' }, ...] (Wörter GROSSSCHREIBEN, ASCII-Buchstaben)
+// Erwartet Markup mit IDs vthang-score / vthang-wrong / vthang-words /
+// vthang-canvas (220×180) / vthang-hint-text / vthang-word / vthang-message /
+// vthang-keyboard / vthang-newword.
+window.vtHangmanInit = function (words) {
+    const parts = [
+        (ctx) => { ctx.moveTo(20, 170); ctx.lineTo(100, 170); },
+        (ctx) => { ctx.moveTo(60, 170); ctx.lineTo(60, 20); },
+        (ctx) => { ctx.moveTo(60, 20); ctx.lineTo(150, 20); },
+        (ctx) => { ctx.moveTo(150, 20); ctx.lineTo(150, 40); },
+        (ctx) => { ctx.beginPath(); ctx.arc(150, 52, 12, 0, Math.PI * 2); ctx.stroke(); },
+        (ctx) => { ctx.moveTo(150, 64); ctx.lineTo(150, 110); },
+        (ctx) => { ctx.moveTo(150, 75); ctx.lineTo(130, 95); },
+        (ctx) => { ctx.moveTo(150, 75); ctx.lineTo(170, 95); },
+        (ctx) => { ctx.moveTo(150, 110); ctx.lineTo(130, 140); },
+        (ctx) => { ctx.moveTo(150, 110); ctx.lineTo(170, 140); }
+    ];
+
+    let state = { word: null, guessed: [], wrong: 0, score: 0, wordsPlayed: 0, playedWords: [], over: false };
+
+    function draw() {
+        const canvas = document.getElementById('vthang-canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = '#1e3c72';
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        for (let i = 0; i < state.wrong && i < parts.length; i++) {
+            ctx.beginPath();
+            parts[i](ctx);
+            ctx.stroke();
+        }
+    }
+
+    function updateWord() {
+        const container = document.getElementById('vthang-word');
+        container.innerHTML = '';
+        state.word.word.split('').forEach(letter => {
+            const box = document.createElement('div');
+            box.className = 'vt-hangman-letter';
+            if (state.guessed.includes(letter)) box.textContent = letter;
+            container.appendChild(box);
+        });
+        document.getElementById('vthang-hint-text').textContent = state.word.hint;
+    }
+
+    function updateUI() {
+        document.getElementById('vthang-score').textContent = state.score;
+        document.getElementById('vthang-wrong').textContent = state.wrong + ' / 10';
+        document.getElementById('vthang-words').textContent = state.wordsPlayed;
+    }
+
+    function guess(letter) {
+        if (state.over || state.guessed.includes(letter)) return;
+        state.guessed.push(letter);
+        const keyBtn = document.querySelector('.vt-hangman-key[data-letter="' + letter + '"]');
+        const word = state.word.word;
+        if (word.includes(letter)) {
+            keyBtn.classList.add('correct');
+            state.score += 10;
+            const complete = word.split('').every(l => state.guessed.includes(l));
+            if (complete) {
+                state.over = true;
+                state.score += 50;
+                document.getElementById('vthang-message').innerHTML = '<span style="color:#2e7d32;">🎉 Richtig! „' + word + '" erraten (+50 Bonus). Klicken Sie „Neues Wort" für die nächste Runde.</span>';
+            }
+        } else {
+            keyBtn.classList.add('wrong');
+            state.wrong++;
+            draw();
+            if (state.wrong >= 10) {
+                state.over = true;
+                document.getElementById('vthang-message').innerHTML = '<span style="color:#c0392b;">💀 Leider verloren – das Wort war „' + word + '". Klicken Sie „Neues Wort" für die nächste Runde.</span>';
+            }
+        }
+        keyBtn.disabled = true;
+        updateWord();
+        updateUI();
+    }
+
+    function newWord() {
+        const available = words.filter(w => !state.playedWords.includes(w.word));
+        const pool = available.length > 0 ? available : words;
+        if (available.length === 0) state.playedWords = [];
+        state.word = pool[Math.floor(Math.random() * pool.length)];
+        state.playedWords.push(state.word.word);
+        state.guessed = [];
+        state.wrong = 0;
+        state.wordsPlayed++;
+        state.over = false;
+        document.getElementById('vthang-message').innerHTML = '';
+        document.querySelectorAll('.vt-hangman-key').forEach(k => { k.disabled = false; k.classList.remove('correct', 'wrong'); });
+        draw();
+        updateWord();
+        updateUI();
+    }
+
+    const keyboard = document.getElementById('vthang-keyboard');
+    keyboard.innerHTML = '';
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(letter => {
+        const btn = document.createElement('button');
+        btn.className = 'vt-hangman-key';
+        btn.textContent = letter;
+        btn.dataset.letter = letter;
+        btn.addEventListener('click', () => guess(letter));
+        keyboard.appendChild(btn);
+    });
+
+    document.getElementById('vthang-newword').addEventListener('click', newWord);
+    newWord();
+};
+
+// Sortierspiel: terms = [{ term: '...', category: 'catId' }, ...], categoryIds = ['catId', ...]
+// Erwartet Markup mit IDs vtsort-score / vtsort-timer / vtsort-remaining /
+// vtsort-pool / vtsort-message / vtsort-start, sowie je Kategorie
+// vtsort-cat-{catId} (mit data-category="{catId}") und vtsort-dropped-{catId}.
+window.vtSortInit = function (terms, categoryIds) {
+    let state = { pool: [], selected: null, score: 0, remaining: terms.length, timeLeft: 60, timerInterval: null, started: false, over: false };
+
+    function shuffle(array) {
+        const arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function renderPool() {
+        const pool = document.getElementById('vtsort-pool');
+        pool.innerHTML = '';
+        state.pool.forEach((item, idx) => {
+            const chip = document.createElement('div');
+            chip.className = 'vt-sort-chip' + (state.selected === idx ? ' selected' : '');
+            chip.textContent = item.term;
+            chip.dataset.idx = idx;
+            chip.addEventListener('click', () => select(idx));
+            pool.appendChild(chip);
+        });
+    }
+
+    function select(idx) {
+        if (!state.started || state.over) return;
+        state.selected = (state.selected === idx) ? null : idx;
+        renderPool();
+    }
+
+    function choose(category) {
+        if (!state.started || state.over || state.selected === null) return;
+        const item = state.pool[state.selected];
+        const catBox = document.getElementById('vtsort-cat-' + category);
+        if (item.category === category) {
+            state.score += 10;
+            state.remaining--;
+            const dropped = document.getElementById('vtsort-dropped-' + category);
+            const chip = document.createElement('div');
+            chip.className = 'vt-sort-chip';
+            chip.textContent = item.term;
+            dropped.appendChild(chip);
+            state.pool.splice(state.selected, 1);
+            state.selected = null;
+            catBox.classList.add('flash-correct');
+            setTimeout(() => catBox.classList.remove('flash-correct'), 500);
+            renderPool();
+            if (state.remaining === 0) { updateUI(); end('Alle Begriffe sortiert!'); return; }
+        } else {
+            state.score = Math.max(0, state.score - 5);
+            state.selected = null;
+            catBox.classList.add('flash-wrong');
+            setTimeout(() => catBox.classList.remove('flash-wrong'), 400);
+            renderPool();
+        }
+        updateUI();
+    }
+
+    function updateUI() {
+        document.getElementById('vtsort-score').textContent = state.score;
+        document.getElementById('vtsort-timer').textContent = state.timeLeft + 's';
+        document.getElementById('vtsort-remaining').textContent = state.remaining;
+    }
+
+    function tick() {
+        state.timeLeft--;
+        updateUI();
+        if (state.timeLeft <= 0) end('Zeit abgelaufen!');
+    }
+
+    function end(reason) {
+        clearInterval(state.timerInterval);
+        state.started = false;
+        state.over = true;
+        document.getElementById('vtsort-message').innerHTML =
+            '<span style="color:#1e3c72;">🏁 ' + reason + ' Punktestand: ' + state.score + '</span>';
+        document.getElementById('vtsort-start').textContent = '🔄 Nochmal spielen';
+    }
+
+    function start() {
+        clearInterval(state.timerInterval);
+        state = { pool: shuffle(terms), selected: null, score: 0, remaining: terms.length, timeLeft: 60, timerInterval: null, started: true, over: false };
+        categoryIds.forEach(cat => { document.getElementById('vtsort-dropped-' + cat).innerHTML = ''; });
+        document.getElementById('vtsort-message').textContent = '';
+        document.getElementById('vtsort-start').textContent = '🔄 Neu starten';
+        renderPool();
+        updateUI();
+        state.timerInterval = setInterval(tick, 1000);
+    }
+
+    categoryIds.forEach(cat => {
+        document.getElementById('vtsort-cat-' + cat).addEventListener('click', () => choose(cat));
+    });
+    document.getElementById('vtsort-start').addEventListener('click', start);
+    updateUI();
+};
+
+// Blitz-Quiz: questions = [{ q: 'Frage?', opts: ['A','B','C','D'], ans: 0 }, ...] (ans = Index der richtigen Option)
+// options (optional): { count: 10, seconds: 15 } – Anzahl zufaellig gezogener Fragen und Zeit pro Frage.
+// Erwartet Markup mit IDs vtquiz-start / vtquiz-game / vtquiz-result (drei Screens, per CSS ein-/ausgeblendet),
+// vtquiz-startbtn / vtquiz-counter / vtquiz-timer-fill / vtquiz-question / vtquiz-options / vtquiz-resultbox.
+window.vtQuizInit = function (questions, options) {
+    const cfg = Object.assign({ count: 10, seconds: 15 }, options || {});
+    let shuffled = [], current = 0, score = 0, timeLeft = cfg.seconds, timer = null, answered = false;
+
+    function shuffle(array) {
+        const arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function start() {
+        score = 0; current = 0; answered = false;
+        clearInterval(timer);
+        shuffled = shuffle(questions).slice(0, Math.min(cfg.count, questions.length));
+        document.getElementById('vtquiz-start').style.display = 'none';
+        document.getElementById('vtquiz-game').style.display = 'block';
+        document.getElementById('vtquiz-result').style.display = 'none';
+        showQuestion();
+    }
+
+    function showQuestion() {
+        if (current >= shuffled.length) { finish(); return; }
+        const q = shuffled[current];
+        answered = false;
+        timeLeft = cfg.seconds;
+        document.getElementById('vtquiz-counter').textContent = 'Frage ' + (current + 1) + ' von ' + shuffled.length + ' · Punkte: ' + score;
+        document.getElementById('vtquiz-question').textContent = q.q;
+        document.getElementById('vtquiz-timer-fill').style.width = '100%';
+
+        const shuffledOpts = shuffle(q.opts.map((text, orig) => ({ text, orig })));
+        const optsEl = document.getElementById('vtquiz-options');
+        optsEl.innerHTML = '';
+        shuffledOpts.forEach(({ text, orig }) => {
+            const btn = document.createElement('button');
+            btn.className = 'vt-quiz-opt';
+            btn.textContent = text;
+            btn.addEventListener('click', () => answer(btn, orig === q.ans, shuffledOpts, q.ans, optsEl));
+            optsEl.appendChild(btn);
+        });
+
+        clearInterval(timer);
+        timer = setInterval(() => {
+            timeLeft--;
+            document.getElementById('vtquiz-timer-fill').style.width = (timeLeft / cfg.seconds * 100) + '%';
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                if (!answered) {
+                    answered = true;
+                    Array.from(optsEl.children).forEach(b => b.classList.add('answered'));
+                    highlightCorrect(shuffledOpts, q.ans, optsEl);
+                    setTimeout(() => { current++; showQuestion(); }, 1300);
+                }
+            }
+        }, 1000);
+    }
+
+    function answer(btn, isCorrect, shuffledOpts, correctAns, optsEl) {
+        if (answered) return;
+        answered = true;
+        clearInterval(timer);
+        Array.from(optsEl.children).forEach(b => b.classList.add('answered'));
+        if (isCorrect) {
+            btn.classList.add('correct');
+            score += Math.round(timeLeft / cfg.seconds * 100);
+        } else {
+            btn.classList.add('wrong');
+            highlightCorrect(shuffledOpts, correctAns, optsEl);
+        }
+        document.getElementById('vtquiz-counter').textContent = 'Frage ' + (current + 1) + ' von ' + shuffled.length + ' · Punkte: ' + score;
+        setTimeout(() => { current++; showQuestion(); }, 1300);
+    }
+
+    function highlightCorrect(shuffledOpts, correctAns, optsEl) {
+        const btns = optsEl.children;
+        shuffledOpts.forEach(({ orig }, i) => { if (orig === correctAns) btns[i].classList.add('correct'); });
+    }
+
+    function finish() {
+        clearInterval(timer);
+        document.getElementById('vtquiz-game').style.display = 'none';
+        document.getElementById('vtquiz-result').style.display = 'block';
+        const max = shuffled.length * 100;
+        const pct = Math.round(score / max * 100);
+        const rating = pct >= 80 ? '🏆 Experte!' : pct >= 60 ? '🎓 Gut!' : pct >= 40 ? '📘 Solide!' : '📚 Mehr lernen!';
+        document.getElementById('vtquiz-resultbox').innerHTML =
+            '<div class="vt-quiz-msg">' + rating + '<br><span style="font-size:2rem;font-weight:900;">' + score + '</span> / ' + max + ' Punkte (' + pct + '%)</div>' +
+            '<button class="vt-quiz-btn" id="vtquiz-again">🔄 Nochmal</button>';
+        document.getElementById('vtquiz-again').addEventListener('click', start);
+    }
+
+    document.getElementById('vtquiz-startbtn').addEventListener('click', start);
+};
+
+// Wortsuche: words = [{ word: 'BEGRIFF', hint: '...' }, ...] (Wort in GROSSBUCHSTABEN, nur A-Z, keine Umlaute)
+// options (optional): { size: 13 } – Kantenlaenge des quadratischen Buchstabenrasters.
+// Erwartet Markup mit IDs vtws-grid / vtws-wordlist / vtws-found / vtws-time / vtws-message / vtws-newgame.
+window.vtWordSearchInit = function (words, options) {
+    const size = (options && options.size) || 13;
+    let grid = [], wordMeta = [], found = 0, seconds = 0, timerInterval = null;
+    let selecting = false, startEl = null, selCells = [];
+
+    function build() {
+        found = 0; seconds = 0; wordMeta = []; selecting = false;
+        clearInterval(timerInterval);
+        document.getElementById('vtws-found').textContent = '0 / ' + words.length;
+        document.getElementById('vtws-time').textContent = '0:00';
+        document.getElementById('vtws-message').textContent = '';
+
+        grid = Array.from({ length: size }, () => new Array(size).fill(''));
+        const DIRS = [[0,1],[1,0],[1,1],[0,-1],[-1,0],[-1,-1],[1,-1],[-1,1]];
+
+        words.forEach(({ word }, wi) => {
+            let placed = false, tries = 0;
+            while (!placed && tries < 300) {
+                tries++;
+                const dir = DIRS[Math.floor(Math.random() * DIRS.length)];
+                const dr = dir[0], dc = dir[1];
+                const rMin = dr < 0 ? word.length - 1 : 0;
+                const rMax = dr > 0 ? size - word.length : size - 1;
+                const cMin = dc < 0 ? word.length - 1 : 0;
+                const cMax = dc > 0 ? size - word.length : size - 1;
+                if (rMax < rMin || cMax < cMin) continue;
+                const r0 = rMin + Math.floor(Math.random() * (rMax - rMin + 1));
+                const c0 = cMin + Math.floor(Math.random() * (cMax - cMin + 1));
+                const cells = [];
+                let valid = true;
+                for (let i = 0; i < word.length; i++) {
+                    const r = r0 + dr * i, c = c0 + dc * i;
+                    if (r < 0 || r >= size || c < 0 || c >= size) { valid = false; break; }
+                    if (grid[r][c] !== '' && grid[r][c] !== word[i]) { valid = false; break; }
+                    cells.push([r, c]);
+                }
+                if (valid) {
+                    cells.forEach(([r, c], i) => { grid[r][c] = word[i]; });
+                    wordMeta.push({ word, cells, found: false, color: (wi % 8) + 1 });
+                    placed = true;
+                }
+            }
+        });
+
+        const AZ = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for (let r = 0; r < size; r++)
+            for (let c = 0; c < size; c++)
+                if (grid[r][c] === '') grid[r][c] = AZ[Math.floor(Math.random() * 26)];
+
+        const gridEl = document.getElementById('vtws-grid');
+        gridEl.innerHTML = '';
+        gridEl.style.gridTemplateColumns = 'repeat(' + size + ', 1fr)';
+        for (let r = 0; r < size; r++) {
+            for (let c = 0; c < size; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'vt-ws-cell';
+                cell.textContent = grid[r][c];
+                cell.dataset.r = r;
+                cell.dataset.c = c;
+                cell.addEventListener('mousedown', onDown);
+                cell.addEventListener('mouseover', onOver);
+                gridEl.appendChild(cell);
+            }
+        }
+        document.addEventListener('mouseup', onUp);
+        gridEl.addEventListener('selectstart', e => e.preventDefault());
+
+        const listEl = document.getElementById('vtws-wordlist');
+        listEl.innerHTML = '';
+        words.forEach(({ word, hint }, i) => {
+            const div = document.createElement('div');
+            div.className = 'vt-ws-word';
+            div.id = 'vtws-word-' + i;
+            div.innerHTML = '<strong>' + word + '</strong> <span class="vt-ws-hint">— ' + hint + '</span>';
+            listEl.appendChild(div);
+        });
+
+        timerInterval = setInterval(() => {
+            seconds++;
+            const m = Math.floor(seconds / 60), s = seconds % 60;
+            document.getElementById('vtws-time').textContent = m + ':' + String(s).padStart(2, '0');
+        }, 1000);
+    }
+
+    function getCell(r, c) {
+        return document.querySelector('#vtws-grid [data-r="' + r + '"][data-c="' + c + '"]');
+    }
+
+    function onDown(e) {
+        selecting = true;
+        startEl = e.currentTarget;
+        selCells = [e.currentTarget];
+        e.currentTarget.classList.add('selecting');
+    }
+
+    function onOver(e) {
+        if (!selecting || !startEl) return;
+        const r0 = +startEl.dataset.r, c0 = +startEl.dataset.c;
+        const r1 = +e.currentTarget.dataset.r, c1 = +e.currentTarget.dataset.c;
+        selCells.forEach(cel => cel.classList.remove('selecting'));
+        selCells = [];
+        const dr = r1 - r0, dc = c1 - c0;
+        const len = Math.max(Math.abs(dr), Math.abs(dc));
+        if (len === 0) { startEl.classList.add('selecting'); selCells = [startEl]; return; }
+        const isDiag = Math.abs(dr) === Math.abs(dc);
+        const isHoriz = dr === 0;
+        const isVert = dc === 0;
+        if (!isDiag && !isHoriz && !isVert) { startEl.classList.add('selecting'); selCells = [startEl]; return; }
+        const stepR = dr === 0 ? 0 : dr / Math.abs(dr);
+        const stepC = dc === 0 ? 0 : dc / Math.abs(dc);
+        for (let i = 0; i <= len; i++) {
+            const cel = getCell(r0 + stepR * i, c0 + stepC * i);
+            if (cel) { cel.classList.add('selecting'); selCells.push(cel); }
+        }
+    }
+
+    function onUp() {
+        if (!selecting) return;
+        selecting = false;
+        checkSelection();
+        selCells.forEach(cel => cel.classList.remove('selecting'));
+        selCells = []; startEl = null;
+    }
+
+    function checkSelection() {
+        if (selCells.length < 2) return;
+        const letters = selCells.map(cel => grid[+cel.dataset.r][+cel.dataset.c]).join('');
+        const rev = letters.split('').reverse().join('');
+        wordMeta.forEach((wm, wi) => {
+            if (wm.found) return;
+            if (letters !== wm.word && rev !== wm.word) return;
+            const selPos = selCells.map(cel => [+cel.dataset.r, +cel.dataset.c]);
+            const checkDir = (arr) => wm.cells.every(([r, c], i) => arr[i] && arr[i][0] === r && arr[i][1] === c);
+            if (checkDir(selPos) || checkDir([...selPos].reverse())) {
+                wm.found = true;
+                found++;
+                document.getElementById('vtws-found').textContent = found + ' / ' + words.length;
+                wm.cells.forEach(([r, c]) => {
+                    const cel = getCell(r, c);
+                    if (cel) cel.className = 'vt-ws-cell found-' + wm.color;
+                });
+                const item = document.getElementById('vtws-word-' + wi);
+                if (item) item.classList.add('found');
+                if (found === words.length) {
+                    clearInterval(timerInterval);
+                    const m = Math.floor(seconds / 60), s = seconds % 60;
+                    document.getElementById('vtws-message').textContent = '🎉 Alle Wörter gefunden! Zeit: ' + m + ':' + String(s).padStart(2, '0');
+                }
+            }
+        });
+    }
+
+    const newGameBtn = document.getElementById('vtws-newgame');
+    if (newGameBtn) newGameBtn.addEventListener('click', build);
+    build();
+};
+
+// Pixel-Retter: reines Reaktionsspiel, braucht keine Fachinhalte (Klick auf "defekte" Pixel, bevor der Sensor ausfaellt).
+// options (optional): { cols: 11, rows: 5, maxDirty: 12 }
+// Erwartet Markup mit IDs vtpixel-grid / vtpixel-score / vtpixel-dirty / vtpixel-level /
+// vtpixel-danger / vtpixel-status / vtpixel-message / vtpixel-startbtn.
+window.vtPixelDefenderInit = function (options) {
+    const cfg = Object.assign({ cols: 11, rows: 5, maxDirty: 12 }, options || {});
+    let cells = [], score = 0, dirty = 0, level = 1, interval = null, running = false;
+
+    function delay() { return Math.max(350, 1300 - (level - 1) * 120); }
+
+    function scheduleTick() {
+        clearInterval(interval);
+        interval = setInterval(tick, delay());
+    }
+
+    function tick() {
+        if (!running) return;
+        const clean = [];
+        cells.forEach((d, i) => { if (!d.dirty) clean.push(i); });
+        if (clean.length === 0) { gameOver(); return; }
+        const idx = clean[Math.floor(Math.random() * clean.length)];
+        cells[idx].dirty = true;
+        dirty++;
+        cells[idx].el.classList.add('vt-pixel-dirty');
+        document.getElementById('vtpixel-dirty').textContent = dirty + ' / ' + cfg.maxDirty;
+        document.getElementById('vtpixel-danger').style.width = (dirty / cfg.maxDirty * 100) + '%';
+        if (dirty >= cfg.maxDirty) { gameOver(); return; }
+        const newLevel = Math.floor(score / 8) + 1;
+        if (newLevel !== level) { level = newLevel; document.getElementById('vtpixel-level').textContent = level; scheduleTick(); }
+    }
+
+    function cleanPixel(idx) {
+        if (!running || !cells[idx].dirty) return;
+        cells[idx].dirty = false;
+        dirty--; score++;
+        cells[idx].el.classList.remove('vt-pixel-dirty');
+        cells[idx].el.classList.add('vt-pixel-pop');
+        setTimeout(() => cells[idx].el.classList.remove('vt-pixel-pop'), 180);
+        document.getElementById('vtpixel-dirty').textContent = dirty + ' / ' + cfg.maxDirty;
+        document.getElementById('vtpixel-score').textContent = score;
+        document.getElementById('vtpixel-danger').style.width = (dirty / cfg.maxDirty * 100) + '%';
+    }
+
+    function gameOver() {
+        running = false;
+        clearInterval(interval);
+        cells.forEach(c => { if (c.dirty) c.el.style.background = '#ef5350'; });
+        document.getElementById('vtpixel-status').textContent = 'Sensor ausgefallen!';
+        document.getElementById('vtpixel-message').innerHTML =
+            '💔 Sensor überlastet! ' + score + ' Pixel gerettet · Level ' + level + ' erreicht';
+        document.getElementById('vtpixel-startbtn').textContent = '🔄 Neustart';
+    }
+
+    function start() {
+        score = 0; dirty = 0; level = 1; running = true;
+        clearInterval(interval);
+        document.getElementById('vtpixel-score').textContent = '0';
+        document.getElementById('vtpixel-dirty').textContent = '0 / ' + cfg.maxDirty;
+        document.getElementById('vtpixel-level').textContent = '1';
+        document.getElementById('vtpixel-danger').style.width = '0%';
+        document.getElementById('vtpixel-message').innerHTML = '';
+        document.getElementById('vtpixel-status').textContent = 'Sensor aktiv';
+        document.getElementById('vtpixel-startbtn').textContent = '🔄 Neustart';
+
+        const grid = document.getElementById('vtpixel-grid');
+        grid.innerHTML = '';
+        grid.style.gridTemplateColumns = 'repeat(' + cfg.cols + ', 1fr)';
+        cells = [];
+        for (let i = 0; i < cfg.cols * cfg.rows; i++) {
+            const el = document.createElement('div');
+            el.className = 'vt-pixel-cell';
+            const idx = i;
+            el.addEventListener('click', () => cleanPixel(idx));
+            grid.appendChild(el);
+            cells.push({ el, dirty: false });
+        }
+        scheduleTick();
+    }
+
+    document.getElementById('vtpixel-startbtn').addEventListener('click', start);
+};
+
+// Timing-Spiel: generisches "Treffe den Sweet-Spot"-Reaktionsspiel (z.B. Belichtung, Pegel, Timing-Genauigkeit).
+// options (optional): { rounds: 8, leftLabel: '...', centerLabel: '...', rightLabel: '...' }
+// Erwartet Markup mit IDs vttiming-dots / vttiming-track / vttiming-sweet / vttiming-marker /
+// vttiming-feedback / vttiming-shootbtn / vttiming-score / vttiming-round / vttiming-message / vttiming-startbtn.
+window.vtTimingGameInit = function (options) {
+    const cfg = Object.assign({ rounds: 8, leftLabel: '⬛ Zu niedrig', centerLabel: '✅ OK', rightLabel: '⬜ Zu hoch' }, options || {});
+    let score = 0, round = 0, running = false;
+    let pos = 50, dir = 1, speed = 0.45, sweetL = 35, sweetR = 65, results = [], animId = null;
+
+    function start() {
+        score = 0; round = 0; running = false; results = [];
+        cancelAnimationFrame(animId);
+        document.getElementById('vttiming-score').textContent = '0';
+        document.getElementById('vttiming-round').textContent = '0';
+        document.getElementById('vttiming-message').innerHTML = '';
+        document.getElementById('vttiming-feedback').textContent = 'Runde 1 startet …';
+        document.getElementById('vttiming-shootbtn').disabled = false;
+
+        const dotsEl = document.getElementById('vttiming-dots');
+        dotsEl.innerHTML = '';
+        for (let i = 0; i < cfg.rounds; i++) {
+            const d = document.createElement('div');
+            d.className = 'vt-timing-dot' + (i === 0 ? ' active' : '');
+            d.id = 'vttiming-dot-' + i;
+            d.textContent = i + 1;
+            dotsEl.appendChild(d);
+        }
+        setTimeout(startRound, 500);
+    }
+
+    function startRound() {
+        if (round >= cfg.rounds) { finish(); return; }
+        round++;
+        document.getElementById('vttiming-round').textContent = round;
+        speed = 0.38 + round * 0.09;
+        const halfWidth = Math.max(8, 16 - round * 0.9);
+        const center = 38 + Math.random() * 24;
+        sweetL = center - halfWidth;
+        sweetR = center + halfWidth;
+        const sweet = document.getElementById('vttiming-sweet');
+        sweet.style.left = sweetL + '%';
+        sweet.style.width = (sweetR - sweetL) + '%';
+        document.getElementById('vttiming-feedback').textContent =
+            'Runde ' + round + ' / ' + cfg.rounds + ' — Auslösen, wenn der Marker im ' + cfg.centerLabel + '-Bereich ist';
+        for (let i = 0; i < cfg.rounds; i++) {
+            const dot = document.getElementById('vttiming-dot-' + i);
+            if (!dot) continue;
+            if (i < round - 1) dot.className = 'vt-timing-dot ' + (results[i] > 0 ? 'hit' : 'miss');
+            else if (i === round - 1) dot.className = 'vt-timing-dot active';
+            else dot.className = 'vt-timing-dot';
+        }
+        pos = Math.random() * 100;
+        dir = Math.random() > 0.5 ? 1 : -1;
+        running = true;
+        animate();
+    }
+
+    function animate() {
+        if (!running) return;
+        pos += dir * speed;
+        if (pos <= 0) { pos = 0; dir = 1; }
+        if (pos >= 100) { pos = 100; dir = -1; }
+        document.getElementById('vttiming-marker').style.left = pos + '%';
+        animId = requestAnimationFrame(animate);
+    }
+
+    function shoot() {
+        if (!running) return;
+        running = false;
+        cancelAnimationFrame(animId);
+        const inZone = pos >= sweetL && pos <= sweetR;
+        let pts = 0;
+        if (inZone) {
+            const center = (sweetL + sweetR) / 2;
+            const dist = Math.abs(pos - center) / ((sweetR - sweetL) / 2);
+            pts = Math.round(100 - dist * 65);
+            document.getElementById('vttiming-feedback').textContent = '✅ Treffer! +' + pts + ' Punkte';
+            document.getElementById('vttiming-dot-' + (round - 1)).className = 'vt-timing-dot hit';
+        } else {
+            const side = pos < sweetL ? cfg.leftLabel : cfg.rightLabel;
+            document.getElementById('vttiming-feedback').textContent = '❌ Daneben! ' + side;
+            document.getElementById('vttiming-dot-' + (round - 1)).className = 'vt-timing-dot miss';
+        }
+        score += pts;
+        results.push(pts);
+        document.getElementById('vttiming-score').textContent = score;
+        setTimeout(() => { if (round < cfg.rounds) startRound(); else finish(); }, 1300);
+    }
+
+    function finish() {
+        running = false;
+        cancelAnimationFrame(animId);
+        document.getElementById('vttiming-shootbtn').disabled = true;
+        const maxPts = cfg.rounds * 100;
+        const pct = Math.round(score / maxPts * 100);
+        const rating = pct >= 80 ? '🥇 Exzellent!' : pct >= 60 ? '🥈 Guter Ansatz!' : pct >= 40 ? '🥉 Weiter üben!' : '📚 Mehr Übung nötig!';
+        document.getElementById('vttiming-feedback').textContent = 'Spiel beendet!';
+        document.getElementById('vttiming-message').innerHTML = rating + '<br>' + score + ' / ' + maxPts + ' Punkte (' + pct + '%)';
+    }
+
+    document.getElementById('vttiming-shootbtn').addEventListener('click', shoot);
+    document.getElementById('vttiming-startbtn').addEventListener('click', start);
+};
+
+// ─── Seitennavigation ────────────────────────────────────────
+
+window.scrollToTop = function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.scrollToBottom = function () {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+};
+
+window.scrollPageUp = function () {
+    window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+};
+
+window.scrollPageDown = function () {
+    window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+};
+
+// ─── Draggable Navigationsmenü ───────────────────────────────
+// Speichert Position + Sichtbarkeit in localStorage.
+
+window.makeDraggable = function (element) {
+    const POS_KEY = 'vt_nav_menu_pos';
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    let isDragging = false;
+    let saveTimer = null;
+
+    const header = element.querySelector('.nav-menu-header');
+    const dragTargets = [element];
+    if (header) dragTargets.push(header);
+
+    dragTargets.forEach(t => {
+        t.addEventListener('mousedown', dragMouseDown);
+        t.addEventListener('touchstart', dragTouchStart, { passive: false });
+    });
+
+    function scheduleSave() {
+        if (saveTimer) window.clearTimeout(saveTimer);
+        saveTimer = window.setTimeout(() => {
+            try {
+                localStorage.setItem(POS_KEY, JSON.stringify({
+                    top: element.style.top,
+                    left: element.style.left
+                }));
+            } catch (_) {}
+        }, 150);
+    }
+
+    function clampToViewport() {
+        const rect = element.getBoundingClientRect();
+        const maxLeft = Math.max(0, window.innerWidth - rect.width);
+        const maxTop = Math.max(0, window.innerHeight - rect.height);
+        element.style.left = Math.max(0, Math.min(element.offsetLeft, maxLeft)) + 'px';
+        element.style.top  = Math.max(0, Math.min(element.offsetTop,  maxTop))  + 'px';
+        element.style.bottom = 'auto';
+        element.style.right  = 'auto';
+    }
+
+    window.addEventListener('resize', () => {
+        if (element.classList.contains('is-hidden')) return;
+        clampToViewport();
+        scheduleSave();
+    });
+
+    function dragMouseDown(e) {
+        if (e.target.closest('.nav-btn')) return;
+        if (e.target.closest('[data-no-drag="true"]')) return;
+        e.preventDefault();
+        isDragging = false;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup   = closeDragElement;
+        document.onmousemove = elementDrag;
+        element.style.cursor = 'grabbing';
+    }
+
+    function dragTouchStart(e) {
+        if (e.target.closest('.nav-btn')) return;
+        if (e.target.closest('[data-no-drag="true"]')) return;
+        e.preventDefault();
+        isDragging = false;
+        pos3 = e.touches[0].clientX;
+        pos4 = e.touches[0].clientY;
+        document.ontouchend   = closeDragElement;
+        document.ontouchmove  = elementDragTouch;
+    }
+
+    function applyDrag(newTop, newLeft) {
+        newTop  = Math.max(0, Math.min(newTop,  window.innerHeight - element.offsetHeight));
+        newLeft = Math.max(0, Math.min(newLeft, window.innerWidth  - element.offsetWidth));
+        element.style.top    = newTop  + 'px';
+        element.style.left   = newLeft + 'px';
+        element.style.bottom = 'auto';
+        element.style.right  = 'auto';
+        scheduleSave();
+    }
+
+    function elementDrag(e) {
+        e.preventDefault();
+        isDragging = true;
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        applyDrag(element.offsetTop - pos2, element.offsetLeft - pos1);
+    }
+
+    function elementDragTouch(e) {
+        isDragging = true;
+        pos1 = pos3 - e.touches[0].clientX;
+        pos2 = pos4 - e.touches[0].clientY;
+        pos3 = e.touches[0].clientX;
+        pos4 = e.touches[0].clientY;
+        applyDrag(element.offsetTop - pos2, element.offsetLeft - pos1);
+    }
+
+    function closeDragElement() {
+        document.onmouseup    = null;
+        document.onmousemove  = null;
+        document.ontouchend   = null;
+        document.ontouchmove  = null;
+        element.style.cursor  = '';
+        isDragging = false;
+        scheduleSave();
+    }
+};
+
+// ─── DOMContentLoaded: alles verdrahten ──────────────────────
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    // Navigationsbuttons (Reihenfolge im HTML: ⬆ 🔼 🔽 ⬇ 📂 📁)
+    const allButtons = document.querySelectorAll('.nav-btn');
+    if (allButtons[0]) allButtons[0].addEventListener('click', () => window.scrollToTop());
+    if (allButtons[1]) allButtons[1].addEventListener('click', () => window.scrollPageUp());
+    if (allButtons[2]) allButtons[2].addEventListener('click', () => window.scrollPageDown());
+    if (allButtons[3]) allButtons[3].addEventListener('click', () => window.scrollToBottom());
+    if (allButtons[4]) allButtons[4].addEventListener('click', () => window.expandAllAccordions());
+    if (allButtons[5]) allButtons[5].addEventListener('click', () => window.collapseAllAccordions());
+
+    // Akkordeon-Header
+    document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', () => window.toggleAccordion(header));
+    });
+
+    // Navigationsmenü: draggable + Position/Sichtbarkeit aus localStorage
+    const navMenu = document.querySelector('.nav-menu');
+    if (navMenu) {
+        const launcher = document.querySelector('.nav-menu-launcher');
+        const hideBtn  = document.querySelector('.nav-menu-hide');
+
+        const POS_KEY    = 'vt_nav_menu_pos';
+        const HIDDEN_KEY = 'vt_nav_menu_hidden';
+
+        function setHidden(hidden) {
+            if (hidden) {
+                navMenu.classList.add('is-hidden');
+                if (launcher) launcher.classList.add('is-visible');
+            } else {
+                navMenu.classList.remove('is-hidden');
+                if (launcher) launcher.classList.remove('is-visible');
+            }
+            try { localStorage.setItem(HIDDEN_KEY, hidden ? '1' : '0'); } catch (_) {}
+        }
+
+        // Gespeicherte Position wiederherstellen
+        try {
+            const saved = localStorage.getItem(POS_KEY);
+            if (saved) {
+                const pos = JSON.parse(saved);
+                if (pos && pos.top && pos.left) {
+                    navMenu.style.top    = pos.top;
+                    navMenu.style.left   = pos.left;
+                    navMenu.style.bottom = 'auto';
+                    navMenu.style.right  = 'auto';
+                }
+            }
+        } catch (_) {}
+
+        // Standard-Position wenn noch nichts gesetzt
+        if (!navMenu.style.top && !navMenu.style.left) {
+            navMenu.style.right = '2rem';
+            navMenu.style.top   = '2rem';
+        }
+
+        // Gespeicherte Sichtbarkeit wiederherstellen
+        try {
+            setHidden(localStorage.getItem(HIDDEN_KEY) === '1');
+        } catch (_) {}
+
+        if (hideBtn)  hideBtn.addEventListener('click',   e => { e.preventDefault(); e.stopPropagation(); setHidden(true); });
+        if (launcher) launcher.addEventListener('click',  e => { e.preventDefault(); setHidden(false); });
+
+        window.makeDraggable(navMenu);
+    }
+});
+
+// ─── MMBBSBOT Chatbot ─────────────────────────────────────────
+// Wird asynchron geladen. Seite bleibt nutzbar falls Server nicht
+// erreichbar.
+//
+// Passe opener, title und hints pro Lerneinheit an:
+//   opener → Begrüßungstext
+//   title  → Chatfenster-Titel
+//   hints  → Systemprompt für das Modell
+
+document.addEventListener('DOMContentLoaded', async function () {
+    try {
+        const { MMBBSBOT } = await import('https://ai.mmbbs.de/mmbbs-bot.js');
+        const contentEl   = document.querySelector('.content');
+        const htmlContent = contentEl ? contentEl.innerHTML : '';
+        const settings = {
+            host:            'ai.mmbbs.de',
+            protocol:        'https',
+            port:            443,
+            opener:          'Hallo! Ich helfe dir bei Fragen zu dieser Lerneinheit.',
+            chat_icon:       '',
+            chat_icon_style: 'border-radius: 50%; width: 40px; height: 40px;',
+            title:           'VT GPT',
+            task:            htmlContent,
+            hints:           'Du bist ein Experte für Veranstaltungstechnik. ' +
+                             'Erkläre Konzepte verständlich und praxisnah. ' +
+                             'Gib Hilfestellungen, aber keine fertigen Lösungen für Aufgaben.'
+        };
+        new MMBBSBOT(settings);
+    } catch (error) {
+        console.error('MMBBSBOT konnte nicht geladen werden:', error);
+    }
+});
+    </script>
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════════
+         SEITEN-CONTAINER
+         ═══════════════════════════════════════════ -->
+    <div class="container">
+
+        <!-- ── Header ────────────────────────────── -->
+        <div class="header">
+            <h1>[TITEL DER LERNEINHEIT]</h1>
+            <p>Doppelstunde X – LF[X]: [Lernfeld-Bezeichnung]</p>
+        </div>
+
+        <!-- ── Inhalt ─────────────────────────────── -->
+        <div class="content">
+            <div class="section">
+
+                <!-- EINFÜHRUNGSBOX (grau) -->
+                <div class="intro">
+                    <strong style="display:block; font-size:1.2rem; margin-bottom:1rem; color:#1e3c72;">🎯 Einführung</strong>
+                    <p>Einführungstext und Lernziele der Stunde hier einfügen.</p>
+                    <p>Schüler/innen erwerben Kompetenzen in: ...</p>
+                </div>
+
+                <!-- ÜBERSCHRIFTEN -->
+                <h2>Abschnitt 1: Grundlagen</h2>
+                <p>Beschreibender Fließtext mit <strong>Hervorhebungen</strong> und <em>Kursivem</em>.</p>
+
+                <h3>Unterabschnitt 1.1</h3>
+                <p>Weitere Details...</p>
+
+                <!-- TECHNISCHE DETAILS (blau) -->
+                <div class="tech-specs">
+                    <h4>📊 Technische Spezifikation</h4>
+                    <ul>
+                        <li><strong>Parameter 1:</strong> Wert</li>
+                        <li><strong>Parameter 2:</strong> Wert</li>
+                        <li><strong>Parameter 3:</strong> Wert</li>
+                    </ul>
+                </div>
+
+                <!-- PRAXISTIPP (grün) -->
+                <div class="praxis-box">
+                    <h4>💡 Praxistipp</h4>
+                    <p>Hinweise aus der Praxis, die das Verständnis vertiefen.</p>
+                </div>
+
+                <!-- WARNUNG (rot) -->
+                <div class="warning">
+                    <strong>⚠️ Wichtiger Hinweis</strong>
+                    <p>Sicherheitshinweis oder häufiger Fehler, der vermieden werden sollte.</p>
+                </div>
+
+
+                <!-- VERGLEICHSTABELLE -->
+                <h2>Abschnitt 2: Vergleiche</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Merkmal</th>
+                            <th>Option A</th>
+                            <th>Option B</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Eigenschaft 1</td><td>Wert A1</td><td>Wert B1</td></tr>
+                        <tr><td>Eigenschaft 2</td><td>Wert A2</td><td>Wert B2</td></tr>
+                        <tr><td>Eigenschaft 3</td><td>Wert A3</td><td>Wert B3</td></tr>
+                    </tbody>
+                </table>
+
+
+                <!-- PHASEN-GRID (Karten) -->
+                <h2>Abschnitt 3: Phasen / Schritte</h2>
+                <div class="phases">
+                    <div class="phase">
+                        <div class="phase-number">1</div>
+                        <h4>Phase 1: Planung</h4>
+                        <p>Beschreibung der ersten Phase.</p>
+                        <ul>
+                            <li>Schritt 1.1</li>
+                            <li>Schritt 1.2</li>
+                        </ul>
+                    </div>
+                    <div class="phase">
+                        <div class="phase-number">2</div>
+                        <h4>Phase 2: Aufbau</h4>
+                        <p>Beschreibung der zweiten Phase.</p>
+                        <ul>
+                            <li>Schritt 2.1</li>
+                            <li>Schritt 2.2</li>
+                        </ul>
+                    </div>
+                    <div class="phase">
+                        <div class="phase-number">3</div>
+                        <h4>Phase 3: Test</h4>
+                        <p>Beschreibung der dritten Phase.</p>
+                        <ul>
+                            <li>Schritt 3.1</li>
+                            <li>Schritt 3.2</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- INTERAKTIVE DEMO -->
+                <h2>Abschnitt 4: Interaktive Elemente</h2>
+
+                <div class="interactive-demo">
+                    <h3>💻 Demo / Simulation</h3>
+                    <p>Interaktive Beschreibung. Schüler/innen können die Buttons klicken und Ergebnisse sehen.</p>
+                    <button class="demo-button" onclick="alert('Demo: Funktion A')">▶ Demo A starten</button>
+                    <button class="demo-button" onclick="alert('Demo: Funktion B')">▶ Demo B starten</button>
+                    <p style="margin-top:1rem; font-size:0.9rem; color:#888;">Ergebnis erscheint hier nach Klick.</p>
+                </div>
+
+                <!-- CHATBOT-BUTTONS zum Nachfragen -->
+                <div class="tech-specs">
+                    <h4>🤖 Mit KI-Assistent arbeiten</h4>
+                    <p>Nutze den VT-GPT-Chatbot für Erklärungen:</p>
+                    <button class="chatbot-button" onclick="window.sendToChatbot('Erkläre mir das Konzept [THEMA] in einfachen Worten.')">
+                        💬 Konzept erklären lassen
+                    </button>
+                    <button class="chatbot-button" onclick="window.sendToChatbot('Gib mir ein Praxisbeispiel für [THEMA] aus der Veranstaltungstechnik.')">
+                        🔧 Praxisbeispiel anfragen
+                    </button>
+                    <button class="chatbot-button" onclick="window.sendToChatbot('Erstelle mir eine kurze Zusammenfassung der wichtigsten Punkte dieser Lerneinheit.')">
+                        📋 Zusammenfassung
+                    </button>
+                </div>
+
+
+                <!-- MINI-SPIELE (optional) — Engines liegen global in Templates/js/defaults.js
+                     (window.vtMemoryInit / vtHangmanInit / vtSortInit / vtQuizInit /
+                     vtWordSearchInit / vtPixelDefenderInit / vtTimingGameInit), CSS in
+                     vt-styles.css. Jeweils GENAU EIN Spieltyp pro Lektion einsetzen, als
+                     Ergänzung zum bestehenden Quiz/Interaktiv-Element — nicht als Ersatz.
+                     Sieben Varianten zur Auswahl (mehr Abwechslung als nur Memory) — je
+                     nach Lektion die passende waehlen: Memory/Hangman/Sortierspiel/
+                     Wortsuche fuer Begriffs-Vokabular, Blitz-Quiz fuer breiteres
+                     Wissen-Abfragen, Pixel-Retter/Timing-Spiel als reine Auflockerung ohne
+                     Fachinhalt (keine Begriffe noetig, ueberall einsetzbar). Nicht benötigte
+                     Spiel-Blöcke (Markup plus zugehöriges Script-Element) einfach komplett
+                     entfernen. IDs sind fest verdrahtet — bei mehreren Spielen auf einer
+                     Seite (nicht empfohlen) mit data-Präfix/ID-Suffix eindeutig machen. -->
+                <h2>Abschnitt 4b: Mini-Spiel (optional)</h2>
+
+                <!-- Variante 1: Memory — 6 Begriffspaare, Karten aufdecken bis alle Paare gefunden sind -->
+                <div class="interactive-demo">
+                    <h3>🧠 Memory: [Thema]-Begriffe</h3>
+                    <p>Finden Sie die 6 zusammengehörigen Begriffspaare aus dieser Einheit. Karten anklicken – bei einem Treffer bleiben sie aufgedeckt.</p>
+                    <div class="vt-memory">
+                        <div class="vt-memory-stats">
+                            <div class="vt-memory-stat"><span class="vt-memory-stat-label">Züge</span><span class="vt-memory-stat-value" id="vtmem-moves">0</span></div>
+                            <div class="vt-memory-stat"><span class="vt-memory-stat-label">Paare</span><span class="vt-memory-stat-value" id="vtmem-matches">0 / 6</span></div>
+                            <div class="vt-memory-stat"><span class="vt-memory-stat-label">Zeit</span><span class="vt-memory-stat-value" id="vtmem-timer">0:00</span></div>
+                        </div>
+                        <div class="vt-memory-board" id="vtmem-board"></div>
+                        <div class="vt-memory-message" id="vtmem-message"></div>
+                        <div class="vt-memory-controls">
+                            <button class="vt-memory-btn vt-memory-btn-primary" id="vtmem-newgame">🔀 Neu mischen</button>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    window.vtMemoryInit([
+                        { pair: 'A', text: 'Begriff A1' }, { pair: 'A', text: 'Begriff A2 (Erklärung/Synonym)' },
+                        { pair: 'B', text: 'Begriff B1' }, { pair: 'B', text: 'Begriff B2 (Erklärung/Synonym)' },
+                        { pair: 'C', text: 'Begriff C1' }, { pair: 'C', text: 'Begriff C2 (Erklärung/Synonym)' },
+                        { pair: 'D', text: 'Begriff D1' }, { pair: 'D', text: 'Begriff D2 (Erklärung/Synonym)' },
+                        { pair: 'E', text: 'Begriff E1' }, { pair: 'E', text: 'Begriff E2 (Erklärung/Synonym)' },
+                        { pair: 'F', text: 'Begriff F1' }, { pair: 'F', text: 'Begriff F2 (Erklärung/Synonym)' }
+                    ]);
+                </script>
+
+                <!-- Variante 2: Hangman — Fachbegriffe erraten, ein Buchstabe pro Klick -->
+                <div class="interactive-demo">
+                    <h3>🔤 Hangman: [Thema] erraten</h3>
+                    <p>Erraten Sie Fachbegriffe aus dieser Einheit – ein Buchstabe pro Klick, maximal 10 Fehlversuche pro Wort.</p>
+                    <div class="vt-hangman">
+                        <div class="vt-hangman-stats">
+                            <div class="vt-hangman-stat"><span class="vt-hangman-stat-label">Punkte</span><span class="vt-hangman-stat-value" id="vthang-score">0</span></div>
+                            <div class="vt-hangman-stat"><span class="vt-hangman-stat-label">Fehler</span><span class="vt-hangman-stat-value" id="vthang-wrong">0 / 10</span></div>
+                            <div class="vt-hangman-stat"><span class="vt-hangman-stat-label">Wörter</span><span class="vt-hangman-stat-value" id="vthang-words">0</span></div>
+                        </div>
+                        <div class="vt-hangman-area">
+                            <canvas id="vthang-canvas" width="220" height="180"></canvas>
+                            <div class="vt-hangman-hint">
+                                <strong>💡 Hinweis:</strong>
+                                <div id="vthang-hint-text">Klicken Sie „Neues Wort", um zu starten.</div>
+                            </div>
+                        </div>
+                        <div class="vt-hangman-word" id="vthang-word"></div>
+                        <div class="vt-hangman-message" id="vthang-message"></div>
+                        <div class="vt-hangman-keyboard" id="vthang-keyboard"></div>
+                        <div class="vt-hangman-controls">
+                            <button class="vt-hangman-btn" id="vthang-newword">🔄 Neues Wort</button>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    window.vtHangmanInit([
+                        { word: 'FACHBEGRIFF', hint: 'Kurze Erklärung des Begriffs (keine Umlaute im Wort – die Tastatur hat nur A–Z)' },
+                        { word: 'ZWEITERBEGRIFF', hint: 'Erklärung 2' },
+                        { word: 'DRITTERBEGRIFF', hint: 'Erklärung 3' },
+                        { word: 'VIERTERBEGRIFF', hint: 'Erklärung 4' },
+                        { word: 'FUENFTERBEGRIFF', hint: 'Erklärung 5' },
+                        { word: 'SECHSTERBEGRIFF', hint: 'Erklärung 6' }
+                    ]);
+                </script>
+
+                <!-- Variante 3: Sortierspiel — Begriffe per Klick zwei (oder mit .vt-sort-categories-3 drei) Kategorien zuordnen -->
+                <div class="interactive-demo">
+                    <h3>🎮 Sortierspiel: [Kategorie A] oder [Kategorie B]?</h3>
+                    <p>Begriff anklicken, dann die passende Kategorie anklicken. Sie haben 60 Sekunden für alle Begriffe.</p>
+                    <div class="vt-sort">
+                        <div class="vt-sort-stats">
+                            <div class="vt-sort-stat"><span class="vt-sort-stat-label">Punkte</span><span class="vt-sort-stat-value" id="vtsort-score">0</span></div>
+                            <div class="vt-sort-stat"><span class="vt-sort-stat-label">Zeit</span><span class="vt-sort-stat-value" id="vtsort-timer">60s</span></div>
+                            <div class="vt-sort-stat"><span class="vt-sort-stat-label">Verbleibend</span><span class="vt-sort-stat-value" id="vtsort-remaining">10</span></div>
+                        </div>
+                        <div class="vt-sort-pool" id="vtsort-pool"></div>
+                        <!-- 2 Kategorien: class="vt-sort-categories". 3 Kategorien: class="vt-sort-categories-3" + dritten Block ergänzen -->
+                        <div class="vt-sort-categories">
+                            <div class="vt-sort-category" id="vtsort-cat-a" data-category="a">
+                                <h4>🅰️ Kategorie A</h4>
+                                <div class="vt-sort-dropped" id="vtsort-dropped-a"></div>
+                            </div>
+                            <div class="vt-sort-category" id="vtsort-cat-b" data-category="b">
+                                <h4>🅱️ Kategorie B</h4>
+                                <div class="vt-sort-dropped" id="vtsort-dropped-b"></div>
+                            </div>
+                        </div>
+                        <div class="vt-sort-message" id="vtsort-message"></div>
+                        <div class="vt-sort-controls">
+                            <button class="vt-sort-btn" id="vtsort-start">▶️ Spiel starten</button>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    window.vtSortInit([
+                        { term: 'Begriff 1', category: 'a' },
+                        { term: 'Begriff 2', category: 'a' },
+                        { term: 'Begriff 3', category: 'a' },
+                        { term: 'Begriff 4', category: 'a' },
+                        { term: 'Begriff 5', category: 'a' },
+                        { term: 'Begriff 6', category: 'b' },
+                        { term: 'Begriff 7', category: 'b' },
+                        { term: 'Begriff 8', category: 'b' },
+                        { term: 'Begriff 9', category: 'b' },
+                        { term: 'Begriff 10', category: 'b' }
+                    ], ['a', 'b']);
+                </script>
+
+                <!-- Variante 4: Blitz-Quiz — Zeitdruck-Multiple-Choice, je Frage 15s, Punkte je nach Restzeit -->
+                <div class="interactive-demo">
+                    <h3>⚡ Blitz-Quiz: [Thema]</h3>
+                    <p>10 Fragen, 15 Sekunden pro Frage – je schneller die richtige Antwort, desto mehr Punkte.</p>
+                    <div class="vt-quiz">
+                        <div id="vtquiz-start">
+                            <p>Testen Sie Ihr Wissen zu dieser Einheit!</p>
+                            <button class="vt-quiz-btn" id="vtquiz-startbtn">▶️ Quiz starten</button>
+                        </div>
+                        <div id="vtquiz-game" style="display:none;">
+                            <div class="vt-quiz-counter" id="vtquiz-counter">Frage 1 von 10</div>
+                            <div class="vt-quiz-timerbar"><div class="vt-quiz-timerfill" id="vtquiz-timer-fill" style="width:100%;"></div></div>
+                            <div class="vt-quiz-question" id="vtquiz-question"></div>
+                            <div class="vt-quiz-options" id="vtquiz-options"></div>
+                        </div>
+                        <div id="vtquiz-result" style="display:none;">
+                            <div id="vtquiz-resultbox"></div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    window.vtQuizInit([
+                        { q: 'Beispielfrage 1 zum Thema?', opts: ['Antwort A', 'Antwort B (richtig)', 'Antwort C', 'Antwort D'], ans: 1 },
+                        { q: 'Beispielfrage 2 zum Thema?', opts: ['Antwort A (richtig)', 'Antwort B', 'Antwort C', 'Antwort D'], ans: 0 },
+                        { q: 'Beispielfrage 3 zum Thema?', opts: ['Antwort A', 'Antwort B', 'Antwort C (richtig)', 'Antwort D'], ans: 2 }
+                        // ... weitere Fragen; window.vtQuizInit(questions, { count: 10, seconds: 15 }) zieht zufaellig `count` Fragen
+                    ]);
+                </script>
+
+                <!-- Variante 5: Wortsuche — 6-8 Fachbegriffe im Buchstabenraster finden (Ziehen mit gedrueckter Maustaste) -->
+                <div class="interactive-demo">
+                    <h3>🔍 Wortsuche: [Thema]-Begriffe</h3>
+                    <p>Finden Sie die versteckten Begriffe im Raster – Maustaste auf dem ersten Buchstaben gedrückt halten, zum letzten Buchstaben ziehen.</p>
+                    <div class="vt-ws">
+                        <div class="vt-memory-stats">
+                            <div class="vt-memory-stat"><span class="vt-memory-stat-label">Gefunden</span><span class="vt-memory-stat-value" id="vtws-found">0 / 6</span></div>
+                            <div class="vt-memory-stat"><span class="vt-memory-stat-label">Zeit</span><span class="vt-memory-stat-value" id="vtws-time">0:00</span></div>
+                        </div>
+                        <div class="vt-ws-layout">
+                            <div class="vt-ws-gridwrap"><div id="vtws-grid"></div></div>
+                            <div class="vt-ws-aside">
+                                <div id="vtws-wordlist"></div>
+                            </div>
+                        </div>
+                        <div class="vt-memory-message" id="vtws-message"></div>
+                        <div class="vt-memory-controls">
+                            <button class="vt-ws-btn" id="vtws-newgame">🔄 Neu generieren</button>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    window.vtWordSearchInit([
+                        { word: 'FACHBEGRIFF', hint: 'Kurze Erklärung (nur A-Z, keine Umlaute)' },
+                        { word: 'ZWEITERBEGRIFF', hint: 'Erklärung 2' },
+                        { word: 'DRITTERBEGRIFF', hint: 'Erklärung 3' },
+                        { word: 'VIERTERBEGRIFF', hint: 'Erklärung 4' },
+                        { word: 'FUENFTERBEGRIFF', hint: 'Erklärung 5' },
+                        { word: 'SECHSTERBEGRIFF', hint: 'Erklärung 6' }
+                    ]);
+                    // Optional zweiter Parameter: { size: 13 } fuer die Kantenlaenge des Rasters
+                </script>
+
+                <!-- Variante 6: Pixel-Retter — reines Reaktionsspiel (klick defekte Zellen weg), braucht KEINE Fachinhalte -->
+                <div class="interactive-demo">
+                    <h3>💥 Pixel-Retter</h3>
+                    <p>Klicken Sie auf die dunklen "defekten" Zellen, bevor zu viele gleichzeitig aktiv sind – als reine Auflockerung zwischendurch.</p>
+                    <div class="vt-pixel">
+                        <div class="vt-memory-stats">
+                            <div class="vt-memory-stat"><span class="vt-memory-stat-label">Punkte</span><span class="vt-memory-stat-value" id="vtpixel-score">0</span></div>
+                            <div class="vt-memory-stat"><span class="vt-memory-stat-label">Defekt</span><span class="vt-memory-stat-value" id="vtpixel-dirty">0 / 12</span></div>
+                            <div class="vt-memory-stat"><span class="vt-memory-stat-label">Level</span><span class="vt-memory-stat-value" id="vtpixel-level">1</span></div>
+                        </div>
+                        <div class="vt-pixel-status">Zustand: <span id="vtpixel-status">Bereit</span></div>
+                        <div class="vt-pixel-dangerwrap"><div id="vtpixel-danger" style="width:0%;"></div></div>
+                        <div id="vtpixel-grid"></div>
+                        <div class="vt-pixel-message" id="vtpixel-message"></div>
+                        <div class="vt-memory-controls">
+                            <button class="vt-pixel-btn" id="vtpixel-startbtn">▶️ Starten</button>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    window.vtPixelDefenderInit();
+                    // Optional: window.vtPixelDefenderInit({ cols: 11, rows: 5, maxDirty: 12 })
+                </script>
+
+                <!-- Variante 7: Timing-Spiel — generisches "Treffe den Sweet-Spot"-Reaktionsspiel -->
+                <div class="interactive-demo">
+                    <h3>🎯 Timing-Spiel: [Thema] treffen</h3>
+                    <p>Lösen Sie aus, sobald der Marker im grünen Bereich ist – 8 Runden, wird zunehmend schneller.</p>
+                    <div class="vt-timing">
+                        <div class="vt-memory-stats">
+                            <div class="vt-memory-stat"><span class="vt-memory-stat-label">Punkte</span><span class="vt-memory-stat-value" id="vttiming-score">0</span></div>
+                            <div class="vt-memory-stat"><span class="vt-memory-stat-label">Runde</span><span class="vt-memory-stat-value" id="vttiming-round">0 / 8</span></div>
+                        </div>
+                        <div class="vt-timing-dots" id="vttiming-dots"></div>
+                        <div id="vttiming-track">
+                            <div id="vttiming-sweet"></div>
+                            <div id="vttiming-marker" style="left:50%;"></div>
+                        </div>
+                        <div class="vt-timing-feedback" id="vttiming-feedback">Drücken Sie „Starten", um zu spielen.</div>
+                        <button class="vt-timing-shootbtn" id="vttiming-shootbtn" disabled>🎯</button>
+                        <div class="vt-timing-message" id="vttiming-message"></div>
+                        <div class="vt-memory-controls">
+                            <button class="vt-timing-btn" id="vttiming-startbtn">▶️ Starten</button>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    window.vtTimingGameInit({ rounds: 8, leftLabel: '⬛ Zu niedrig', centerLabel: '✅ OK', rightLabel: '⬜ Zu hoch' });
+                    // Labels an das Thema anpassen, z.B. Belichtung: '⬛ Zu dunkel' / '✅ OK' / '⬜ Zu hell'
+                </script>
+
+
+                <!-- AKKORDEON (aufklappbare Bereiche) -->
+                <h2>Abschnitt 5: Vertiefung & Lösungen</h2>
+
+                <div class="accordion">
+                    <div class="accordion-header">
+                        <span class="accordion-icon">▶</span>
+                        <span>📖 Hintergrundinformationen (aufklappen)</span>
+                    </div>
+                    <div class="accordion-content">
+                        <h4>Erweiterte Theorie</h4>
+                        <p>Hier stehen weiterführende Informationen, die nicht sofort sichtbar sind.
+                           Ideal für Differenzierung oder zusätzliche Details.</p>
+                        <ul>
+                            <li>Detail A</li>
+                            <li>Detail B</li>
+                            <li>Detail C</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header">
+                        <span class="accordion-icon">▶</span>
+                        <span>✅ Musterlösung – Aufgabe 1 (aufklappen)</span>
+                    </div>
+                    <div class="accordion-content">
+                        <h4>Lösung</h4>
+                        <p>Die Musterlösung wird erst nach der eigenständigen Bearbeitung angezeigt.</p>
+                        <ol>
+                            <li>Lösungsschritt 1: ...</li>
+                            <li>Lösungsschritt 2: ...</li>
+                            <li>Lösungsschritt 3: ...</li>
+                        </ol>
+                    </div>
+                </div>
+
+
+                <!-- KONTROLLFRAGEN (gelb) -->
+                <div class="question">
+                    <strong>❓ Kontrollfragen</strong>
+                    <ol>
+                        <li>Frage 1: Was versteht man unter ...?</li>
+                        <li>Frage 2: Welchen Vorteil hat ...?</li>
+                        <li>Frage 3: Wann setzt man ... ein?</li>
+                    </ol>
+                </div>
+
+
+                <!-- NUR EINE Übung pro Lerneinheit (ohne Moodle-Abgabe – reine Präsenzübung).
+                     Mehrere Teilaufgaben (a, b, c) innerhalb dieses einen Blocks sind erlaubt. -->
+                <h2>Abschnitt 6: Übung</h2>
+
+                <div class="task">
+                    <strong>📝 Übung (keine Abgabe): [Titel der Aufgabe]</strong>
+                    <p><strong>Sozialform:</strong> Partnerarbeit | <strong>Zeit:</strong> 20 Minuten</p>
+                    <hr style="border: none; border-top: 1px solid #4caf50; margin: 0.8rem 0;">
+                    <h4>Teil a) – Einzelarbeit (10 min)</h4>
+                    <p>Aufgabenstellung Teil a...</p>
+                    <ol>
+                        <li>Schritt 1</li>
+                        <li>Schritt 2</li>
+                    </ol>
+                    <h4>Teil b) – Gruppenarbeit (10 min)</h4>
+                    <p>Aufgabenstellung Teil b...</p>
+                    <ol>
+                        <li>Schritt 1</li>
+                        <li>Schritt 2</li>
+                    </ol>
+                    <p><strong>Hilfsmittel:</strong> Schulbuch S. XX, eigene Notizen</p>
+                </div>
+
+                <!-- MOODLE-ABGABE – Pflicht am Ende jeder Lerneinheit.
+                     Eigene Box (nur .moodle-upload, NICHT .task) – bewusst blassrot statt grün,
+                     damit sie sich klar von der Übung oben unterscheidet und nicht mit ihr verwechselt wird. -->
+                <div class="moodle-upload">
+                    <strong>📤 Moodle-Abgabe: [Titel der Abgabe]</strong>
+                    <p><strong>⚠️ Diese Aufgabe geben Sie in Moodle ab.</strong></p>
+                    <p><strong>Sozialform:</strong> Einzelarbeit</p>
+                    <hr style="border: none; border-top: 1px solid #e11d48; margin: 0.8rem 0;">
+                    <p>Aufgabenstellung der Moodle-Abgabe...</p>
+                    <ol>
+                        <li>Anforderung 1</li>
+                        <li>Anforderung 2</li>
+                        <li>Anforderung 3</li>
+                    </ol>
+                    <p><strong>Abgabeformat:</strong> Word-Dokument oder PDF</p>
+                    <p><strong>Abgabefrist:</strong> Gemäß Angabe im Moodle-Kurs</p>
+                </div>
+
+            </div><!-- /.section -->
+        </div><!-- /.content -->
+    </div><!-- /.container -->
+
+
+    <!-- ═══════════════════════════════════════════
+         SCHWEBENDES NAVIGATIONSMENÜ
+         Draggable, Position und Sichtbarkeit werden
+         in localStorage gespeichert.
+         ═══════════════════════════════════════════ -->
+    <div class="nav-menu">
+        <div class="nav-menu-header">
+            <button type="button" class="nav-menu-control nav-menu-hide"
+                    data-no-drag="true" title="Menü ausblenden" aria-label="Menü ausblenden">✕</button>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn" title="Zum Seitenanfang"      aria-label="Zum Seitenanfang">⬆️</button>
+            <button class="nav-btn" title="Eine Seite nach oben"   aria-label="Eine Seite nach oben">🔼</button>
+            <button class="nav-btn" title="Eine Seite nach unten"  aria-label="Eine Seite nach unten">🔽</button>
+            <button class="nav-btn" title="Zum Seitenende"         aria-label="Zum Seitenende">⬇️</button>
+            <div class="nav-divider"></div>
+            <button class="nav-btn" title="Alle Akkordeons aufklappen"  aria-label="Alle Akkordeons aufklappen">📂</button>
+            <button class="nav-btn" title="Alle Akkordeons zuklappen"   aria-label="Alle Akkordeons zuklappen">📁</button>
+        </div>
+    </div>
+
+    <!-- Launcher-Button (sichtbar, wenn Menü ausgeblendet ist) -->
+    <button type="button" class="nav-menu-launcher"
+            title="Navigationsmenü anzeigen" aria-label="Navigationsmenü anzeigen">☰</button>
+
+</body>
+</html>

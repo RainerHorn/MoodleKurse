@@ -1,0 +1,37 @@
+<!--
+  MUSTER: Moodle-Abschnitts-Banner (Kursübersicht)
+  =================================================
+  Dieses Fragment ist NICHT für Inhaltsseiten gedacht, sondern zum Einfügen in
+  die "Beschreibung" eines Moodle-Kursabschnitts (Themenformat) oder in ein
+  Label, über den HTML-Quellcode-Button ("</>") des Atto/TinyMCE-Editors.
+
+  Wichtig – unterscheidet sich von den Inhaltsseiten-Regeln in CLAUDE.md:
+  - KEIN <style>-Block, KEINE Klassen (werden von Moodles clean_text entfernt
+    bzw. sind dort ohnehin nicht verfügbar, da die IIFE aus vt-styles.css nur
+    auf vollständigen Inhaltsseiten läuft).
+  - NUR inline style="" Attribute, und darin NUR einfache Werte (Hex-Farben,
+    px, solid). KEIN linear-gradient() / box-shadow mit weichen Verläufen –
+    viele Moodle-Instanzen filtern CSS-Funktionswerte in style-Attributen.
+  - Kein <script>, kein <link>, kein import().
+
+  WICHTIG beim Anlegen einer fertigen Banner-Instanz aus diesem Muster: Dieser gesamte
+  Kommentarkopf gehört NICHT mit in die fertige Datei! Moodle gibt einen führenden
+  HTML-Kommentar beim Einfügen sichtbar als Text auf der Seite aus, statt ihn zu verbergen
+  (2026-09-09 in der Praxis bestätigt). Die fertige Instanz beginnt direkt mit dem <div>;
+  Platzierungs-/Design-Hinweise gehören in die README.md des jeweiligen Kursbanner/-Ordners.
+
+  Platzhalter zum Ersetzen: {{ICON}} {{TITEL}} {{TEASER}} {{FARBE}}
+  {{FARBE}} = Akzentfarbe als Hex-Code, konsistent mit vt-styles.css:
+    Blau      #0288d1  (Kapitel mit Fokus auf Signale/Schnittstellen)
+    Indigo    #667eea  (Kernmarkenfarbe, Grundlagen/Einführung)
+    Grün      #4caf50  (Praxis/Redundanz/Aufgaben)
+    Orange    #ff9800  (Interaktive/Simulations-Themen, z.B. Artnet)
+    Dunkelblau #1e3c72 (Abschluss-/Vertiefungsthemen, z.B. Dante)
+-->
+<div style="display:flex; align-items:center; gap:16px; background-color:#f8f9fa; border-left:6px solid {{FARBE}}; border-radius:10px; padding:14px 18px; margin:0 0 12px 0;">
+  <div style="flex:0 0 auto; width:48px; height:48px; border-radius:50%; background-color:{{FARBE}}; color:#ffffff; font-size:24px; text-align:center; line-height:48px;">{{ICON}}</div>
+  <div style="flex:1 1 auto;">
+    <div style="font-size:18px; font-weight:bold; color:#212529; margin:0 0 4px 0;">{{TITEL}}</div>
+    <div style="font-size:14px; color:#495057; margin:0;">{{TEASER}}</div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<!--
+  MUSTER: Moodle-Themen-Banner (auflockert die Aktivitätsliste innerhalb eines Kursabschnitts)
+  ================================================================================================
+  Unterschied zu section-banner-template.html: Der Abschnitts-Banner steht EINMAL ganz oben im
+  Kapitel. Dieses Muster ist größer (3-5 Zeilen) und wird als eigenes LABEL VOR jede
+  Aktivitäten-Gruppe (Aufgabe + Lösung [+ Übung]) innerhalb des Abschnitts eingefügt, damit die
+  bisher rein textuelle Aktivitätsliste (nackte Links untereinander) optisch in Themenblöcke
+  gegliedert wird.
+
+  Gleiche Sicherheitsregeln wie section-banner-template.html (Moodle clean_text):
+  - KEIN <style>-Block, KEINE Klassen, KEIN <script>, KEIN <link>, kein externes Bild/<img src="...">.
+  - NUR inline style="" mit einfachen Werten (Hex-Farben, px, solid, border-radius). Kein
+    linear-gradient()/box-shadow.
+  - "Grafik" = großes Emoji-Icon in farbiger Kachel (48-56px), keine SVG/PNG-Datei nötig und
+    unkritisch gegenüber clean_text.
+
+  Platzhalter: {{ICON}} {{FARBE}} {{TITEL}} {{TEASER}} {{PRAXIS}} {{TAGS}}
+  {{FARBE}}-Konvention wie im Abschnitts-Banner (vt-styles.css-konsistent):
+    Blau       #0288d1
+    Indigo     #667eea
+    Grün       #4caf50
+    Orange     #ff9800
+    Dunkelblau #1e3c72
+
+  Platzierung in Moodle: Als neue Aktivität "Textfeld" (Label) über die "+"-Schaltfläche direkt
+  VOR die erste Aktivität der jeweiligen Themen-Gruppe einfügen, dann per Drag&Drop an die
+  richtige Position ziehen.
+
+  WICHTIG beim Anlegen einer fertigen Banner-Instanz aus diesem Muster: Dieser gesamte
+  Kommentarkopf gehört NICHT mit in die fertige Datei! Moodle gibt einen führenden
+  HTML-Kommentar beim Einfügen sichtbar als Text auf der Seite aus, statt ihn zu verbergen
+  (2026-09-09 in der Praxis bestätigt). Die fertige Instanz beginnt direkt mit dem <div>;
+  Platzierungs-/Design-Hinweise gehören in die README.md des jeweiligen Kursbanner/-Ordners.
+-->
+<div style="background-color:#f8f9fa; border:1px solid #e9ecef; border-left:6px solid {{FARBE}}; border-radius:10px; padding:16px 20px; margin:14px 0;">
+  <div style="display:flex; align-items:center; gap:14px; margin:0 0 8px 0;">
+    <div style="flex:0 0 auto; width:56px; height:56px; border-radius:12px; background-color:{{FARBE}}; color:#ffffff; font-size:28px; text-align:center; line-height:56px;">{{ICON}}</div>
+    <div style="font-size:19px; font-weight:bold; color:#212529;">{{TITEL}}</div>
+  </div>
+  <div style="font-size:14px; color:#495057; margin:0 0 6px 0;">{{TEASER}}</div>
+  <div style="font-size:13px; color:#495057; margin:0 0 8px 0; font-style:italic;">{{PRAXIS}}</div>
+  <div style="font-size:13px; color:{{FARBE}}; font-weight:bold; margin:0;">{{TAGS}}</div>
+</div>

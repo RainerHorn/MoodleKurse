@@ -1,0 +1,21 @@
+<!--
+  MUSTER: Moodle-Aktivitäts-Beschreibung (kleiner Teaser unter dem Aktivitätslink)
+  =================================================================================
+  Einfügen in: Aktivität bearbeiten -> Beschreibung -> Haken bei
+  "Beschreibung auf Kursseite anzeigen" setzen -> speichern.
+
+  Gleiche Regeln wie beim Abschnitts-Banner (Templates/html/section-banner-template.html):
+  nur inline style="", keine Gradients, kein <style>/<script>.
+
+  Platzhalter: {{TEXT}} {{FARBE}}
+  Farb-Konvention für diese Aktivitäts-Teaser:
+    Indigo #667eea = Aufgabe/Übung (Abgabe)
+    Grün   #4caf50 = Lösung (Selbstkontrolle)
+    Blau   #0288d1 = Einführung/Info-Seite
+
+  WICHTIG beim Anlegen einer fertigen Instanz aus diesem Muster: Dieser gesamte Kommentarkopf
+  gehört NICHT mit in die fertige Datei! Moodle gibt einen führenden HTML-Kommentar beim
+  Einfügen sichtbar als Text auf der Seite aus, statt ihn zu verbergen (2026-09-09 in der
+  Praxis bestätigt). Die fertige Instanz beginnt direkt mit dem <div>.
+-->
+<div style="border-left:4px solid {{FARBE}}; background-color:#f8f9fa; border-radius:6px; padding:8px 12px; font-size:13px; color:#495057; margin:4px 0;">{{TEXT}}</div>

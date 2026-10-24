@@ -1,0 +1,60 @@
+# ============================================================
+# MoodleKurse
+# ============================================================
+
+# Secrets / Environment
+.env
+.env.*
+!.env.example
+*.secret
+*.secrets
+secrets/
+.secret/
+
+# Credentials / OAuth / Tokens
+credentials.json
+auth.json
+oauth.json
+oauth-*.json
+moodle-secrets/
+moodle-token*
+
+# Lokale Hermes-Runtime gehoert NICHT ins Repository
+.hermes/
+hermes-home/
+runtime/
+
+# Arbeitsbereich
+_workspace/*
+!_workspace/.gitkeep
+
+# Logs / Temp
+*.tmp
+*.temp
+*.bak
+*.log
+*.cache
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Office temp
+~$*.docx
+~$*.xlsx
+~$*.pptx
