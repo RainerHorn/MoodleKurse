@@ -52,12 +52,12 @@
     </incorrectfeedback>
     <shownumcorrect/>
     
-    <!-- group-Nummer muss zur Lückennummer [[n]] passen -->
+    <!-- [[n]] = n-te dragbox im XML: richtige Begriffe zuerst, Distractors danach -->
     <dragbox><text>Eingabe</text><group>1</group></dragbox>
-    <dragbox><text>Speicherung</text><group>1</group></dragbox>       <!-- Distractor für Lücke 1 -->
     <dragbox><text>Verarbeitung</text><group>2</group></dragbox>
-    <dragbox><text>Übertragung</text><group>2</group></dragbox>      <!-- Distractor für Lücke 2 -->
     <dragbox><text>Ergebnisse</text><group>3</group></dragbox>
+    <dragbox><text>Speicherung</text><group>1</group></dragbox>       <!-- Distractor für Lücke 1 -->
+    <dragbox><text>Übertragung</text><group>2</group></dragbox>      <!-- Distractor für Lücke 2 -->
     <dragbox><text>Rohdaten</text><group>3</group></dragbox>          <!-- Distractor für Lücke 3 -->
     <tags><tag><text>[BILDUNGSGANG]</text></tag><tag><text>[LERNFELD]</text></tag><tag><text>[THEMA]</text></tag></tags>
   </question>

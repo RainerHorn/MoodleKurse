@@ -84,6 +84,23 @@ entfällt dieser Abschnitt. „P0“ bezeichnet hier die früheren Prüfpläne u
 Nachweise dieser Bestandskurse (z. B. `checks.p0.json`); die Regeln dazu heißen
 heute `pruefstrategie.md`.
 
+Grundsätze:
+
+- Bei reinen Dokumentationsänderungen unveränderte Frage-/XML-Hashes gegen den
+  vorhandenen Nachweis abgleichen, statt die ganze Inhaltsprüfung zu wiederholen.
+- Den alten Dokumenthash ausdrücklich der gesicherten Vorfassung zuordnen; keinen
+  aktuellen Gesamt-Fingerprint behaupten.
+- Parallel gepflegte Status-/Auftragsdateien nicht in die statische Quellenbindung
+  aufnehmen; Variante und gewählten Kursumfang zur Laufzeit semantisch prüfen.
+- Einen optional dokumentierten Lesestand klar von unveränderlichen
+  Fach-/Ergebnisartefakten trennen, damit legitime Kontextänderungen keinen
+  fachlich unveränderten Test blockieren.
+- Alte Nachweise unverändert historisch erhalten; nur explizit autorisierte Pfade
+  mit vollständigen Alt-/Neuhashes neu binden, alle übrigen Hashprüfungen strikt
+  lassen. Den historischen Gesamt-PASS nicht auf neue Quellenbytes übertragen.
+
+Reihenfolge:
+
 1. Manifest, Übergabe, Abschlussvalidator, vorhandene Regressionstests und alte
    P0-Evidenz gemeinsam lesen. Die vollständige Eingabeliste des Altnachweises
    prüfen: Ein korrigierter Lösungsschlüssel oder Rahmen kann dort zusätzlich

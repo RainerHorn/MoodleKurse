@@ -8,13 +8,14 @@
   - <name><text>: Fragentitel ändern
   - <questiontext>: Text mit Lücken [[1]] [[2]] [[3]] etc.
   - <dragbox>: Begriffe zum Einsetzen
-  - <group>: Nummer muss zur Lückennummer passen
-  
+  - <group>: bestimmt, welche Begriffe in welche Lücke passen (und die Farbe)
+
   WICHTIG:
   - Lücken im Text mit [[1]], [[2]], [[3]] usw. markieren
-  - Pro Lücke mindestens eine richtige Antwort in <dragbox> mit matching <group>
-  - Distractors haben dieselbe <group> aber sind falsch
-  - Mehrere dragboxes mit gleicher group = Auswahlmöglichkeiten für diese Lücke
+  - [[n]] verweist auf die n-te <dragbox> im gesamten XML, nicht auf die Gruppe:
+    zuerst die richtigen Begriffe in der Reihenfolge der Lücken, danach alle Distractors
+  - Distractors haben dieselbe <group> wie die Lücke, für die sie angeboten werden
+  - Details: references/authoring-details.md, Abschnitt ddwtos
 -->
 
   <question type="ddwtos">
@@ -45,19 +46,17 @@
     </incorrectfeedback>
     <shownumcorrect/>
     
-    <!-- BEGRIFFE FÜR LÜCKE 1 [[1]] -->
+    <!-- RICHTIGE BEGRIFFE ZUERST: Position im XML = Lückennummer -->
     <dragbox><text>[Richtiger Begriff für Lücke 1]</text><group>1</group></dragbox>
-    <dragbox><text>[Falscher Begriff als Distractor]</text><group>1</group></dragbox>
-    
-    <!-- BEGRIFFE FÜR LÜCKE 2 [[2]] -->
     <dragbox><text>[Richtiger Begriff für Lücke 2]</text><group>2</group></dragbox>
-    <dragbox><text>[Falscher Begriff als Distractor]</text><group>2</group></dragbox>
-    
-    <!-- BEGRIFFE FÜR LÜCKE 3 [[3]] -->
     <dragbox><text>[Richtiger Begriff für Lücke 3]</text><group>3</group></dragbox>
-    <dragbox><text>[Falscher Begriff als Distractor]</text><group>3</group></dragbox>
-    
-    <!-- Bei Bedarf weitere Lücken [[4]], [[5]] usw. mit entsprechenden dragboxes -->
+
+    <!-- DISTRACTORS DANACH: group = Lücke, für die sie angeboten werden -->
+    <dragbox><text>[Falscher Begriff als Distractor für Lücke 1]</text><group>1</group></dragbox>
+    <dragbox><text>[Falscher Begriff als Distractor für Lücke 2]</text><group>2</group></dragbox>
+    <dragbox><text>[Falscher Begriff als Distractor für Lücke 3]</text><group>3</group></dragbox>
+
+    <!-- Weitere Lücken [[4]], [[5]]: richtigen Begriff vor den Distractors einfügen -->
     <tags><tag><text>[BILDUNGSGANG]</text></tag><tag><text>[LERNFELD]</text></tag><tag><text>[THEMA]</text></tag></tags>
   </question>
 

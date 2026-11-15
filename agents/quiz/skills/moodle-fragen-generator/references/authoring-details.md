@@ -2,34 +2,19 @@
 
 Diese Datei ist eine vertiefende Referenz. Die übergeordnete `../SKILL.md`, `agents/quiz/SOUL.md` und das Projekt-`AGENTS.md` haben Vorrang. Aussagen wie „Pflicht“ gelten nur, soweit sie diesen Quellen und der bestätigten Moodle-/Plugin-Konfiguration nicht widersprechen.
 
-## Vorgehen (Standard-Workflow)
-Nur bei einem passenden Spezialfall lesen. Auftrag, aktueller Status und vorhandene Prüfnachweise
-haben Vorrang vor den nachstehenden Beispielen. Keine zusätzliche Vollprüfung starten.
-1. Kläre kurz die Parameter (falls nicht gegeben): Thema, Zielklasse/-stufe, Schwierigkeitsgrad (leicht/mittel/schwer), Anzahl Fragen, gewünschte Fragetypen.
-2. Nutze als Strukturvorlage die Dateien im Ordner `templates` und beachte `templates/README.md`.
-3. Erzeuge valide Moodle-XML in der Form:
-   - `<?xml version="1.0" encoding="UTF-8"?>`
-   - `<quiz>` als Root
-   - pro Frage genau ein `<question type="..."> ... </question>`
-   - Fragentitel-Tag: die 4 Buchstaben **n, a, m, e** (NICHT abgekürzt!) – siehe Pflichtregeln unten
-4. Wenn ein Diagramm hilft: **SVG inline** im Fragetext (siehe SVG-Regeln unten).
-5. Vor dem Abschluss: XML-Validierung durchführen (siehe Validierung).
+Nur den Abschnitt zum passenden Spezialfall lesen. Ablauf und Kernregeln stehen in
+`../SKILL.md`, XML-Struktur in `moodle-xml-structure.md`, Vorlagen und Fehlersuche in
+`../templates/README.md`, die optionale Vorschau in `html-preview.md`. Auftrag, aktueller
+Status und vorhandene Prüfnachweise haben Vorrang vor den Beispielen hier.
 
 ## Moodle-XML Pflichtregeln
 
-### Fragentitel-Tag (KRITISCH – häufige Fehlerquelle)
-- Der XML-Tag für den Fragentitel heißt wörtlich **n-a-m-e** (4 Buchstaben), NICHT das Einzelzeichen "n".
-- Korrekte Schreibweise im XML (Buchstabe für Buchstabe: Kleiner-als, n, a, m, e, Größer-als):
-  ```xml
-  <question type="multichoice">
-    <!-- Tag-Name besteht aus den 4 Buchstaben: n, a, m, e -->
-    <name>
-      <text>Mein Fragetitel</text>
-    </name>
-  ```
-- XML-Tagnamen wörtlich schreiben; Zeichenreferenzen innerhalb eines Tagnamens sind unzulässig. Bei Strukturfragen `moodle-xml-structure.md` verwenden.
-- **Verifikation:** Nach dem Erzeugen der XML-Datei muss geprüft werden, dass der Tag 4 Buchstaben hat (Hex: `3c6e616d653e`). Ein Tag mit nur 1 Buchstabe (`3c6e3e`) ist FALSCH und führt dazu, dass Moodle keinen Fragentitel anzeigt.
-- Der Tagname ist `name`; der Titeltext darf UTF-8 einschließlich Umlauten enthalten. XML-Sonderzeichen im Text korrekt escapen.
+### Fragentitel-Tag (kritisch, häufige Fehlerquelle)
+- Der Tag für den Fragentitel heißt wörtlich `name` (vier Buchstaben), nicht `n`:
+  `<name><text>Mein Fragetitel</text></name>`. Mit einem falschen Tag zeigt Moodle keinen Titel an.
+- Tagnamen wörtlich schreiben; Zeichenreferenzen innerhalb eines Tagnamens sind unzulässig.
+- Der Titeltext darf UTF-8 einschließlich Umlauten enthalten; XML-Sonderzeichen im Text escapen.
+- Nach jeder XML-Erzeugung mit dem Skript im Abschnitt „Validierung“ prüfen.
 
 ### CDATA (kritisch)
 - **Jedes** `<text>`-Element, das HTML enthält, **muss** in CDATA stehen:
@@ -37,11 +22,17 @@ haben Vorrang vor den nachstehenden Beispielen. Keine zusätzliche Vollprüfung 
   - `<answer><text>` / `<feedback><text>` / `<generalfeedback><text>`: sobald HTML-Tags wie `<p>`, `<code>`, `<strong>` etc. enthalten sind
 - Vermeide Importfehler („String erwartet“), indem du konsequent so schreibst:
   - `<text><![CDATA[ ... HTML ... ]]></text>`
+- Nicht nötig bei reinem Text, Zahlenwerten und Base64-Dateien.
+- Benannte HTML-Entities (`&auml;`, `&nbsp;`, `&ndash;`) sind außerhalb von CDATA ein
+  XML-Fehler („undefined entity“). Stattdessen UTF-8 direkt, CDATA oder numerische Entities (`&#228;`).
+- CDATA lässt sich nicht verschachteln. Kommt `]]>` im Text vor, den Block teilen:
+  `<![CDATA[Code: ]]]]><![CDATA[>]]>`.
+- `--` ist in XML-Kommentaren unzulässig („not well-formed“); Zierlinien mit `==` schreiben.
 
 ### Deutsche Umlaute und Sonderzeichen (Pflicht)
 - **Immer korrekte deutsche Umlaute verwenden:** ä, ö, ü, Ä, Ö, Ü, ß — niemals Ersatzschreibungen wie ae, oe, ue, ss.
 - Innerhalb von CDATA-Blöcken sind alle Unicode-Zeichen sicher. Das XML-Encoding `UTF-8` in der Deklaration stellt die korrekte Verarbeitung sicher.
-- Gilt für Fragetexte, Antwortoptionen, Feedbacks, Titel und die HTML-Vorschau gleichermaßen.
+- Gilt für Fragetexte, Antwortoptionen, Feedbacks und Titel gleichermaßen.
 
 ### Fragetyp-spezifische Regeln
 #### `ddmatch` (Zuordnung)
@@ -78,13 +69,18 @@ haben Vorrang vor den nachstehenden Beispielen. Keine zusätzliche Vollprüfung 
 - **Lücken werden nur im Plaintext erkannt.** `[[n]]`-Syntax funktioniert in `format="html"` innerhalb von `<pre>`-Blöcken – aber niemals innerhalb von HTML-Attributen oder verschachtelten Tags.
 - **`questiontext format="html"`** ist korrekt und ausreichend; `[[n]]` wird auch in HTML-CDATA erkannt.
 
+#### `gapselect` (Lückentext mit Dropdown)
+- Gleiche Nummerierung wie `ddwtos`: `[[n]]` verweist auf die **n-te `<selectoption>` im
+  gesamten XML**. Zuerst die richtigen Optionen in der Reihenfolge der Lücken, danach die
+  Distractors; `<group>` bestimmt nur, welche Optionen im Dropdown einer Lücke erscheinen.
+
 #### `multichoice`
 - Für Mehrfachauswahl: `<single>false</single>`.
 - Punkte: richtige Antworten sollen zusammen **≈ 100%** ergeben (z. B. 2×50 oder 3×33.33333).
 - Falsche Antworten können negative fractions haben (z. B. `-25`, `-50`).
 - Antworttexte dürfen **nicht** mit `+`, `-`, `~` beginnen (Moodle-Sonderzeichen).
 - **Antworttextlänge neutralisieren:** Die richtige Antwort darf **nicht erkennbar die längste** sein. Alle Distraktoren müssen eine ähnliche Länge und Detailtiefe haben wie die korrekte Antwort – sonst ist die Lösung durch reines Abzählen der Zeichen erratbar.
-- **Mischung beachten (kritisch):** Moodle mischt die Antwortoptionen bei `<shuffleanswers>true</shuffleanswers>` zufällig. Daher dürfen Antworten **keine positionsabhängigen Formulierungen** enthalten (z. B. nicht „Alle oben genannten", „Antwort A und C sind richtig", „Die erste Aussage …"). Jede Antwortoption muss **eigenständig verständlich** sein, unabhängig davon, an welcher Stelle sie im Quiz angezeigt wird. Auch in der HTML-Vorschau dürfen richtige und falsche Antworten **nicht** in fester Reihenfolge (z. B. erst alle richtigen, dann alle falschen) angezeigt werden – stattdessen in gemischter Reihenfolge darstellen.
+- **Mischung beachten (kritisch):** Moodle mischt die Antwortoptionen bei `<shuffleanswers>true</shuffleanswers>` zufällig. Daher dürfen Antworten **keine positionsabhängigen Formulierungen** enthalten (z. B. nicht „Alle oben genannten", „Antwort A und C sind richtig", „Die erste Aussage …"). Jede Antwortoption muss **eigenständig verständlich** sein, unabhängig davon, an welcher Stelle sie im Quiz angezeigt wird.
 
 #### `cloze`
 - Eingebettete Syntax im Fragetext, z. B.:
@@ -157,11 +153,23 @@ Die folgende Liste ist keine Verfügbarkeitszusage und keine abschließende Whit
   - `xmlns="http://www.w3.org/2000/svg"`
   - fixer `width`/`height` **und** `viewBox="0 0 <width> <height>"`
   - Style: `font-family:Arial,sans-serif;font-size:13px;display:block;margin:10px auto;`
-- **Responsive Skalierung (Pflicht):** In der HTML-Vorschau müssen alle SVGs skalierbar sein. Dazu im CSS: `svg { max-width: 100%; height: auto; }`. Das `viewBox`-Attribut ist zwingend erforderlich, damit die SVG bei kleinen Viewports proportional skaliert statt abgeschnitten zu werden.
+- Das `viewBox`-Attribut ist zwingend erforderlich, damit die SVG bei kleinen Viewports proportional skaliert statt abgeschnitten zu werden.
 
 ### Marker/Pfeile
 - Definiere Marker in `<defs>` und verwende sie per `marker-end="url(#id)"`.
 - Für gestrichelte Beziehungen: `stroke-dasharray="6,3"`.
+- Bewährte Marker (in `<defs>` am Anfang des SVG):
+  ```xml
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L0,6 L9,3 z" fill="#333"/>
+  </marker>
+  <!-- Vererbung: hohles Dreieck; Linie startet bei der Kindklasse, marker-end zeigt zur Elternklasse -->
+  <marker id="inherit" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L0,12 L12,6 z" fill="#fff" stroke="#333" stroke-width="2"/>
+  </marker>
+  ```
+- Rotiert ein Pfeil falsch, `refX`/`refY` prüfen; für vertikale Pfeile hat sich
+  `refX="7" refY="3"` mit `points="0 0,8 3,0 6"` bewährt.
 
 ### Netzwerktopologien – Cisco-Symbole (Pflicht)
 - Bei **jeder** Netzwerktopologie-Darstellung (VLANs, Routing, Switching, IP-Netze, etc.) **müssen** die Symbole aus `assets/symbols/cisco/` verwendet werden.
@@ -171,6 +179,10 @@ Die folgende Liste ist keine Verfügbarkeitszusage und keine abschließende Whit
   | `assets/symbols/cisco/router.svg` | Cisco Router (3D-Zylinder, blau) | `0 0 60 41` | `width="84" height="57"` |
   | `assets/symbols/cisco/switch.svg` | Cisco L2-Switch (3D-Gehäuse, blau) | `0 0 77 39` | `width="66" height="34"` |
   | `assets/symbols/cisco/pc.svg` | Cisco PC/Workstation (3D-Arbeitsplatz, blau) | `0 0 59 53` | `width="78" height="70"` |
+
+- Weitere Symbole im selben Ordner (Rendergröße proportional zur viewBox wählen):
+  `laptop.svg` (`0 0 68 47`), `layer-3-switch.svg` (`0 0 49 49`), `printer.svg` (`0 0 69 27`),
+  `server.svg` (`0 0 33 48`), `wireless-router.svg` (`0 0 60 59.287`).
 
 - **Einbettung: ausschließlich via Base64-`<image>`-Tag** (Pflicht, keine andere Methode):
   1. SVG-Datei binär lesen und als Base64 kodieren (Python: `base64.b64encode(data).decode()`)
@@ -220,7 +232,7 @@ Die folgende Liste ist keine Verfügbarkeitszusage und keine abschließende Whit
   | Switch (66×34) | x + 33 | y + 17 |
   | Router (84×57) | x + 42 | y + 28 |
 
-- **Keine selbst gezeichneten** Router/Switch/PC-Primitive (Kreise, Rechtecke, etc.) – ausschließlich die Cisco-Symbole via Base64-`<image>`.
+- **Keine selbst gezeichneten** Primitive (Kreise, Rechtecke, etc.) für Geräte, für die ein Symbol vorliegt – ausschließlich die Cisco-Symbole via Base64-`<image>`.
 - Trunk-Links und einfache Verbindungslinien werden als SVG-`<line>`-Elemente gezeichnet (kein Symbol notwendig).
 - Labels (Gerätename, IP-Adresse) werden als `<text>`-Elemente **unterhalb** des Symbols platziert, vertikal versetzt: Name bei `symbol_y + symbol_height + 12`, IP bei `symbol_y + symbol_height + 24`.
 
@@ -239,6 +251,9 @@ Die folgende Liste ist keine Verfügbarkeitszusage und keine abschließende Whit
   - Entscheidung hat ≥2 ausgehende Kanten mit Bedingungen `[Ja]`/`[Nein]` (oder sinngemäß).
 
 ## Qualitätsanforderungen
+
+- Keine „unsichtbaren“ Beziehungen: wenn eine Beziehung im Diagramm existiert, muss sie in Text/Antworten nachvollziehbar sein.
+- Keine unnötigen Features: Erzeuge genau die angeforderten Fragen und Fragetypen.
 
 ### Numerische Grenzwerte und konservative Rundung
 
@@ -298,10 +313,9 @@ Mehrfachwahl nach Anzahl richtiger Optionen zu gewichten.
   nicht automatisch aus der Zahl technischer Testfälle ableiten.
 - **Parität:** XML-Fragegewichte, späterer Slotplan, Blueprint, Schlüssel und
   sichtbare Papier-/Vorschaupunkte müssen dieselbe Gesamtsumme ergeben.
+- **Wiederholungsabzug:** `<penalty>` (z. B. `0.3333333`) nur setzen, wenn das
+  Bewertungsschema mehrere Versuche mit Abzug vorsieht.
 
-- Inhaltliche Konsistenz: Diagramm ↔ Frage ↔ Lösungen/Feedback müssen zusammenpassen.
-- Keine „unsichtbaren“ Beziehungen: wenn eine Beziehung im Diagramm existiert, muss sie in Text/Antworten nachvollziehbar sein.
-- Keine unnötigen Features: Erzeuge genau die angeforderten Fragen und Fragetypen.
 ### Lösungsneutralität in SVG-Grafiken (kritisch)
 **Die Grafik darf niemals die Lösung vorwegnehmen oder visuell verraten.** Konkret:
 - **Keine farbliche Hervorhebung** von Elementen, die die gesuchte Antwort darstellen (z. B. eine gesuchte Zwischentabelle nicht orange/gelb einfärben, wenn „Zwischentabelle" die korrekte Antwort ist).
@@ -320,186 +334,22 @@ Mehrfachwahl nach Anzahl richtiger Optionen zu gewichten.
 - **Callout-Nummern (①②…)** dürfen keine anderen Elemente überdecken – Platz vor dem Element reservieren.
 
 ## Validierung (vor dem finalen Ergebnis)
-Führe eine schnelle XML-Validierung aus (Beispiel in PowerShell):
 
-```powershell
-python -c "import xml.etree.ElementTree as ET; ET.parse(r'res\\DATEI.xml'); print('XML valid')"
-```
-
-Wenn möglich: zusätzlich nach `<text>` ohne CDATA suchen, sobald HTML vorkommt.
-
-### Fragentitel-Tag-Validierung (PFLICHT)
-Nach jeder XML-Erzeugung MUSS geprüft werden, dass der Fragentitel-Tag korrekt ist (4 Buchstaben: n,a,m,e). Verwende dazu dieses Skript:
+Wohlgeformtheit und Fragentitel-Tag nach jeder XML-Erzeugung prüfen (Pfad der eigenen Datei einsetzen):
 
 ```python
 import xml.etree.ElementTree as ET
-tree = ET.parse('DATEI.xml')
+tree = ET.parse('DATEI.xml')  # bricht bei nicht wohlgeformter XML ab
 for q in tree.getroot().findall('question'):
     if q.get('type') == 'category':
         continue
-    n = q.find('name')  # sucht Tag mit 4 Buchstaben n-a-m-e
+    n = q.find('name')  # sucht den Tag mit den vier Buchstaben n-a-m-e
     if n is not None and n.find('text') is not None:
-        print(f"OK: tag='{n.tag}', titel='{n.find('text').text}'")
+        print(f"OK: titel='{n.find('text').text}'")
     else:
-        print(f"FEHLER: Frage hat keinen korrekten Fragentitel-Tag!")
+        print("FEHLER: Frage hat keinen korrekten Fragentitel-Tag!")
 ```
 
-Wenn die Ausgabe `tag='name'` (4 Buchstaben) zeigt, ist der Tag korrekt. Wenn `tag='n'` (1 Buchstabe) erscheint, muss die XML korrigiert werden – Moodle zeigt sonst keinen Fragentitel an.
-
-## Standard-Ausgabeformat im Chat
-
-XML und Prüfnachweis intern übergeben. HTML-Vorschau nur nach den Kriterien des
-Hauptskills erzeugen; keine zusätzliche Vorschaupflicht. Lösungsreiche Dateien
-nicht als Lernenden-Download anbieten.
-
----
-
-## HTML-Vorschau – optionale Gestaltungsvorlage
-
-Nur bei tatsächlich benötigter Vorschau diesen Abschnitt lesen. Die folgenden
-Gestaltungsangaben sind eine Vorlage, keine zusätzlichen Abnahmekriterien.
-Bestehende Projekt-Templates und konkrete Benutzerwünsche haben Vorrang.
-
-### Technische Rahmenbedingungen
-- Einzelne `.html`-Datei, kein externes CSS/JS
-- Lokale Systemschriften oder vorhandene Projektfonts; keine neuen externen Font-Abhängigkeiten.
-- Hintergrund der Seite: `#e9eaec`
-
-### CSS-Variablen (verbindlich)
-```css
---moodle-orange: #f98012;
---moodle-orange-dark: #d4600a;
---moodle-blue: #0f6cbf;
---moodle-blue-light: #e8f4fd;
---moodle-green: #1d7a1d;
---moodle-green-light: #d4edda;
---moodle-red: #ca3120;
---moodle-red-light: #fde8e6;
---moodle-gray: #6a737b;
---moodle-gray-light: #f3f3f3;
---moodle-border: #dee2e6;
---moodle-text: #1d2125;
---moodle-white: #ffffff;
---radius: 4px;
---shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.08);
-```
-
-### Fragetyp-Badge-Farben (verbindlich)
-| Typ | Klasse | Hintergrund | Textfarbe | Rahmen |
-|-----|--------|-------------|-----------|--------|
-| multichoice | `.type-mc` | `#e8f4fd` | `#0f6cbf` | `#0f6cbf` |
-| ddwtos | `.type-dnd` | `#f0fdf4` | `#166534` | `#166534` |
-| ddmatch | `.type-match` | `#fefce8` | `#854d0e` | `#ca8a04` |
-| cloze | `.type-cloze` | `#fdf4ff` | `#6b21a8` | `#9333ea` |
-
-### Seitenstruktur (verbindlich)
-1. **`<header class="site-header">`** – orangefarbene Kopfleiste (Höhe 52px, `background: var(--moodle-orange)`)
-   - Links: Logo „moodle Vorschau" (weiß, bold)
-   - Rechts: Breadcrumb-Text mit Kurs/Thema (klein, halbtransparent weiß)
-
-2. **`<div class="quiz-header">`** – weißer Metabereich unter Header
-   - Emoji-Icon-Box (48×48px, orange), Quiz-Titel (h1), Untertitel (Klasse · Niveau · Anzahl)
-   - Rechts: Badges für Zeitangabe und Gesamtpunkte
-   - **Zeitangabe:** Den freigegebenen Testslot aus Auftrag/Didaktik anzeigen.
-     Aufgabenrichtzeiten einschließlich Orientierung und Endkontrolle dagegen
-     prüfen; keine pauschale Zwei-Minuten-pro-Frage-Berechnung verwenden.
-
-3. **`<div class="main-wrap">`** – 2-Spalten-Grid (`1fr 220px`), max-width 900px, zentriert
-   - **Linke Spalte**: `.questions` – alle Fragekarten gestapelt
-   - **Rechte Spalte**: `.sidebar` – sticky, weiße Karte
-
-4. **Sidebar** (sticky, `top: 20px`):
-   - Überschrift „Fragennavigation" (uppercase, grau)
-   - `.q-nav`-Grid (5 Felder pro Zeile, 34×34px Quadrate)
-     - Standard: `background: var(--moodle-gray-light)`, `border: 1px solid var(--moodle-border)`
-     - Aktiv/beantwortet: `background: var(--moodle-orange)`, weiß, orange Rahmen
-     - Hover: `background: var(--moodle-blue-light)`, blau
-   - Kursinfos (Kurs, Klasse, Fragen, Punkte) in kleiner Schrift
-   - Fortschrittsbalken mit Label „Fortschritt: X/N"
-
-5. **Fragekarten** `.question-card`:
-   - `background: white`, `border: 1px solid var(--moodle-border)`, `border-radius: 4px`, `box-shadow: var(--shadow)`
-   - **Card-Header** (`.question-header`): grauer Hintergrund (`var(--moodle-gray-light)`), Trennlinie unten
-     - Orangefarbene Nummerierung (`.q-num`), Titel, Fragetyp-Badge, Punktzahl rechts
-   - **Card-Body** (`.question-body`): `padding: 20px 22px`
-   - **Card-Footer** (`.question-footer`): grauer Hintergrund, klein, Status links / Typ rechts
-
-6. **Lehrkraft-Werkzeuge (Pflicht, Sidebar-Karte):** Die HTML-Vorschau richtet sich an Lehrkräfte. In der Sidebar muss eine Karte „Lehrkraft-Werkzeuge" mit folgenden Buttons vorhanden sein:
-   - **„Lösung anzeigen / Lösung verbergen"** – Toggle-Schalter. Bei Aktivierung werden alle korrekten Antworten visuell hervorgehoben (grüner Rahmen/Hintergrund), bei Deaktivierung wird der Ausgangszustand wiederhergestellt.
-   - **„Neu beginnen"** – Setzt das gesamte Quiz in den Ausgangszustand zurück: alle Auswahlen, Feedback-Boxen, DnD-Zuordnungen, Fortschrittsanzeige und Navigations-Markierungen werden gelöscht. Ermöglicht der Lehrkraft, die Vorschau erneut durchzuspielen.
-   - **Keine Submit-/Abschließen-Leiste** – die Vorschau ist kein echtes Quiz.
-
-### Interaktivität (verbindlich, via inline JavaScript)
-
-#### Multiple Choice (`multichoice`)
-- **Indikator-Typ:** Bei `<single>true</single>` (Einfachauswahl) → **Kreis** (Radio-Button-Optik, `border-radius:50%`). Bei `<single>false</single>` (Mehrfachauswahl) → **Quadrat** (Checkbox-Optik, `border-radius:3px`). Der Indikator muss den tatsächlichen Fragetyp widerspiegeln.
-- Antwortoptionen als `.answer-option` mit linkem Indikator (`.answer-indicator`)
-- **Einfachauswahl (`single=true`):** Klick → sofortige visuelle Auswertung (kein separater Check-Button):
-  - Richtig: `.correct` → `background: var(--moodle-green-light)`, grüner Rahmen, ✓ im Indikator
-  - Falsch: `.incorrect` → `background: var(--moodle-red-light)`, roter Rahmen, ✗ im Indikator
-  - Alle anderen Optionen werden deaktiviert (`onclick = null`)
-- **Mehrfachauswahl (`single=false`) — KRITISCH:**
-  - Klick auf eine Option **togglet** nur den Auswahlstatus (`.selected`-Klasse + Häkchen im Indikator). Es findet **keine sofortige Auswertung** statt!
-  - Unter den Optionen erscheint ein Button **„Antwort prüfen"**, der erst nach Klick die Auswertung durchführt.
-  - Bei Auswertung: alle ausgewählten richtigen Optionen → `.correct`, alle ausgewählten falschen → `.incorrect`, nicht ausgewählte richtige → grüner Rahmen als Hinweis.
-  - **Niemals** bei Klick auf eine einzelne Option automatisch alle anderen korrekten Antworten aufdecken!
-- Feedback-Box (`.feedback-box`) erscheint animiert darunter (`.show`)
-- Status-Feld im Footer wechselt zu „Beantwortet" (grün)
-
-#### Drag & Drop in Text (`ddwtos`) – Click-basiert
-- Begriffe aus Pool (`.drag-chip`) per Klick auswählen (blauer Outline-Rahmen)
-- Lücken (`.drop-slot`) per Klick befüllen
-- Button „Antwort prüfen" → Lücken färben sich grün (`.correct-slot`) oder rot (`.wrong-slot`)
-- Verwendete Chips erhalten `.used` (ausgegraut, nicht klickbar)
-- Bereits belegte Lücken können durch erneute Auswahl überschrieben werden (alter Chip wird freigegeben)
-
-#### Zuordnung (`ddmatch`)
-- `<select>`-Dropdowns in Tabelle (`.match-table`)
-- Bei jeder Änderung sofortige Prüfung: `.correct-select` (grün) oder `.wrong-select` (rot)
-- Wenn alle Felder ausgefüllt: Gesamt-Feedback-Box erscheint
-
-#### Lückentext/Cloze (`cloze`)
-- `<select>`-Elemente inline im `<pre>`-Block (`.cloze-select`)
-- Bei jeder Änderung sofortige Prüfung: `.correct-cloze` oder `.wrong-cloze`
-- Wenn alle Felder ausgefüllt: Gesamt-Feedback-Box erscheint
-
-#### Gemeinsame Feedback-Box
-```
-.feedback-box.correct  → background: var(--moodle-green-light), border-left: 4px solid var(--moodle-green)
-.feedback-box.incorrect → background: var(--moodle-red-light),  border-left: 4px solid var(--moodle-red)
-.feedback-box.info      → background: var(--moodle-blue-light),  border-left: 4px solid var(--moodle-blue)
-```
-Einblendung via `animation: fadeIn .2s ease` (translateY -4px → 0).
-
-#### Fortschritt & Navigation
-- `markAnswered(n)`: setzt Nav-Quadrat auf orange, inkrementiert Zähler, aktualisiert Fortschrittsbalken
-- Submit-Button prüft ob alle Fragen beantwortet, sonst Alert mit Hinweis
-
-### Code-/Pre-Darstellung
-```css
-pre {
-  font-family: 'Source Code Pro', monospace;
-  font-size: 13px;
-  background: #1e1e2e;   /* dunkles Terminal-Dunkelblau */
-  color: #cdd6f4;
-  border-radius: 4px;
-  padding: 16px 18px;
-  overflow-x: auto;
-  line-height: 1.7;
-}
-code {
-  font-family: 'Source Code Pro', monospace;
-  font-size: 13px;
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  border-radius: 3px;
-  padding: 1px 5px;
-}
-```
-
-### Responsive
-- Unterhalb 700px: einspaltig (Sidebar unter Fragen, `position: static`)
-- Quiz-Badge-Leiste im Header wird ausgeblendet
-
----
-
+Zusätzlich nach `<text>`-Elementen mit HTML ohne CDATA suchen. Meldet Moodle
+„n Fragen erkannt, 0 importiert“, enthält mindestens eine Frage einen Fehler:
+Fragen einzeln prüfen. Weitere Fehlerbilder: `../templates/README.md`.

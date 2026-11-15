@@ -8,17 +8,17 @@
   - <name><text>: Fragentitel ändern
   - <questiontext>: Text mit Lücken [[1]] [[2]] [[3]] etc.
   - <selectoption>: Auswahloptionen für die Dropdowns
-  - <group>: Nummer muss zur Lückennummer passen
-  
+  - <group>: bestimmt, welche Optionen im Dropdown einer Lücke erscheinen
+
   UNTERSCHIED zu ddwtos:
   - gapselect = Dropdown-Menü in der Lücke
   - ddwtos = Drag-and-Drop Begriffe
   
   WICHTIG:
   - Lücken im Text mit [[1]], [[2]], [[3]] usw. markieren
-  - Pro Lücke mehrere selectoptions mit gleicher <group>
-  - Eine davon ist richtig (steht in <answer>)
-  - Distractors haben dieselbe <group> aber andere Texte
+  - [[n]] verweist auf die n-te <selectoption> im gesamten XML, nicht auf die Gruppe:
+    zuerst die richtigen Optionen in der Reihenfolge der Lücken, danach alle Distractors
+  - Distractors haben dieselbe <group> wie die Lücke, in deren Dropdown sie erscheinen
 -->
 
   <question type="gapselect">
@@ -49,50 +49,48 @@
     </incorrectfeedback>
     <shownumcorrect/>
     
-    <!-- AUSWAHLOPTIONEN FÜR LÜCKE 1 [[1]] -->
+    <!-- RICHTIGE OPTIONEN ZUERST: Position im XML = Lückennummer -->
     <selectoption>
       <text>[Richtige Option für Lücke 1]</text>
       <group>1</group>
     </selectoption>
     <selectoption>
-      <text>[Falsche Option als Distractor]</text>
-      <group>1</group>
-    </selectoption>
-    <selectoption>
-      <text>[Weitere falsche Option]</text>
-      <group>1</group>
-    </selectoption>
-    
-    <!-- AUSWAHLOPTIONEN FÜR LÜCKE 2 [[2]] -->
-    <selectoption>
       <text>[Richtige Option für Lücke 2]</text>
       <group>2</group>
     </selectoption>
     <selectoption>
-      <text>[Falsche Option als Distractor]</text>
-      <group>2</group>
-    </selectoption>
-    <selectoption>
-      <text>[Weitere falsche Option]</text>
-      <group>2</group>
-    </selectoption>
-    
-    <!-- AUSWAHLOPTIONEN FÜR LÜCKE 3 [[3]] -->
-    <selectoption>
       <text>[Richtige Option für Lücke 3]</text>
       <group>3</group>
     </selectoption>
+
+    <!-- DISTRACTORS DANACH: group = Lücke, in deren Dropdown sie erscheinen -->
     <selectoption>
-      <text>[Falsche Option als Distractor]</text>
+      <text>[Falsche Option für Lücke 1]</text>
+      <group>1</group>
+    </selectoption>
+    <selectoption>
+      <text>[Weitere falsche Option für Lücke 1]</text>
+      <group>1</group>
+    </selectoption>
+    <selectoption>
+      <text>[Falsche Option für Lücke 2]</text>
+      <group>2</group>
+    </selectoption>
+    <selectoption>
+      <text>[Weitere falsche Option für Lücke 2]</text>
+      <group>2</group>
+    </selectoption>
+    <selectoption>
+      <text>[Falsche Option für Lücke 3]</text>
       <group>3</group>
     </selectoption>
     <selectoption>
-      <text>[Weitere falsche Option]</text>
+      <text>[Weitere falsche Option für Lücke 3]</text>
       <group>3</group>
     </selectoption>
-    
-    <!-- RICHTIGE ANTWORTEN -->
-    <!-- Die erste selectoption jeder Gruppe ist automatisch richtig -->
+
+    <!-- Die folgenden <answer>-Elemente stammen aus der Ursprungsvorlage; die
+         richtige Antwort ergibt sich allein aus der Position der selectoption. -->
     <answer>
       <questiontext>[Richtige Option für Lücke 1]</questiontext>
       <answer>1</answer>

@@ -1,945 +1,245 @@
-# Moodle Quiz XML Templates
+# Moodle-Quiz-XML-Vorlagen
 
-Nur Katalog und benötigten Fragetyp lesen. Rangfolge: Projekt-AGENTS.md →
-Quiz-Rolle → SKILL.md → diese Vorlagen. Alte Import-Workarounds nur bei
-bestätigter Notwendigkeit anwenden; keine allgemeine Vorschaupflicht.
+Nur den Katalog und den Abschnitt zum benötigten Fragetyp lesen. Rangfolge:
+Projekt-`AGENTS.md` → `agents/quiz/SOUL.md` → `../SKILL.md` → diese Vorlagen.
+Regeln, die für mehrere Fragetypen gelten (Fragentitel-Tag, CDATA, SVG, Bepunktung,
+Lösungsneutralität), stehen einmal in `../references/authoring-details.md` und werden
+hier nicht wiederholt. Alte Import-Workarounds nur bei bestätigter Notwendigkeit anwenden.
 
-## 📋 Übersicht
+## Katalog
 
-Dieser Ordner enthält **generische Moodle Quiz Templates** in XML-Format, die für alle Kurse und Themen verwendet werden können. Die Templates sind themenunabhängig gestaltet und enthalten Platzhalter sowie ausführliche Kommentare zur Anpassung.
-
-### ✨ Neu: SVG-basierte Templates
-
-Neben den klassischen Templates stehen jetzt auch **5 SVG-erweiterte Varianten** zur Verfügung:
-- ✅ Vollständig **fachunabhängig** (geometrische Formen, Farben, Prozessschritte)
-- ✅ Skalierbare Vektorgrafiken (keine Qualitätsverluste)
-- ✅ Direkt einsetzbar für visuelles Lernen
-- ✅ Detaillierte Kommentare zur Anpassung
-
-Siehe Abschnitt **"SVG-Diagramme in Fragen einbinden"** für technische Details.
-
-## 📁 Verfügbare Templates
-
-| Template | Fragetyp | Verwendung |
-|----------|----------|------------|
-| `template-ddmatch-zuordnung.xml` | ddmatch | Zuordnungsaufgaben (Links ↔ Rechts) |
-| `template-ddwtos-lueckentext.xml` | ddwtos | Lückentext mit Drag-and-Drop |
+| Vorlage | Fragetyp | Verwendung |
+|---|---|---|
+| `template-multichoice-mehrfachauswahl.xml` | multichoice | Eine oder mehrere richtige Antworten |
+| `template-multichoice-mit-svg.xml` | multichoice + SVG | Multiple Choice mit Workflow-Diagramm |
+| `template-ddmatch-zuordnung.xml` | ddmatch | Zuordnung (links ↔ rechts) |
+| `template-ddmatch-zuordnung-mit-svg.xml` | ddmatch + SVG | Zuordnung mit geometrischen Formen |
+| `template-ddwtos-lueckentext.xml` | ddwtos | Lückentext mit Drag-and-drop |
+| `template-ddwtos-lueckentext-mit-svg.xml` | ddwtos + SVG | Lückentext mit Prozessdiagramm |
 | `template-gapselect-lueckentextauswahl.xml` | gapselect | Lückentext mit Dropdown-Auswahl |
-| `template-multichoice-mehrfachauswahl.xml` | multichoice | Multiple-Choice (eine oder mehrere richtige Antworten) |
-| `template-numerical-numerisch.xml` | numerical | Numerische Antworten mit Toleranz |
-| `template-ddimageortext-drag-auf-bild.xml` | ddimageortext | Drag-and-Drop auf Bilder |
-| `template-cloze-eingebettete-antworten.xml` | cloze | Eingebettete Antworten (komplex) |
-| `template-ordering-anordnung.xml` | ordering | Elemente in richtige Reihenfolge bringen |
-| `template-cloze-mit-svg.xml` | cloze + SVG | Cloze mit SVG-Flussdiagramm (Formen und Prozessschritte) |
-| `template-ddimageortext-drag-auf-svg.xml` | ddimageortext + SVG | Drag-Drop auf SVG-Grafik (Farben zuordnen) |
-| `template-ddmatch-zuordnung-mit-svg.xml` | ddmatch + SVG | Zuordnung mit geometrischen Formen (Kreis, Quadrat, Dreieck) |
-| `template-ddwtos-lueckentext-mit-svg.xml` | ddwtos + SVG | Lückentext mit Prozess-Diagramm (Eingabe → Verarbeitung → Ausgabe) |
-| `template-multichoice-mit-svg.xml` | multichoice + SVG | Multiple-Choice mit Workflow-Diagramm (START → Schritte) |
+| `template-cloze-eingebettete-antworten.xml` | cloze | Eingebettete Antworten |
+| `template-cloze-mit-svg.xml` | cloze + SVG | Cloze mit Flussdiagramm |
+| `template-numerical-numerisch.xml` | numerical | Zahl mit Toleranz |
+| `template-ordering-anordnung.xml` | ordering | Elemente in die richtige Reihenfolge bringen |
+| `template-ddimageortext-drag-auf-bild.xml` | ddimageortext | Drag-and-drop auf ein Bild |
+| `template-ddimageortext-drag-auf-svg.xml` | ddimageortext + SVG | Drag-and-drop auf eine SVG-Grafik |
+| `template-coderunner-java.xml` | coderunner | Java-Aufgabe |
+| `template-coderunner-java-background-class.xml` | coderunner | Java mit vorgegebener Hintergrundklasse |
+| `template-coderunner-python-background-class.xml` | coderunner | Python mit vorgegebener Hintergrundklasse |
+| `template-stackaufgabe_algorithmik.xml` | stack | STACK-Aufgabe |
 
+`ddmatch`, `coderunner` und `stack` sind Plugin-Fragetypen. Was der MBZ-Baucontainer kennt,
+steht in `platform/mbz-capabilities.json`; ein dort fehlender Typ wird als Plugin-Bedarf
+gemeldet, nicht ersetzt. `ordering` gehört seit Moodle 4.4 zum Kern
+([Releasenotes](https://moodledev.io/general/releases/4.4)).
 
-> **ℹ️ Hinweis:** **ordering** gehört seit Moodle 4.4 zum Core; Verfügbarkeit auf der Zielinstanz bestätigen. [Moodle-4.4-Releasenotes](https://moodledev.io/general/releases/4.4)
+## Verwendung
 
-## 🚀 Schnellstart
+Vorlage in den Ausgabepfad des Auftrags kopieren (Standard `04-quiz/` im Kursordner), alle
+Platzhalter in eckigen Klammern ersetzen (`[TITEL DER AUFGABE]`, `[Begriff 1]` …) und die
+XML-Struktur samt CDATA-Blöcken unverändert lassen. Mehrere `<question>`-Blöcke dürfen in
+einer Datei stehen. Importiert wird nicht durch den Quiz-Agenten.
 
-### 1. Template auswählen
+## Hinweise je Fragetyp
 
-Wählen Sie das passende Template für Ihren Fragetyp aus:
+### ddmatch (Zuordnung)
 
-```bash
-# Beispiel: Zuordnungsaufgabe erstellen
-# Vom Skill-Verzeichnis aus; Ziel im beauftragten Kursordner wählen:
-Copy-Item templates/template-ddmatch-zuordnung.xml C:/PFAD/ZUM/KURS/quiz/meine-neue-frage.xml
-```
+Distractor ohne Zuordnung: Unterfrage mit leerem Text, die Antwort erscheint als Falschoption.
 
-### 2. Template anpassen
-
-Öffnen Sie die Datei in einem Texteditor und suchen Sie nach Platzhaltern in **eckigen Klammern**:
-
-- `[TITEL DER AUFGABE]`
-- `[HIER IHRE AUFGABENSTELLUNG EINFÜGEN]`
-- `[Begriff 1]`, `[Begriff 2]`, etc.
-
-**Wichtig:** Belassen Sie die XML-Struktur und CDATA-Blöcke unverändert!
-
-### 3. In Moodle importieren
-
-1. Moodle-Kurs öffnen
-2. Fragensammlung → Importieren
-3. Format: **Moodle XML**
-4. Datei hochladen
-5. Importieren
-
-## 📖 Detaillierte Anleitungen
-
-### Template: ddmatch (Zuordnung)
-
-**Verwendung:** Begriffe, Definitionen, Konzepte einander zuordnen
-
-**Anpassungen:**
 ```xml
-<name>
-  <text>Grundbegriffe der Veranstaltungstechnik</text>  <!-- Ihr Titel -->
-</name>
-<questiontext format="html">
-  <text><![CDATA[<p>Ordnen Sie die technischen Begriffe den Definitionen zu.</p>]]></text>
-</questiontext>
-
-<!-- Zuordnungspaare -->
 <subquestion format="html">
-  <text><![CDATA[<p>DMX512</p>]]></text>  <!-- Links: Begriff -->
+  <text><![CDATA[<p></p>]]></text>  <!-- leer -->
   <answer format="html">
-    <text><![CDATA[<p>Protokoll zur Lichtsteuerung</p>]]></text>  <!-- Rechts: Definition -->
+    <text><![CDATA[<p>MIDI-Controller</p>]]></text>
   </answer>
 </subquestion>
 ```
 
-**Distractor hinzufügen** (falsche Antwort ohne Zuordnung):
-```xml
-<subquestion format="html">
-  <text><![CDATA[<p></p>]]></text>  <!-- Leer! -->
-  <answer format="html">
-    <text><![CDATA[<p>MIDI-Controller</p>]]></text>  <!-- Erscheint als Falschoption -->
-  </answer>
-</subquestion>
-```
+### ddwtos (Lückentext mit Drag-and-drop)
 
----
-
-### Template: ddwtos (Lückentext)
-
-**Verwendung:** Begriffe in Textlücken einsetzen
-
-**Lücken definieren:**
-```xml
-<questiontext format="html">
-  <text><![CDATA[
-    <p>Ein Prozess besteht aus mehreren [[1]]. Das Endergebnis wird über die [[2]] ausgegeben.</p>
-  ]]></text>
-</questiontext>
-```
-
-**Begriffe zuordnen:**
-```xml
-<!-- Gruppe 1 = Lücke [[1]] -->
-<dragbox><text>Arbeitsschritten</text><group>1</group></dragbox>  <!-- Richtig -->
-<dragbox><text>Komponenten</text><group>1</group></dragbox>       <!-- Distractor -->
-
-<!-- Gruppe 2 = Lücke [[2]] -->
-<dragbox><text>Schnittstelle</text><group>2</group></dragbox>      <!-- Richtig -->
-<dragbox><text>Eingabeeinheit</text><group>2</group></dragbox>    <!-- Distractor -->
-```
-
----
-
-### Template: multichoice (Multiple-Choice)
-
-**Verwendung:** Eine oder mehrere richtige Antworten auswählen
-
-**Wichtig:** `fraction` muss sich bei mehreren richtigen Antworten zu **100%** addieren!
-
-**Beispiel: 2 richtige Antworten**
-```xml
-<single>false</single>  <!-- false = Mehrfachauswahl -->
-
-<answer fraction="50" format="html">  <!-- 50% weil 2 richtige -->
-  <text><![CDATA[<p>Kreise haben keine Ecken</p>]]></text>
-</answer>
-
-<answer fraction="50" format="html">  <!-- 50% weil 2 richtige -->
-  <text><![CDATA[<p>Quadrate haben vier gleich lange Seiten</p>]]></text>
-</answer>
-
-<answer fraction="-25" format="html">  <!-- Negativ = Abzug bei falscher Wahl -->
-  <text><![CDATA[<p>Dreiecke haben vier Ecken</p>]]></text>
-</answer>
-```
-
-**Beispiel: Nur 1 richtige Antwort**
-```xml
-<single>true</single>  <!-- true = Einzelauswahl -->
-
-<answer fraction="100" format="html">  <!-- 100% -->
-  <text><![CDATA[<p>Die richtige Antwort</p>]]></text>
-</answer>
-
-<answer fraction="0" format="html">  <!-- 0% -->
-  <text><![CDATA[<p>Falsche Antwort</p>]]></text>
-</answer>
-```
-
----
-
-### Template: ddimageortext (Drag-Drop auf Bild)
-
-**Verwendung:** Begriffe auf Bildbereiche ziehen (Beschriftung, Zuordnung)
-
-#### 1. Bild vorbereiten
-
-- **Format:** PNG, JPG oder SVG
-- **Auflösung:** 600-800px Breite (für Moodle optimal)
-- **SVG-Empfehlung:** Für Diagramme bevorzugt, da skalierbar
-
-#### 2. Bild in base64 konvertieren
-
-**PowerShell:**
-```powershell
-# PNG/JPG konvertieren
-$bytes = [System.IO.File]::ReadAllBytes("C:\pfad\zum\bild.png")
-$base64 = [Convert]::ToBase64String($bytes)
-$base64 | Out-File base64.txt
-
-# SVG konvertieren
-$svg = Get-Content diagram.svg -Raw
-$base64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($svg))
-$base64 | Out-File -Encoding ASCII base64.txt
-```
-
-**Linux/Mac:**
-```bash
-base64 bild.png > base64.txt
-```
-
-**Online:** [https://www.base64-image.de/](https://www.base64-image.de/)
-
-#### 3. Koordinaten ermitteln
-
-##### Bei nummerierte Kreisen im SVG (Radius = 11 px)
-
-Wenn Sie rote Nummernkreise im SVG verwenden:
+`[[n]]` verweist auf die n-te `<dragbox>` im gesamten XML, nicht auf die Gruppe. Zuerst die
+richtigen Begriffe in der Reihenfolge der Lücken, danach die Distractors; `<group>` legt nur
+fest, in welche Lücke ein Begriff passt. Vollständige Regeln (auch `<infinite/>`):
+`../references/authoring-details.md`, Abschnitt `ddwtos`.
 
 ```xml
-<!-- Kreis mit Nummer im SVG (Radius = 11) -->
-<circle cx="200" cy="63" r="11" fill="#c00" stroke="#fff" stroke-width="1.5"/>
-<text x="200" y="67" text-anchor="middle" font-size="11" fill="#fff">1</text>
+<p>Ein Prozess besteht aus mehreren [[1]]. Das Ergebnis wird über die [[2]] ausgegeben.</p>
+
+<dragbox><text>Arbeitsschritten</text><group>1</group></dragbox>  <!-- [[1]] -->
+<dragbox><text>Schnittstelle</text><group>2</group></dragbox>     <!-- [[2]] -->
+<dragbox><text>Komponenten</text><group>1</group></dragbox>       <!-- Distractor für Lücke 1 -->
+<dragbox><text>Eingabeeinheit</text><group>2</group></dragbox>    <!-- Distractor für Lücke 2 -->
 ```
 
-**Koordinatenberechnung:**
-```
-xleft = cx - r = 200 - 11 = 189
-ytop  = cy - r = 63 - 11 = 52
-```
+### gapselect (Lückentext mit Dropdown)
+
+Wie `ddwtos`, nur mit Dropdown in der Lücke: `[[n]]` verweist auf die n-te `<selectoption>`
+im gesamten XML. Richtige Optionen zuerst, Distractors danach; `<group>` bestimmt, welche
+Optionen im Dropdown einer Lücke erscheinen. `<shuffleanswers>` mischt die Anzeige.
 
 ```xml
-<drop>
-  <no>1</no>
-  <choice>1</choice>
-  <xleft>189</xleft>
-  <ytop>52</ytop>
-</drop>
+<p>Ein Quadrat hat [[1]] Ecken und [[2]] Symmetrieachsen.</p>
+
+<selectoption><text>4</text><group>1</group></selectoption>  <!-- [[1]] -->
+<selectoption><text>4</text><group>2</group></selectoption>  <!-- [[2]] -->
+<selectoption><text>3</text><group>1</group></selectoption>  <!-- Distractor für Lücke 1 -->
+<selectoption><text>2</text><group>2</group></selectoption>  <!-- Distractor für Lücke 2 -->
 ```
 
-##### Bei Rechtecken im SVG
+### multichoice
 
-Wenn Sie Rechtecke als Drop-Zonen verwenden:
+`<single>true</single>` für Einzelauswahl (eine Antwort mit `fraction="100"`),
+`<single>false</single>` für Mehrfachauswahl. Gewichte, Abzüge und Formulierungsregeln:
+`../references/authoring-details.md`, Abschnitte `multichoice` und „Bepunktung“.
 
 ```xml
-<!-- Rechteck im SVG -->
-<rect x="100" y="50" width="150" height="40" fill="#f0f0f0"/>
+<single>false</single>
+<answer fraction="50" format="html"><text><![CDATA[<p>Kreise haben keine Ecken</p>]]></text></answer>
+<answer fraction="50" format="html"><text><![CDATA[<p>Quadrate haben vier gleich lange Seiten</p>]]></text></answer>
+<answer fraction="-25" format="html"><text><![CDATA[<p>Dreiecke haben vier Ecken</p>]]></text></answer>
 ```
 
-**Koordinatenberechnung:**
-```
-xleft = x = 100
-ytop  = y = 50
-```
+### numerical
 
-##### Koordinaten mit Grafikprogramm ablesen
-
-1. Öffnen Sie das Bild in **GIMP**, **Photoshop**, **Paint.NET** oder **Inkscape**
-2. Bewegen Sie die Maus über die gewünschte Position
-3. Lesen Sie die Pixel-Koordinaten ab (meist links unten oder oben angezeigt)
-4. Notieren Sie X- und Y-Werte
-
-#### 4. XML-Struktur
-
-```xml
-<file name="background.svg" path="/" encoding="base64">BASE64-STRING-HIER</file>
-
-<drag>
-  <no>1</no>
-  <text><![CDATA[Begriff 1]]></text>
-  <draggroup>1</draggroup>
-</drag>
-
-<drag>
-  <no>2</no>
-  <text><![CDATA[Begriff 2]]></text>
-  <draggroup>2</draggroup>
-  <infinite/>  <!-- Kann mehrfach verwendet werden (optional) -->
-</drag>
-
-<drop>
-  <text></text>
-  <no>1</no>
-  <choice>1</choice>  <!-- Verweist auf drag no="1" -->
-  <xleft>189</xleft>  <!-- X-Position in Pixel -->
-  <ytop>52</ytop>     <!-- Y-Position in Pixel -->
-</drop>
-
-<drop>
-  <text></text>
-  <no>2</no>
-  <choice>2</choice>  <!-- Verweist auf drag no="2" -->
-  <xleft>320</xleft>
-  <ytop>145</ytop>
-</drop>
-```
-
-#### 5. ⚠️ Überlappung von Drop-Zonen vermeiden
-
-**Problem:** Moodle rendert jedes Drag-Label als schwebende Box an der Drop-Position. Zu nah beieinander liegende Zonen überlappen und sind nicht bedienbar.
-
-**Mindestabstände:**
-- **Vertikal:** ≥ 80 px zwischen Drop-Zonen
-- **Horizontal:** ≥ 150 px zwischen Drop-Zonen
-- **Keine Überlappung:** Maximal eine Zone pro 80 × 40 px Bereich
-
-**Empfohlene Positionen für Nummernkreise:**
-- ✅ An Rändern von Rechtecken (oben, links, rechts)
-- ✅ In leeren Außenbereichen des Diagramms
-- ✅ Entlang von Pfeilen (nicht an Pfeilspitzen)
-- ❌ NICHT über Diagrammelemente (Text, Rechtecke, Ellipsen)
-- ❌ NICHT in dichten Bereichen mit vielen Elementen
-
-**Beispiel-Positionen (bei 600 × 400 px SVG):**
-
-| Zone | Beschreibung | cx | cy | xleft | ytop |
-|------|--------------|----|----|-------|------|
-| 1 | Oben links (Rand) | 20 | 20 | 9 | 9 |
-| 2 | Oben rechts (Rand) | 580 | 20 | 569 | 9 |
-| 3 | Linker Rand (Mitte) | 20 | 200 | 9 | 189 |
-| 4 | Rechter Rand (Mitte) | 580 | 200 | 569 | 189 |
-| 5 | Unten links (Rand) | 20 | 380 | 9 | 369 |
-| 6 | Unten rechts (Rand) | 580 | 380 | 569 | 369 |
-
-#### 6. Distractors (falsche Angebote)
-
-Drag-Items **ohne** zugehörige Drop-Zone = Distractors (falsche Antworten).
-
-**Mit Distractors:**
-```xml
-<drag><no>1</no><text>Richtig</text><draggroup>1</draggroup></drag>
-<drag><no>2</no><text>Falsch 1</text><draggroup>1</draggroup></drag>  <!-- Keine Drop-Zone -->
-<drag><no>3</no><text>Falsch 2</text><draggroup>1</draggroup></drag>  <!-- Keine Drop-Zone -->
-
-<drop><no>1</no><choice>1</choice><xleft>100</xleft><ytop>50</ytop></drop>
-<!-- Nur Zone für drag no="1" - drag no="2" und "3" passen nirgendwo -->
-```
-
-**WICHTIG:** Im Fragetext ankündigen:
-```xml
-<questiontext format="html">
-  <text><![CDATA[
-    <p>Ordnen Sie die Begriffe den nummerierten Positionen zu.</p>
-    <p><em>Es gibt 2 zusätzliche Begriffe, die nicht passen.</em></p>
-  ]]></text>
-</questiontext>
-```
-
-**Ohne Distractors:** Jeden `<drag>` eine `<drop>`-Zone zuordnen, kein Hinweis nötig.
-
-#### 7. Canvas-Größe wählen
-
-- **4 oder weniger Zonen:** 420 × 200 px (für schmale Labels)
-- **5-6 Zonen:** 600 × 400 px (empfohlen)
-- **7+ Zonen oder breite Text-Labels:** 780 × 520 px
-
-#### 8. Checkliste vor dem Import
-
-- [ ] Bild als base64 kodiert und in `<file>` eingebunden
-- [ ] `path="/"` bei `<file>` gesetzt
-- [ ] Jedes `<drag>` hat eindeutige `<no>`
-- [ ] Jedes `<drop>` verweist via `<choice>` auf existierendes `<drag>`
-- [ ] Koordinaten liegen innerhalb der Bildgröße
-- [ ] Mindestabstand von 80 px zwischen Drop-Zonen eingehalten
-- [ ] Distractors im Fragetext angekündigt (falls vorhanden)
-- [ ] SVG-Dateiname ist `background.svg` (nicht `diagram.svg` etc.)
-
----
-
-### Template: numerical (Numerische Antworten)
-
-**Verwendung:** Berechnungen, Messungen, Zahlenwerte
-
-**Mit Toleranzbereich:**
 ```xml
 <answer fraction="100" format="moodle_auto_format">
-  <text>42</text>  <!-- Richtige Antwort -->
-  <tolerance>0.5</tolerance>  <!-- Akzeptiert 41.5 bis 42.5 -->
+  <text>42</text>
+  <tolerance>0.5</tolerance>  <!-- akzeptiert 41.5 bis 42.5; 0 = nur exakt -->
 </answer>
 ```
 
-**Exakte Antwort:**
-```xml
-<answer fraction="100" format="moodle_auto_format">
-  <text>100</text>
-  <tolerance>0</tolerance>  <!-- Nur exakt 100 ist richtig -->
-</answer>
-```
+Grenzwerte und konservative Rundung: `../references/authoring-details.md`.
 
----
+### cloze (eingebettete Antworten)
 
-### Template: gapselect (Lückentextauswahl)
+Syntax `{PUNKTE:FRAGETYP:ANTWORTEN}`; `=` markiert die richtige Antwort, `~` trennt Antworten,
+`%PROZENT%` verteilt Punkte bei MULTIRESPONSE, `:TOLERANZ` gilt bei NUMERICAL.
 
-**Verwendung:** Lückentext mit Dropdown-Auswahlmenüs (nicht Drag-and-Drop)
+| Typ | Beispiel |
+|---|---|
+| MULTICHOICE | `{1:MULTICHOICE:=Richtig~Falsch1~Falsch2}` |
+| MULTIRESPONSE | `{2:MULTIRESPONSE:~%33.33%Rot~%33.33%Gelb~%33.33%Blau~%-100%Grün}` |
+| NUMERICAL | `{1:NUMERICAL:=42:0.1}` |
 
-**Unterschied zu ddwtos:**
-- **gapselect** = Dropdown-Menü direkt in der Lücke
-- **ddwtos** = Begriffe per Drag-and-Drop ziehen
+`SHORTANSWER` und `SHORTANSWER_C` (Freitext) sind technisch möglich, werden hier aber nicht
+verwendet; stattdessen `MULTICHOICE` oder `gapselect`.
 
-**Beispiel:**
-```xml
-<questiontext format="html">
-  <text><![CDATA[
-    <p>Ein Quadrat hat [[1]] Ecken und [[2]] Symmetrieachsen.</p>
-  ]]></text>
-</questiontext>
+### ordering (Anordnung)
 
-<!-- Optionen für Lücke [[1]] -->
-<selectoption>
-  <text>4</text>  <!-- Richtige Antwort -->
-  <group>1</group>
-</selectoption>
-<selectoption>
-  <text>3</text>  <!-- Falsch -->
-  <group>1</group>
-</selectoption>
+Die Reihenfolge der `<answer>`-Elemente im XML ist die richtige Reihenfolge; Moodle mischt
+bei der Anzeige. `fraction` ist die Position (1, 2, 3 …), `<md5key>` bleibt leer.
+Einstellungen sind Zahlen, kein Text (`<layouttype>0</layouttype>`, nicht `VERTICAL`).
 
-<!-- Optionen für Lücke [[2]] -->
-<selectoption>
-  <text>4</text>  <!-- Richtige Antwort -->
-  <group>2</group>
-</selectoption>
-<selectoption>
-  <text>2</text>  <!-- Falsch -->
-  <group>2</group>
-</selectoption>
-```
-
-**Wichtig:**
-- Erste `selectoption` jeder Gruppe = richtige Antwort
-- `shuffleanswers="true"` mischt die Reihenfolge im Dropdown
-
----
-
-### Template: cloze (Eingebettete Antworten)
-
-**Verwendung:** Komplexe Fragen mit verschiedenen Antworttypen in einem Text
-
-**Syntax:** `{PUNKTE:FRAGETYP:ANTWORTEN}`
-
-**Verfügbare Fragetypen:**
-
-| Typ | Syntax | Beispiel |
-|-----|--------|----------|
-| **MULTICHOICE** | `{1:MULTICHOICE:=Richtig~Falsch1~Falsch2}` | Einzelauswahl |
-| **MULTIRESPONSE** | `{1:MULTIRESPONSE:~%50%Richtig1~%50%Richtig2}` | Mehrfachauswahl |
-| **NUMERICAL** | `{1:NUMERICAL:=42:0.1}` | Zahl mit Toleranz |
-
-> **⚠️ Nicht verwenden:** `SHORTANSWER` und `SHORTANSWER_C` (Freitext) sind in cloze-Fragen technisch möglich, aber in diesem Kurs **nicht erlaubt** – kein Template vorhanden. Stattdessen `MULTICHOICE` oder `gapselect` verwenden.
-
-**Beispiel:**
-```xml
-<questiontext format="html">
-  <text><![CDATA[
-    <p>Ein Dreieck hat {1:NUMERICAL:=3:0} Ecken und ein Quadrat hat 
-    {1:MULTICHOICE:=vier~drei} Seiten.</p>
-    
-    <p>Die Winkelsumme im Dreieck beträgt {1:NUMERICAL:=180:0} Grad.</p>
-  ]]></text>
-</questiontext>
-```
-
-**Wichtige Zeichen:**
-- `=` = markiert richtige Antwort
-- `~` = trennt verschiedene Antworten
-- `%PROZENT%` = Punkteverteilung bei MULTIRESPONSE
-- `:TOLERANZ` = Ungenauigkeit bei NUMERICAL
-
-**Multiresponse-Beispiel (mehrere richtige):**
-```
-{2:MULTIRESPONSE:~%33.33%Rot~%33.33%Gelb~%33.33%Blau~%-100%Grün}
-```
-→ Rot, Gelb, Blau sind richtig (je 33%), Grün kostet 100% Abzug
-
----
-
-### Template: ordering (Anordnung)
-
-**Verwendung:** Elemente in die richtige Reihenfolge bringen
-> Seit Moodle 4.4 im Core; siehe Releasenotes oben. Zielinstanz-Verfügbarkeit prüfen.
-
-**Beispiele:**
-- Prozessschritte chronologisch ordnen
-- Signalkette von Quelle zu Ausgang
-- OSI-Schichten von oben nach unten
-
-**Struktur:**
 ```xml
 <question type="ordering">
   <shuffleanswers>1</shuffleanswers>
-  <layouttype>0</layouttype>  <!-- 0=VERTICAL, 1=HORIZONTAL -->
-  <selecttype>0</selecttype>   <!-- 0=ALL anzeigen -->
-  <selectcount>0</selectcount> <!-- 0=alle Elemente -->
-  <gradingtype>0</gradingtype> <!-- 0=ALL_OR_NOTHING -->
+  <layouttype>0</layouttype>   <!-- 0 = vertikal, 1 = horizontal -->
+  <selecttype>0</selecttype>   <!-- 0 = alle anzeigen -->
+  <selectcount>0</selectcount> <!-- 0 = alle Elemente -->
+  <gradingtype>0</gradingtype>
   <showgrading>1</showgrading>
-  
-  <!-- Elemente in der RICHTIGEN Reihenfolge auflisten -->
   <answer fraction="1" format="html">
     <text><![CDATA[<p>Schritt 1: Planung</p>]]></text>
     <feedback format="html"><text></text></feedback>
     <md5key></md5key>
   </answer>
-  
   <answer fraction="2" format="html">
     <text><![CDATA[<p>Schritt 2: Durchführung</p>]]></text>
     <feedback format="html"><text></text></feedback>
     <md5key></md5key>
   </answer>
-  
-  <answer fraction="3" format="html">
-    <text><![CDATA[<p>Schritt 3: Kontrolle</p>]]></text>
-    <feedback format="html"><text></text></feedback>
-    <md5key></md5key>
-  </answer>
-  
-  <correctfeedback format="html">
-    <text>Die Reihenfolge ist vollständig korrekt!</text>
-  </correctfeedback>
-  <shownumcorrect/>
 </question>
 ```
 
-**Bewertungstypen (gradingtype):**
-- `0` = ALL_OR_NOTHING (Alles richtig oder 0 Punkte)
-- `1` = ABSOLUTE (Punkte für jedes richtig platzierte Element)
-- `2` = LONGEST_CONTIGUOUS_SUBSET (Längste zusammenhängende Teilfolge)
-- `3` = LONGEST_ORDERED_SUBSET (Längste korrekte Teilsequenz)
+`gradingtype`: `0` alles oder nichts, `1` Punkte je richtig platziertem Element,
+`2` längste zusammenhängende Teilfolge, `3` längste korrekte Teilsequenz.
 
-**Wichtig:**
-- `fraction` = Position (1, 2, 3, 4, ...)
-- `md5key` wird automatisch von Moodle generiert (leer lassen)
-- Die Reihenfolge im XML IST die richtige Reihenfolge
-- Moodle mischt automatisch beim Anzeigen
-- **Zahlenwerte verwenden**, nicht Text (0 statt "VERTICAL")
+### ddimageortext (Drag-and-drop auf ein Bild)
 
----
+1. **Bild:** PNG, JPG oder SVG, 600 bis 800 px breit; für Diagramme SVG.
+2. **Base64:** Das Bild steht als Datei im XML; der Name einer SVG muss `background.svg`
+   lauten, `path="/"` muss gesetzt sein.
 
-## 🎨 SVG-Diagramme in Fragen einbinden
+   ```powershell
+   $bytes = [System.IO.File]::ReadAllBytes("C:\pfad\zum\bild.png")
+   [Convert]::ToBase64String($bytes) | Out-File -Encoding ASCII base64.txt
+   ```
 
-### Grundlagen
+   ```xml
+   <file name="background.svg" path="/" encoding="base64">BASE64-STRING-HIER</file>
+   ```
 
-SVG-Grafiken können direkt im `<questiontext>` eingebettet werden:
+3. **Koordinaten:** `xleft`/`ytop` sind die linke obere Ecke der Drop-Zone in Pixeln.
+   Bei einem Nummernkreis `<circle cx="200" cy="63" r="11"/>` gilt `xleft = cx − r = 189`,
+   `ytop = cy − r = 52`; bei einem Rechteck `xleft = x`, `ytop = y`.
+4. **Struktur:**
 
-```xml
-<questiontext format="html">
-  <text><![CDATA[<p>Betrachten Sie das Diagramm:</p>
-<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150">
-  <rect x="50" y="30" width="200" height="80" fill="#ddd" stroke="#000"/>
-  <text x="150" y="75" text-anchor="middle">Prozess A</text>
-</svg>]]></text>
-</questiontext>
-```
+   ```xml
+   <drag>
+     <no>1</no>
+     <text><![CDATA[Begriff 1]]></text>
+     <draggroup>1</draggroup>
+     <infinite/>  <!-- optional: mehrfach verwendbar -->
+   </drag>
+   <drop>
+     <text></text>
+     <no>1</no>
+     <choice>1</choice>  <!-- verweist auf drag no="1" -->
+     <xleft>189</xleft>
+     <ytop>52</ytop>
+   </drop>
+   ```
 
-**Vorteile von SVG:**
-- Skaliert ohne Qualitätsverlust
-- Editierbar im Code
-- Kleine Dateigröße
-- Funktioniert in allen Browsern
+5. **Abstände:** Moodle zeigt jedes Label als schwebende Box an der Drop-Position.
+   Mindestens 80 px vertikal und 150 px horizontal zwischen Drop-Zonen, höchstens eine Zone
+   je 80 × 40 px. Nummernkreise an Ränder von Rechtecken, in leere Außenbereiche oder
+   entlang von Pfeilen setzen, nicht über Text, Formen oder Pfeilspitzen.
+6. **Distractors:** `<drag>` ohne zugehörige `<drop>`-Zone. Im Fragetext ankündigen
+   („Es gibt 2 zusätzliche Begriffe, die nicht passen.“); entfällt der Distractor, auch den
+   Satz streichen.
+7. **Zeichenfläche:** bis 4 Zonen 420 × 200 px, 5 bis 6 Zonen 600 × 400 px, ab 7 Zonen oder
+   bei breiten Labels 780 × 520 px.
 
-### SVG-Marker für Pfeile
+Prüfliste: jedes `<drag>` hat eine eindeutige `<no>`; jedes `<drop>` verweist über `<choice>`
+auf ein vorhandenes `<drag>`; Koordinaten liegen innerhalb des Bildes; Abstände eingehalten;
+Distractors angekündigt.
 
-Pfeile müssen im SVG definiert werden. Fügen Sie diese Marker-Definitionen am Anfang Ihres SVG ein:
+### coderunner
 
-```xml
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">
-  <defs>
-    <!-- Einfacher Pfeil -->
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" 
-            orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L0,6 L9,3 z" fill="#333"/>
-    </marker>
-    
-    <!-- Vererbungspfeil (hohles Dreieck) -->
-    <marker id="inherit" markerWidth="12" markerHeight="12" refX="10" refY="6"
-            orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L0,12 L12,6 z" fill="#fff" stroke="#333" stroke-width="2"/>
-    </marker>
-    
-    <!-- Gestrichelter Pfeil für optionale Beziehungen -->
-    <marker id="dashed-arrow" markerWidth="10" markerHeight="10" refX="9" refY="3"
-            orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
-    </marker>
-  </defs>
-  
-  <!-- Linien mit Markern -->
-  <line x1="100" y1="50" x2="200" y2="50" stroke="#333" stroke-width="2" 
-        marker-end="url(#arrow)"/>
-  <line x1="100" y1="100" x2="200" y2="100" stroke="#333" stroke-width="2" 
-        stroke-dasharray="6,3" marker-end="url(#dashed-arrow)"/>
-</svg>
-```
+Die drei Vorlagen enthalten den vollständigen Aufbau. Regeln für Hintergrundklassen,
+Python-Template, CDATA in `<template>` und `<expected>` sowie die Liste der Typen:
+`../references/authoring-details.md`, Abschnitte `coderunner`.
 
-### HTML-Entities in SVG
+| Fehler in der Sandbox | Ursache | Lösung |
+|---|---|---|
+| `IndentationError` | Python-Template eingerückt | `<template>` ohne führende Leerzeichen am Zeilenanfang beginnen |
+| `cannot find symbol` (Hintergrundklasse) | Klasse steht nur in `<globalextra>` | Eigenes `<template>` in `python3`, das alle Klassen schreibt und gemeinsam mit `javac` kompiliert |
+| `Could not allocate compressed class space` | 64-Bit-Java fordert 1 GB Class Space an | `javac -J-Xmx128m -J-XX:CompressedClassSpaceSize=64m`, `java -Xmx128m -XX:CompressedClassSpaceSize=64m` |
 
-**WICHTIG:** HTML-Entities wie `&auml;`, `&ouml;`, `&ndash;` dürfen NICHT außerhalb von CDATA verwendet werden!
-
-**Falsch (führt zu Parse-Fehlern):**
-```xml
-<text>F&uuml;r Aktivit&auml;ten</text>  <!-- ❌ XML-Parser-Fehler -->
-```
-
-**Richtig - Option 1 (CDATA verwenden):**
-```xml
-<text><![CDATA[Für Aktivitäten]]></text>  <!-- ✅ -->
-```
-
-**Richtig - Option 2 (Unicode direkt):**
-```xml
-<text>Für Aktivitäten</text>  <!-- ✅ Bei UTF-8-Encoding -->
-```
-
-**Richtig - Option 3 (Numerische Entities):**
-```xml
-<text>F&#252;r Aktivit&#228;ten</text>  <!-- ✅ -->
-```
-
-### SVG-Editoren
-
-- **[Inkscape](https://inkscape.org/)** - Kostenlos, professionell
-- **[draw.io](https://app.diagrams.net/)** - Online, kostenlos, ideal für Diagramme
-- **Adobe Illustrator** - Kostenpflichtig, Industrie-Standard
-- **Figma** - Online, kostenlos für Einzelnutzer
-
-### SVG für ddimageortext (Drag-Drop auf SVG)
-
-Bei ddimageortext-Fragen wird das SVG als base64-kodierte Datei eingebunden:
-
-```xml
-<file name="background.svg" path="/" encoding="base64">BASE64-STRING-HIER</file>
-```
-
-**SVG in Base64 konvertieren (PowerShell):**
-```powershell
-$svg = Get-Content diagram.svg -Raw
-$base64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($svg))
-$base64 | Out-File -Encoding ASCII base64.txt
-```
-
-**Koordinatenberechnung für Drop-Zonen:**
-
-Wenn Sie nummerierte Kreise im SVG verwenden (Radius r=11):
-```xml
-<!-- Kreis im SVG -->
-<circle cx="200" cy="63" r="11" fill="#c00"/>
-<text x="200" y="67" text-anchor="middle">1</text>
-```
-
-Die Drop-Zone-Koordinaten berechnen sich:
-```xml
-<drop>
-  <xleft>189</xleft>  <!-- cx - r = 200 - 11 -->
-  <ytop>52</ytop>     <!-- cy - r = 63 - 11 -->
-</drop>
-```
-
-**⚠️ Überlappung von Drop-Zonen vermeiden:**
-
-Moodle rendert Drag-Labels als schwebende Boxen. Zu nah beieinander liegende Zonen überlappen und sind nicht bedienbar.
-
-**Regeln:**
-- Mindestabstand: **≥ 80 px** vertikal oder **≥ 150 px** horizontal
-- Nummernkreise in **leere Randbereiche** setzen
-- **NICHT** über Diagrammelemente (Rechtecke, Ellipsen, Text) platzieren
-- Gute Positionen: Ränder von Boxen, Außenbereiche, entlang von Pfeilen
-
----
-
-## ⚙️ CDATA-Regeln
-
-### Wann ist CDATA erforderlich?
-
-**CDATA ist PFLICHT bei:**
-- HTML-Tags im Text (`<p>`, `<strong>`, `<em>`, `<ul>`, `<li>`, etc.)
-- SVG-Code innerhalb des questiontext
-- HTML-Entities (`&auml;`, `&ouml;`, `&nbsp;`, etc.)
-
-**CDATA ist NICHT nötig bei:**
-- Reinem Text ohne HTML-Tags
-- Numerischen Werten (`<text>42</text>`)
-- Base64-kodierten Dateien
-
-### Richtig vs. Falsch
-
-**❌ Falsch (XML-Parser-Fehler):**
-```xml
-<text><p>Text mit <strong>HTML</strong></p></text>
-```
-
-**✅ Richtig:**
-```xml
-<text><![CDATA[<p>Text mit <strong>HTML</strong></p>]]></text>
-```
-
-### HTML-Entities außerhalb von CDATA
-
-**❌ FEHLER - Entities außerhalb CDATA:**
-```xml
-<text>M&uuml;nchen hat sch&ouml;ne Pl&auml;tze</text>
-<!-- Parse-Fehler: undefined entity &uuml; -->
-```
-
-**✅ Lösung 1 - CDATA verwenden:**
-```xml
-<text><![CDATA[München hat schöne Plätze]]></text>
-```
-
-**✅ Lösung 2 - Numerische Entities:**
-```xml
-<text>M&#252;nchen hat sch&#246;ne Pl&#228;tze</text>
-```
-
-**✅ Lösung 3 - UTF-8 direkt (bei korrektem Encoding):**
-```xml
-<text>München hat schöne Plätze</text>
-```
-
-### CDATA innerhalb von CDATA (NICHT möglich)
-
-CDATA-Blöcke können **nicht verschachtelt** werden. Wenn Sie `]]>` im Text benötigen, teilen Sie CDATA:
-
-**❌ Falsch:**
-```xml
-<text><![CDATA[Code: <![CDATA[...]]>]]></text>  <!-- Fehler! -->
-```
-
-**✅ Richtig:**
-```xml
-<text><![CDATA[Code: ]]]]><![CDATA[>]]></text>
-```
-
-### Warum CDATA?
-
-**CDATA** = "Character Data" → Alles zwischen `<![CDATA[` und `]]>` wird als **reiner Text** behandelt, nicht als XML-Struktur.
-
-- XML-Parser ignoriert `<`, `>`, `&` innerhalb von CDATA
-- HTML-Tags werden nicht als XML-Tags interpretiert
-- Ermöglicht sichere Einbettung von Code-Beispielen und HTML
-
----
-
-## 🔢 Bewertung und Feedback
-
-### Feedback-Typen
-
-**Allgemeines Feedback** (nach Beantwortung):
-```xml
-<generalfeedback format="html">
-  <text>Erklärung der richtigen Lösung...</text>
-</generalfeedback>
-```
-
-**Antwortspezifisches Feedback:**
-```xml
-<answer fraction="100" format="html">
-  <text><![CDATA[<p>Richtige Antwort</p>]]></text>
-  <feedback format="html">
-    <text>Sehr gut! Das ist korrekt weil...</text>
-  </feedback>
-</answer>
-```
-
-### Punkteverteilung
-
-| Fragetyp | fraction | Bedeutung |
-|----------|----------|-----------|
-| Eine richtige Antwort | 100 | 100% der Punkte |
-| Zwei richtige Antworten | 50 + 50 | Je 50% = 100% gesamt |
-| Drei richtige Antworten | 33.33 + 33.33 + 33.34 | Je ~33% = 100% gesamt |
-| Falsche Antwort | 0 oder negativ | Kein Punktabzug oder Abzug |
-
-**Penalty** (Bestrafung für Wiederholung):
-```xml
-<penalty>0.3333333</penalty>  <!-- Nach 1. Versuch: -33% bei erneutem Versuch -->
-```
-
----
-
-## 📦 Mehrere Fragen in einer Datei
-
-Sie können mehrere `<question>` Blöcke in einer XML-Datei kombinieren:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<quiz>
-  <question type="multichoice">
-    <!-- Frage 1 -->
-  </question>
-  
-  <question type="ddmatch">
-    <!-- Frage 2 -->
-  </question>
-  
-  <question type="gapselect">
-    <!-- Frage 3 -->
-  </question>
-</quiz>
-```
-
-Beim Import werden alle Fragen gleichzeitig importiert.
-
----
-
-## 🛠️ Häufige Fehler und Lösungen
+## Fehlersuche
 
 | Fehler | Ursache | Lösung |
-|--------|---------|--------|
-| **Import schlägt fehl** | XML-Syntaxfehler | 1. XML validieren: [xmlvalidation.com](https://www.xmlvalidation.com/)<br>2. Alle Tags geschlossen? `<text>...</text>`<br>3. CDATA korrekt? `<![CDATA[...]]>`<br>4. Encoding UTF-8? |
-| **Umlaute falsch dargestellt** | Datei nicht als UTF-8 gespeichert | VS Code: Rechts unten auf Encoding klicken → "UTF-8"<br>Notepad++: Encoding → UTF-8 (ohne BOM) |
-| **ParseError: undefined entity** | HTML-Entities (`&auml;`, `&uuml;`) außerhalb CDATA | Option 1: `<text><![CDATA[...]]></text>`<br>Option 2: Unicode direkt (ä, ö, ü)<br>Option 3: Numerische Entities (`&#228;`) |
-| **String erwartet (CDATA?)** | HTML-Tags in `<text>` ohne CDATA | Text mit HTML muss in CDATA: `<text><![CDATA[<p>...</p>]]></text>` |
-| **fraction addiert sich nicht zu 100%** | Bei multichoice: Punkte für richtige Antworten summieren sich nicht zu 100 | Beispiel: 3 richtige → je 33.33, 33.33, 33.34<br>2 richtige → je 50, 50 |
-| **Drag-Drop: Bild erscheint nicht** | `<file>`-Name oder base64 fehlerhaft | 1. Dateiname muss `background.svg` sein (nicht `diagram.svg`)<br>2. `path="/"` gesetzt?<br>3. Base64 mit PowerShell neu erzeugen |
-| **Drag-Drop: Koordinaten falsch** | xleft/ytop falsch berechnet | Bei Kreisen (r=11): `xleft = cx−11`, `ytop = cy−11`<br>Bei Rechtecken: `xleft = x`, `ytop = y` |
-| **Drop-Label-Boxen überlappen** | Zonen zu nah (< 80 px) | Mindestabstand: ≥ 80 px vertikal, ≥ 150 px horizontal<br>Nummernkreise an Ränder setzen, nicht über Diagrammelemente |
-| **Drop-Labels verdecken Diagramm** | Nummernkreise über Inhalt platziert | Kreise in Leerräume: Ränder, außerhalb, auf Pfeilen |
-| **Distractors ohne Hinweis** | Überzählige drag-Items, aber kein Hinweistext | Im questiontext ankündigen: `<em>Es gibt X zusätzliche Begriffe, die nicht passen.</em>` |
-| **Ankündigungssatz trotz fehlender Distractors** | Distractors entfernt, Text vergessen | Beim Entfernen von Distractors auch Ankündigungssatz löschen |
-| **ordering: Import-Fehler** | Fragetyp/Importweg ungeklärt | Seit Moodle 4.4 im Core. Tatsächlichen Fragetyp und Importfehler prüfen; keinen Versionsfehler bloß vermuten. |
-| **ordering: "String erwartet"** | layouttype/selecttype/gradingtype als Text statt Zahl | Werte müssen Integer sein: `<layouttype>0</layouttype>` (nicht "VERTICAL") |
-| **multichoice: Option wird nicht angezeigt** | Antwortoption beginnt mit `+`, `-`, `~` | Moodle-Sonderzeichen → Option umbenennen (z.B. `"positiv (+)"` statt `"+ positiv"`) |
-| **10 Fragen erkannt, 0 importiert** | Mindestens 1 Frage hat Fehler → gesamter Import bricht ab | Fragen einzeln importieren um fehlerhafte zu identifizieren<br>XML validieren |
-| **ParseError: not well-formed** | `--` (doppelter Bindestrich) in XML-Kommentar | Dekorations-Striche durch `==` ersetzen: `<!-- == Titel == -->` |
-| **SVG-Pfeil rotiert falsch** | refX/refY im Marker falsch | Für vertikale Pfeile: `refX="7" refY="3"`, `points="0 0,8 3,0 6"` |
-| **Vererbungspfeil zeigt falsch** | Marker nicht zur Elternklasse gerichtet | Linie startet bei Kindklasse, `marker-end` zeigt zur Elternklasse |
-| **`<infinite/>` funktioniert nicht** | Falscher Fragetyp oder falsche Position | `<infinite/>` nur bei ddimageortext, innerhalb `<drag>`-Element |
-| **CDATA verschachtelt** | `<![CDATA[` innerhalb von CDATA | NICHT möglich → CDATA splitten: `]]]]><![CDATA[>` für `]]>` im Text |
-| **Base64 image zu groß** | Bild unkomprimiert oder zu hochauflösend | PNG komprimieren (TinyPNG), JPEG Qualität reduzieren, oder SVG verwenden |
+|---|---|---|
+| Import schlägt fehl | XML nicht wohlgeformt | Lokal parsen (Skript in `authoring-details.md`, „Validierung“); Tags, CDATA und UTF-8 prüfen |
+| n Fragen erkannt, 0 importiert | Eine fehlerhafte Frage bricht den gesamten Import ab | Fragen einzeln prüfen |
+| Umlaute falsch dargestellt | Datei nicht als UTF-8 gespeichert | UTF-8 ohne BOM schreiben |
+| `ParseError: undefined entity` | Benannte Entity außerhalb CDATA | UTF-8 direkt, CDATA oder numerische Entity |
+| „String erwartet (CDATA?)“ | HTML in `<text>` ohne CDATA | `<text><![CDATA[<p>…</p>]]></text>` |
+| `ParseError: not well-formed` | `--` in einem XML-Kommentar | Zierlinien mit `==` schreiben |
+| multichoice: Gewichte ergeben nicht 100 % | Positive `fraction`-Werte falsch verteilt | Zwei richtige: 50 + 50; drei richtige: 33.33 + 33.33 + 33.34 |
+| multichoice: Option wird nicht angezeigt | Antworttext beginnt mit `+`, `-` oder `~` | Umformulieren, z. B. „positiv (+)“ |
+| ddwtos/gapselect: falsche Lösung gilt als richtig | Richtige Antwort steht nicht an Position n | Richtige Einträge zuerst in Lückenreihenfolge, Distractors danach |
+| `<infinite/>` wirkt nicht | Falsche Stelle oder Wert im Tag | Leeres Tag `<infinite/>`: bei ddimageortext in `<drag>`, bei ddwtos in `<dragbox>` |
+| ddimageortext: Bild erscheint nicht | Dateiname oder Base64 fehlerhaft | Name `background.svg`, `path="/"`, Base64 neu erzeugen |
+| ddimageortext: Koordinaten falsch | `xleft`/`ytop` falsch berechnet | Kreis (r = 11): `cx − 11`, `cy − 11`; Rechteck: `x`, `y` |
+| ddimageortext: Labels überlappen oder verdecken das Diagramm | Zonen zu nah oder über Inhalt | Abstände einhalten, Kreise in Leerräume setzen |
+| ordering: „String erwartet“ | Einstellung als Text statt Zahl | `<layouttype>0</layouttype>` |
+| ordering: Importfehler | Fragetyp oder Importweg ungeklärt | Tatsächlichen Fehler prüfen; keinen Versionsfehler vermuten |
+| SVG-Pfeil rotiert falsch, Vererbungspfeil zeigt falsch | Marker oder Linienrichtung | `authoring-details.md`, „Marker/Pfeile“ |
+| Base64-Bild zu groß | Bild unkomprimiert | PNG komprimieren, JPEG-Qualität senken oder SVG verwenden |
 
----
+## Quellen
 
-## 📚 Weiterführende Ressourcen
-
-- [Moodle Docs: Quiz XML Format](https://docs.moodle.org/en/Moodle_XML_format)
-- [Moodle Docs: Question Types](https://docs.moodle.org/en/Question_types)
-- [SVG Tutorial (MDN)](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial)
-- [Base64 Encoder/Decoder](https://www.base64-image.de/)
-
----
-
-## 💡 Tipps für die Praxis
-
-### 1. Template-Bibliothek aufbauen
-
-Erstellen Sie fachspezifische Templates basierend auf den generischen:
-- `template-veranstaltungstechnik-zuordnung.xml`
-- `template-netzwerktechnik-multichoice.xml`
-- etc.
-
-### 2. Schnelle Anpassungen mit Suchen & Ersetzen
-
-1. Template kopieren
-2. Alle Platzhalter markieren: `[TITEL]`, `[Begriff 1]`, etc.
-3. Suchen & Ersetzen verwenden (Strg+H)
-4. Systematisch durcharbeiten
-
-### 3. Fragenpool organisieren
-
-```
-fragen/
-├── templates/              # Generische Vorlagen (DIESES VERZEICHNIS)
-├── veranstaltungstechnik/  # Fachspezifische Fragen
-│   ├── grundlagen.xml
-│   ├── lichttechnik.xml
-│   └── tontechnik.xml
-├── netzwerktechnik/
-│   ├── osi-modell.xml
-│   └── vlan.xml
-└── ...
-```
-
-### 4. Versionierung mit Git
-
-Tracken Sie Ihre Fragen mit Git:
-```bash
-git add fragen/
-git commit -m "Neue Fragen zur Lichttechnik hinzugefügt"
-```
-
----
-
-## 💻 CodeRunner Integration (Java Sandbox)
-
-Wenn Sie den Fragetyp **CodeRunner** (speziell `java_class` oder `java_method`) nutzen und zusätzliche Hintergrund-Klassen bereitstellen möchten (z. B. für Vererbungsaufgaben), gibt es einige Eigenheiten der Moodle-Jobe-Sandbox zu beachten:
-
-### Hintergrund-Klassen bereitstellen
-Oft soll eine Elternklasse (z. B. `AccountBase`) nicht vom Studierenden implementiert werden, sondern für die Testausführung zur Verfügung stehen. Das `<globalextra>`-Tag reicht hierfür bei `coderunnertype="java_class"` allein **nicht aus**, da es nicht automatisch mitkompiliert wird.
-
-### Eigenes Compiler-Template verwenden
-Überschreiben Sie das `<template>` mit einem eigenen Python-Skript (`<language>python3</language>`), das alle benötigten Dateien auf der Platte der Sandbox ablegt und zusammen kompiliert:
-
-```xml
-    <!-- WICHTIG: Die Sprache auf python3 stellen, sonst interpretiert Moodle das Template als Java! -->
-    <language>python3</language>
-    <coderunnertype>java_class</coderunnertype>
-    
-    <template><![CDATA[import os
-
-# 1. Basisklasse (Hintergrund) schreiben
-account_base_code = '''abstract class AccountBase {
-    // ... Implementierung ...
-}'''
-with open('AccountBase.java', 'w') as f:
-    f.write(account_base_code)
-
-# 2. Lösung des Studierenden schreiben
-student_answer = """{{ STUDENT_ANSWER | e('py') }}"""
-with open('BankAccount.java', 'w') as f:
-    f.write(student_answer)
-
-# 3. Testfall generieren
-testcode = """{{ TEST.testcode | e('py') }}"""
-test_class = '''public class Test {
-    public static void main(String[] args) throws Exception {
-        ''' + testcode + '''
-    }
-}'''
-with open('Test.java', 'w') as f:
-    f.write(test_class)
-
-# 4. Kompilieren (inkl. JVM-Speicherlimits für den Compiler)
-# WICHTIG: -J-Xmx128m -J-XX:CompressedClassSpaceSize=64m verhindert OutOfMemory/ClassSpace-Crashes in der Sandbox
-ret = os.system('javac -J-Xmx128m -J-XX:CompressedClassSpaceSize=64m -encoding UTF-8 AccountBase.java BankAccount.java Test.java 2>&1')
-if ret == 0:
-    # 5. Ausführen
-    os.system('java -Xmx128m -XX:CompressedClassSpaceSize=64m -cp . Test')
-]]></template>
-```
-
-### Typische Sandbox-Fehler (Java)
-
-| Fehler | Ursache | Lösung |
-|--------|---------|--------|
-| **`IndentationError`** | Im Python-Template wurden Blöcke/Zeilen falsch eingerückt. | Python achtet streng auf Einrückungen. Das `<template>` ohne vorangestellte Leerzeichen direkt am Zeilenanfang beginnen (`ret = os.system(...)`). |
-| **`cannot find symbol`** (AccountBase) | Eigene Hintergrundklasse wird vom Java-Kompiler nicht gefunden. | Eigenes `<template>` verwenden, das alle Klassen (`AccountBase.java`, `StudentClass.java`, `Test.java`) erzeugt und zusammen via `javac` kompiliert. |
-| **`Could not allocate compressed class space: 1073741824 bytes`** | 64-Bit Java versucht standardmäßig 1GB Class Space zu allozieren, Moodle blockt. | Dem Java-Runner bzw. Compiler explizit Argumente mitgeben: `java -XX:CompressedClassSpaceSize=64m` (für den Compiler: `javac -J-XX:CompressedClassSpaceSize=64m`). |
-
----
-
-## ✅ Checkliste vor dem Import
-
-- [ ] Datei als **UTF-8** gespeichert
-- [ ] XML ist **valide** (keine Syntaxfehler)
-- [ ] Alle **Platzhalter** ersetzt
-- [ ] **CDATA** bei HTML-Inhalten verwendet
-- [ ] **fraction** addiert sich zu 100% (bei multichoice)
-- [ ] **Feedback** sinnvoll formuliert
-- [ ] **Bilder** als base64 kodiert (bei ddimageortext)
-- [ ] **Koordinaten** geprüft (bei ddimageortext)
-
----
-
-**Viel Erfolg beim Erstellen Ihrer Moodle-Fragen! 🎓**
-
-*Letzte Aktualisierung: Februar 2026*
+- [Moodle-4.5-XML-Format](https://docs.moodle.org/405/en/Moodle_XML_format)
+- [Moodle: Fragetypen](https://docs.moodle.org/en/Question_types)
+- [SVG-Tutorial (MDN)](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial)

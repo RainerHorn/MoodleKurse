@@ -80,8 +80,12 @@ beauftragt keine weiteren Rollen.
 - XML-Beispiele und technische Importableitung:
   [Strukturreferenz](references/moodle-xml-structure.md).
 - Nur relevante Abschnitte für Fragetyp, numerische Grenzwerte, Drucklayout,
-  CodeRunner, SVG oder optionale Vorschau:
+  Bepunktung, CodeRunner oder SVG:
   [Fachdetails](references/authoring-details.md).
+- Gestaltung einer optionalen HTML-Vorschau (nur wenn Schritt 6 eine verlangt):
+  [Vorschau](references/html-preview.md).
+- Vorlagenkatalog, Hinweise je Fragetyp und Fehlersuche:
+  [templates/README.md](templates/README.md).
 - `examples/` liefert Vergleichsmaterial, keine freigegebenen Fachinhalte.
   Cisco-Assets: `assets/symbols/cisco/`, relativ zum Skill oder `${HERMES_SKILL_DIR}`.
 - Historische Quelldokumente sind keine Arbeitsanweisungen.
@@ -90,28 +94,10 @@ beauftragt keine weiteren Rollen.
 
 Pfad, Kategorie, Tags, Anzahl/Typen, Gesamtpunkte, Plugins, Prüfnachweis,
 offene Annahmen und gegebenenfalls Vorschau nennen. XML/Lösungen intern halten.
-Nur für Bestandskurse mit hashgebundenen Altnachweisen gilt der Rest dieses
-Absatzes bis zum Verweis auf die Strukturreferenz:
-Bei reinen Dokumentationsänderungen unveränderte Frage-/XML-Hashes gegen den
-vorhandenen Nachweis abgleichen, statt die ganze Inhaltsprüfung zu wiederholen.
-Den alten Dokumenthash ausdrücklich der gesicherten Vorfassung zuordnen; keinen
-aktuellen Gesamt-Fingerprint behaupten. Parallel gepflegte Status-/Auftragsdateien
-nicht in die statische Quellenbindung aufnehmen; Variante und gewählten Kursumfang
-zur Laufzeit semantisch prüfen. Einen optional dokumentierten Lesestand klar von
-unveränderlichen Fach-/Ergebnisartefakten trennen, damit legitime Kontextänderungen
-keinen fachlich unveränderten Test blockieren.
-Bei freigegebenen Quellenkorrekturen auch die Eingabeliste alter Prüfnachweise (früher „P0“) prüfen.
-Alte Nachweise unverändert historisch erhalten; nur explizit autorisierte Pfade mit
-vollständigen Alt-/Neuhashes neu binden, alle übrigen Hashprüfungen strikt lassen.
-Unveränderte Quiz-/XML-/HTML-/PDF-Bytes weiter gegen den früheren Stand vergleichen,
-aber den historischen Gesamt-PASS nicht auf neue Quellenbytes übertragen.
-Bei ausdrücklich unveränderlichem Assessment auch dessen Herkunftshash erhalten;
-neuen Rahmenstand über separate geschützte Alt-/Neu-Bindungsmetadaten zuordnen,
-statt durch Umschreiben des Herkunftsfelds eine verbotene Inhaltsänderung auszulösen.
-Den Delta-Validator mit Positiv- und Negativfällen prüfen: legitimer Kontextwechsel,
-unerlaubte Quellenbytes, falsche Variante/Kursebene sowie Umlabeln alter Nachweise.
-Die [Strukturreferenz](references/moodle-xml-structure.md) beschreibt die Reihenfolge
-für Quellenneubindung und historische Prüfevidenz.
+Bestandskurse mit Quiz-Manifest oder hashgebundenen Altnachweisen: Vor jeder
+Änderung an Quellen, Manifest oder Nachweisen den Abschnitt „Quellenneubindung“
+der [Strukturreferenz](references/moodle-xml-structure.md) lesen und befolgen.
+Für neue Kurse entfällt er.
 Freigabestatus explizit nach Gegenstand prüfen; ein Textmuster, das Negationen wie
 „kein APPROVED“ übersieht, kann eine offene Freigabe irrtümlich positiv auslegen.
 Import bleibt ausschließlich `moodle-mcp` (Variante MCP) bzw. `moodle-mbz` (Variante MBZ, Baucontainer)
