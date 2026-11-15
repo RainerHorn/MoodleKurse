@@ -1,198 +1,72 @@
-# Moodle-XML Struktur-Referenz
+# Moodle-XML: Struktur und Importableitung
 
-Kompakte technische Schnellreferenz für XML-Aufbau, Import-Fallstricke und Validierung.
+Rangfolge: Projekt-`AGENTS.md` → `agents/quiz/SOUL.md` → `../SKILL.md` →
+diese Referenz. Bei XML-Strukturfragen lesen; typspezifische XML-Dateien in
+`../templates/` verwenden. Keine zusätzliche Pflicht zur HTML-Vorschau.
 
-Diese Datei ist **nicht** die führende Regelquelle.
-Bei Abweichungen gelten in dieser Reihenfolge:
-1. `.github/instructions/questions.instructions.md`
-2. `SKILL.md`
-3. diese Datei
+## Projektkonventionen und Moodle-Format
 
-## Zweck
-- schneller Lookup für XML-Grundstruktur
-- kompakte Skelette für häufige Fragetypen
-- Import-Checks vor dem Moodle-Import
+Ein Kategorieblock je Autoren-Quiz und Tags für Bildungsgang/Lernfeld/Thema sind
+Projektkonventionen. Moodle selbst unterstützt auch andere Kategorieaufteilungen.
+Die Zielkategorie hängt vom tatsächlichen Importweg ab; keine Kategorie-IDs raten.
+UTF-8, Wurzel, Name und CDATA erläutert die
+[Moodle-4.5-Formatdokumentation](https://docs.moodle.org/405/en/Moodle_XML_format).
 
-## Allgemeine Grundstruktur
+Ein minimales Strukturbeispiel (Inhalt und Bewertung durch Auftrag ersetzen):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-  <!-- question: q1 -->
-  <question type="TYPE">
-    <name><text>Fragetitel</text></name>
-    <questiontext format="html">
-      <text><![CDATA[<p>Fragetext</p>]]></text>
-    </questiontext>
-    <generalfeedback format="html">
-      <text><![CDATA[<p>Erläuterung</p>]]></text>
-    </generalfeedback>
+  <question type="category">
+    <category><text>$course$/top/FISI/LF03/Beispielquiz</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Beispielfrage</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Fragetext</p>]]></text></questiontext>
     <defaultgrade>1</defaultgrade>
-    <penalty>0.1</penalty>
-    <hidden>0</hidden>
-    <idnumber></idnumber>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answer fraction="100" format="html">
+      <text><![CDATA[<p>Richtige Antwort</p>]]></text>
+      <feedback format="html"><text><![CDATA[<p>Begründung</p>]]></text></feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>Plausibler Distraktor</p>]]></text>
+      <feedback format="html"><text><![CDATA[<p>Korrekturhinweis</p>]]></text></feedback>
+    </answer>
+    <tags>
+      <tag><text>FISI</text></tag>
+      <tag><text>LF03</text></tag>
+      <tag><text>Beispielthema</text></tag>
+    </tags>
   </question>
 </quiz>
 ```
 
-## Pflichtregeln
+`<!-- question: q1 -->` ist ein optionaler Kommentar und kein Pflichtnachweis.
+Fragen durch `<question>`-Elemente zählen, Kategorieelemente separat behandeln.
+Der Tagname lautet wörtlich `name`, nicht `n` und nicht `na&#x6D;e`.
+Titeltexte dürfen UTF-8 enthalten; XML-Sonderzeichen außerhalb CDATA escapen.
 
-### 1. Frage-Marker vor jeder Frage
+## Autorenfassung und Transportfassung
 
-```xml
-<!-- question: q1 -->
-<question type="multichoice">
-```
+Die Autorenfassung behält ihren Kategorieblock. Verlangt der bestätigte
+MCP-Importweg eine feste Kategorie ohne Kategorieblock in der Datei, eine
+auf ausdrücklichen Auftrag eine gesonderte geschützte Transportfassung ableiten.
+Original erhalten; ausschließlich den Kategorieblock entfernen. Gesamtbytevergleich,
+Fragebaumvergleich und SHA-256/Größe belegen gemeinsam diese begrenzte Änderung.
+Diese lokale Prüfung behauptet ohne Testimport keine Live-Importfähigkeit.
+Für eine solche Ableitung keine vollständige fachliche Neufreigabe verlangen.
+Import und aktueller Kategorie-/Fragen-Readback bleiben Aufgabe von `moodle-mcp` (Variante MCP); bei MBZ übernimmt `moodle-mbz` Import und Prüfung im Baucontainer.
 
-Ohne diese Marker kann der Import still mit 0 Fragen enden.
+## Gezielt prüfen
 
-### 2. CDATA bei HTML-Inhalt
-Alle `<text>`-Elemente mit HTML-Inhalt gehören in CDATA.
-Das betrifft typischerweise:
-- `<questiontext><text>`
-- `<answer><text>` bei HTML
-- `<feedback><text>` bei HTML
-- `<generalfeedback><text>` bei HTML
-- `<subquestion><text>` bei HTML
-
-Beispiel:
-
-```xml
-<text><![CDATA[<p>Text mit <strong>HTML</strong></p>]]></text>
-```
-
-### 3. Templates aus `templates/` verwenden
-Für neue Dateien die Vorlagen aus dem Ordner `templates/` und `templates/README.md` nutzen.
-
-### 4. HTML-Vorschau ist Pflicht
-Neben der XML-Datei wird immer auch eine HTML-Vorschau erzeugt.
-
-## Fragetypen – Schnellskizzen
-
-### ddmatch
-
-```xml
-<question type="ddmatch">
-  <questiontext format="html">
-    <text><![CDATA[<p>Ordne zu.</p>]]></text>
-  </questiontext>
-  <defaultgrade>2</defaultgrade>
-  <shuffleanswers>true</shuffleanswers>
-
-  <subquestion format="html">
-    <text><![CDATA[<p>Begriff A</p>]]></text>
-    <answer format="html">
-      <text><![CDATA[<p>Erklärung A</p>]]></text>
-    </answer>
-  </subquestion>
-</question>
-```
-
-Kurzregeln:
-- `<defaultgrade>` = Anzahl der Zuordnungspaare.
-- HTML-Inhalte in CDATA.
-
-### ddwtos
-
-```xml
-<question type="ddwtos">
-  <questiontext format="html">
-    <text><![CDATA[<p>Text mit [[1]] und [[2]].</p>]]></text>
-  </questiontext>
-  <defaultgrade>2</defaultgrade>
-
-  <dragbox><text>Antwort 1</text><group>1</group></dragbox>
-  <dragbox><text>Antwort 2</text><group>2</group></dragbox>
-  <dragbox><text>Distractor 1</text><group>1</group></dragbox>
-  <dragbox><text>Distractor 2</text><group>2</group></dragbox>
-</question>
-```
-
-Kurzregeln:
-- Lücken im Text als `[[1]]`, `[[2]]`, ...
-- Richtige Antworten zuerst, Distractoren danach.
-- `<defaultgrade>` = Anzahl der Lücken.
-- Details zu Reihenfolge, `infinite` und Gruppenlogik stehen in `SKILL.md`.
-
-### multichoice
-
-```xml
-<question type="multichoice">
-  <questiontext format="html">
-    <text><![CDATA[<p>Welche Aussage ist richtig?</p>]]></text>
-  </questiontext>
-  <defaultgrade>1</defaultgrade>
-  <single>true</single>
-  <shuffleanswers>true</shuffleanswers>
-
-  <answer fraction="100" format="html">
-    <text><![CDATA[<p>Richtige Antwort</p>]]></text>
-  </answer>
-  <answer fraction="-33.33333" format="html">
-    <text><![CDATA[<p>Falsche Antwort</p>]]></text>
-  </answer>
-</question>
-```
-
-Kurzregeln:
-- `single=true`: genau eine richtige Antwort.
-- `single=false`: richtige Antworten summieren sich zu etwa 100 %.
-- `<defaultgrade>` richtet sich nach der Zahl der Bewertungseinheiten.
-- Keine Antworttexte mit führendem `+`, `-` oder `~`.
-
-### cloze
-
-```xml
-<question type="cloze">
-  <questiontext format="html">
-    <text><![CDATA[
-<p>{1:MULTICHOICE:Option A~Option B~=Richtig~Option C}</p>
-    ]]></text>
-  </questiontext>
-</question>
-```
-
-Kurzregeln:
-- `=` markiert die richtige Option.
-- `~` trennt Optionen.
-- MULTICHOICE-Blöcke immer auf einer einzigen Zeile.
-- Kein zusätzliches `<defaultgrade>` nötig.
-
-## SVG und Diagramme
-SVG-spezifische Detailregeln werden nicht in dieser Datei gepflegt.
-Für SVG, Cisco-Symbole, Base64-Einbettung, responsive HTML-Vorschau und Diagrammregeln ist `SKILL.md` maßgeblich.
-
-## Validierung vor dem Abschluss
-
-### XML-Syntax prüfen
-
-```powershell
-python -c "import xml.etree.ElementTree as ET; ET.parse(r'res\DATEI.xml'); print('XML valid')"
-```
-
-### Marker prüfen
-
-```powershell
-grep -c "<!-- question:" res/DATEI.xml
-```
-
-Die Zahl sollte der Anzahl der Fragen entsprechen.
-
-### Cloze-MULTICHOICE prüfen
-
-```powershell
-grep -n "MULTICHOICE" res/DATEI.xml
-```
-
-Jeder MULTICHOICE-Block muss vollständig auf einer Zeile stehen.
-
-### CDATA-Lücken suchen
-
-```powershell
-grep -n "<text>[^<]*<[a-z]" res/DATEI.xml
-```
-
-## Einsatzgrenze dieser Datei
-Diese Datei dient nur als Schnellreferenz.
-Sie soll keine vollständige Fachspezifikation mehr enthalten.
-Für Detailregeln immer die führende Instruktionsdatei und `SKILL.md` heranziehen.
+- XML parsen; Kategorie, Titel, Text und Tags strukturell prüfen.
+- Bewertung/Antworten/Feedback gegen den freigegebenen Blueprint prüfen.
+- In Typvorlagen benötigte Felder ergänzen; Platzhalter nicht ausliefern.
+- CLOZE-Syntax und Toleranzen typspezifisch prüfen; lokale Syntaxprüfung ersetzt
+  keine Moodle-Vorschau bei bislang ungeprüfter Interaktion.
+- Für `ddwtos`, CodeRunner und SVG nur den passenden Abschnitt in
+  `authoring-details.md` lesen.
+- Keine wiederholte Markerzählung, zusätzliche Pflichtvorschau oder vollständige
+  Testserie für eine unveränderte Datei. P0-Nachweise verwenden.

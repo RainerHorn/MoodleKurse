@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "frame": {"path": "RAHMEN.md", "version": null},
+  "tasks": [
+    {"id": "fach", "owner": "Fachagent", "depends_on": [], "writes": ["01-fach/"], "done": "Belegte Grundlagen und Werte", "resume": "Letzte Uebergabe"},
+    {"id": "skizze", "owner": "didaktik", "depends_on": [], "writes": ["02-didaktik/"], "done": "Ablaufskizze mit Zeitbudget", "resume": "Letzte Uebergabe"},
+    {"id": "machbarkeit", "optional": true, "owner": "moodle-mbz", "depends_on": [], "writes": ["platform/mbz-capabilities.json", "moodle-mbz/machbarkeit.json"], "done": "Lesender Nachweis oder konkrete Blocker", "resume": "Letzter belegter Iststand"},
+    {"id": "rahmen", "owner": "orchestrator", "depends_on": ["fach", "skizze"], "writes": ["RAHMEN.md"], "done": "Eingefrorener Rahmen und Einfluss offener Gates", "resume": "Vorliegende Uebergaben"},
+    {"id": "quiz", "owner": "quiz", "depends_on": ["rahmen"], "writes": ["04-quiz/"], "done": "Assessment laut Rahmen", "resume": "Letzte Uebergabe"},
+    {"id": "design", "owner": "visual-designer", "depends_on": ["rahmen"], "writes": ["06-design/"], "done": "Stabile Seiten, offene Quizbezüge benannt", "resume": "Letzte Uebergabe"},
+    {"id": "integration", "owner": "visual-designer", "depends_on": ["quiz", "design"], "writes": ["06-design/"], "done": "Abhaengige Daten integriert; Paket fuer Review", "resume": "Abgeschlossene Zweige"}
+  ],
+  "note": "Reihenfolge und Ketten: docs/mbz-workflow.md; Ordner und Wellenregeln: projektsteuerung.md. Die Aufgabe 'machbarkeit' entfaellt, wenn platform/mbz-capabilities.json den Bedarf deckt; faellt sie an, haengt 'rahmen' zusaetzlich von ihr ab. Bei Variante MCP ist ihr Eigentuemer moodle-mcp und der Pfad moodle/machbarkeit.json. Integration uebernimmt Designpfade erst nach Abschluss des Designauftrags. Kein Laufzeitstatus."
+}

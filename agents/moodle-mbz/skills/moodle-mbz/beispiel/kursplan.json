@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "kurs": {
+    "name": "Beispielkurs MBZ",
+    "kurzname": "BEISPIEL-MBZ",
+    "zusammenfassung": "<p>Kleiner Beispielkurs für den Skill moodle-mbz.</p>"
+  },
+  "abschnitte": [
+    {
+      "id": "a1",
+      "name": "1 Einführung",
+      "zusammenfassung": "<p>Erster Abschnitt mit Text, Aufgabe und Test.</p>",
+      "aktivitaeten": [
+        {"id": "a1-banner", "art": "label", "name": "Banner 1", "quelle": "seiten/banner1.html", "sichtbar": true},
+        {"id": "a1-info", "art": "page", "name": "Info: Variablen", "quelle": "seiten/info.html", "beschreibung_anzeigen": false, "sichtbar": true},
+        {"id": "a1-abgabe", "art": "assign", "name": "Abgabe: Hallo-Programm", "beschreibung": "seiten/abgabe.html", "beschreibung_anzeigen": true, "sichtbar": true,
+         "einstellungen": {"max_dateien": 2, "max_groesse_mb": 5, "erlaubte_dateitypen": [".java", ".txt"], "punkte": 100}},
+        {"id": "a1-test", "art": "quiz", "name": "Test 1", "quelle": "tests/test1.xml", "sichtbar": true,
+         "einstellungen": {"zeitlimit_min": 10, "versuche": 2, "antworten_mischen": true}}
+      ]
+    },
+    {
+      "id": "a2",
+      "name": "2 Vertiefung",
+      "zusammenfassung": "<p>Zweiter Abschnitt mit Datei und Link.</p>",
+      "aktivitaeten": [
+        {"id": "a2-datei", "art": "file", "name": "Arbeitsblatt (TXT)", "quelle": "dateien/arbeitsblatt.txt", "sichtbar": true},
+        {"id": "a2-link", "art": "url", "name": "Java-Dokumentation", "sichtbar": true, "einstellungen": {"url": "https://docs.oracle.com/en/java/"}},
+        {"id": "a2-info", "art": "page", "name": "Info: Verweise", "quelle": "seiten/verweise.html", "sichtbar": true}
+      ]
+    }
+  ],
+  "bewertung": {
+    "kategorien": [{"name": "Abgaben", "gewicht_prozent": 50, "aktivitaeten": ["a1-abgabe"]}],
+    "gewichte": {"a1-test": 50},
+    "notenskala": {"stufen": [[92, "1"], [81, "2"], [67, "3"], [50, "4"], [30, "5"], [0, "6"]]}
+  }
+}

@@ -54,7 +54,8 @@ for %%P in (
     quiz
     visual-designer
     reviewer
-    moodle
+    moodle-mcp
+    moodle-mbz
 ) do (
     echo [%%P]
     hermes -p %%P config set terminal.cwd "%WORKDIR%"
@@ -72,7 +73,8 @@ echo ============================================================
 echo.
 echo Beispiel zum Pruefen:
 echo   hermes -p orchestrator config show
-echo   hermes -p moodle config show
+echo   hermes -p moodle-mcp config show
+echo   hermes -p moodle-mbz config show
 echo.
 
 endlocal

@@ -31,9 +31,10 @@ _workspace/*
 # Logs / Temp
 *.tmp
 *.temp
-*.bak
 *.log
 *.cache
+*.bak
+*.pruefung-intern/
 
 # Node
 node_modules/

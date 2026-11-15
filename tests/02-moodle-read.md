@@ -1,6 +1,6 @@
 # Test 02 – Moodle nur lesen
 
-Im Moodle-Agent:
+Im Agenten `moodle-mcp` (Variante MCP; `moodle-mbz` hat keinen MCP):
 
 Dies ist ausschliesslich ein Lesetest.
 

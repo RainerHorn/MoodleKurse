@@ -1,12 +1,27 @@
 # Hermes: Repository und Profile abgleichen
 
-Pflegequellen sind `agents/<Rolle>/SOUL.md`, die zugehörigen `skills/` sowie
+Die vier Fach-SOULs (`fiae`, `fisi`, `fidp`, `vt`) entstehen aus
+`agents/_shared/fach/` (Vorlage und `rollen.json`); dort ändern, dann
+`python scripts/build_fach_souls.py --write`. Ohne `--write` vergleicht das
+Skript nur.
+
+Pflegequellen sind `agents/<Rolle>/SOUL.md`, die zugehörigen `skills/`, die für alle
+Rollen gemeinsamen Skills unter `agents/_shared/skills/` (der Abgleich verteilt sie
+in jedes Profil; im Repository gibt es davon keine Rollenkopien) sowie
 `agents/moodle-mcp/config.template.yaml` für die nicht geheimen Moodle-MCP-Sollwerte
 (`agents/moodle-mbz/config.template.yaml` enthält bewusst keinen MCP).
 Der Komponentenstand steht in `platform/components.json`; Serverabnahme bleibt
 ein eigener Nachweis. Modellwahl, Zugangsdaten und weitere persönliche Einstellungen
 liegen ausschließlich in lokalen Profilen. Rollen lesen AGENTS und die zentralen
 Prozessregeln aus dem gemeinsamen Repository.
+
+Das Standardprofil `hermes` liegt nicht unter `profiles/`, sondern direkt in
+`%LOCALAPPDATA%/hermes`; der Abgleich erfasst es nicht. Seine Regeln für die
+Kursproduktion stehen in `agents/_shared/hermes/SOUL.md`. Diesen Text von Hand
+in `%LOCALAPPDATA%/hermes/SOUL.md` übernehmen (als Abschnitt, falls dort schon
+anderes steht) und den Skill `agents/_shared/skills/moodle-agent-control-plane`
+nach `%LOCALAPPDATA%/hermes/skills/` kopieren. Danach eine neue Sitzung starten.
+Wer Kurse nur direkt im Orchestrator-Chat beauftragt, braucht diesen Schritt nicht.
 
 `setup-hermes.ps1` erzeugt keine Projekttexte mehr. Standard ist ein lesender
 Abgleich aller vorhandenen Repository-Rollen und Skills mit den Profilen:

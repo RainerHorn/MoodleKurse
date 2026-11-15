@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "course": null,
+  "task": null,
+  "role": null,
+  "configured_model": null,
+  "observed_model": null,
+  "input_package_sha256": null,
+  "rules_sha256": null,
+  "component_snapshot": null,
+  "started_at": null,
+  "finished_at": null,
+  "wall_seconds": null,
+  "tool_seconds": null,
+  "human_wait_seconds": null,
+  "model_seconds": null,
+  "corrections": null,
+  "quality_result": null,
+  "blocking_findings": null,
+  "evidence": [],
+  "note": "Null bedeutet unbekannt. Ueberlappende Zeiten nicht addieren oder blind von wall_seconds abziehen. Keine Secrets/Inhalte in Telemetrie."
+}
