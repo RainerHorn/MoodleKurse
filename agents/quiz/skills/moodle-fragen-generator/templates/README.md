@@ -1,5 +1,9 @@
 # Moodle Quiz XML Templates
 
+Nur Katalog und benötigten Fragetyp lesen. Rangfolge: Projekt-AGENTS.md →
+Quiz-Rolle → SKILL.md → diese Vorlagen. Alte Import-Workarounds nur bei
+bestätigter Notwendigkeit anwenden; keine allgemeine Vorschaupflicht.
+
 ## 📋 Übersicht
 
 Dieser Ordner enthält **generische Moodle Quiz Templates** in XML-Format, die für alle Kurse und Themen verwendet werden können. Die Templates sind themenunabhängig gestaltet und enthalten Platzhalter sowie ausführliche Kommentare zur Anpassung.
@@ -33,7 +37,7 @@ Siehe Abschnitt **"SVG-Diagramme in Fragen einbinden"** für technische Details.
 | `template-multichoice-mit-svg.xml` | multichoice + SVG | Multiple-Choice mit Workflow-Diagramm (START → Schritte) |
 
 
-> **ℹ️ Hinweis:** Der Fragetyp **ordering** ist seit Moodle 4.0 im Core enthalten und erfordert kein zusätzliches Plugin.
+> **ℹ️ Hinweis:** **ordering** gehört seit Moodle 4.4 zum Core; Verfügbarkeit auf der Zielinstanz bestätigen. [Moodle-4.4-Releasenotes](https://moodledev.io/general/releases/4.4)
 
 ## 🚀 Schnellstart
 
@@ -43,8 +47,8 @@ Wählen Sie das passende Template für Ihren Fragetyp aus:
 
 ```bash
 # Beispiel: Zuordnungsaufgabe erstellen
-cd HTML/fragen/templates
-copy template-ddmatch-zuordnung.xml ../../meine-neue-frage.xml
+# Vom Skill-Verzeichnis aus; Ziel im beauftragten Kursordner wählen:
+Copy-Item templates/template-ddmatch-zuordnung.xml C:/PFAD/ZUM/KURS/quiz/meine-neue-frage.xml
 ```
 
 ### 2. Template anpassen
@@ -463,7 +467,7 @@ Drag-Items **ohne** zugehörige Drop-Zone = Distractors (falsche Antworten).
 ### Template: ordering (Anordnung)
 
 **Verwendung:** Elemente in die richtige Reihenfolge bringen
-> Seit Moodle 4.0 im Core enthalten – kein Plugin nötig.
+> Seit Moodle 4.4 im Core; siehe Releasenotes oben. Zielinstanz-Verfügbarkeit prüfen.
 
 **Beispiele:**
 - Prozessschritte chronologisch ordnen
@@ -802,7 +806,7 @@ Beim Import werden alle Fragen gleichzeitig importiert.
 | **Drop-Labels verdecken Diagramm** | Nummernkreise über Inhalt platziert | Kreise in Leerräume: Ränder, außerhalb, auf Pfeilen |
 | **Distractors ohne Hinweis** | Überzählige drag-Items, aber kein Hinweistext | Im questiontext ankündigen: `<em>Es gibt X zusätzliche Begriffe, die nicht passen.</em>` |
 | **Ankündigungssatz trotz fehlender Distractors** | Distractors entfernt, Text vergessen | Beim Entfernen von Distractors auch Ankündigungssatz löschen |
-| **ordering: Import-Fehler** | Moodle-Version < 4.0 | Seit Moodle 4.0 im Core – kein Plugin nötig. Moodle-Version prüfen. |
+| **ordering: Import-Fehler** | Fragetyp/Importweg ungeklärt | Seit Moodle 4.4 im Core. Tatsächlichen Fragetyp und Importfehler prüfen; keinen Versionsfehler bloß vermuten. |
 | **ordering: "String erwartet"** | layouttype/selecttype/gradingtype als Text statt Zahl | Werte müssen Integer sein: `<layouttype>0</layouttype>` (nicht "VERTICAL") |
 | **multichoice: Option wird nicht angezeigt** | Antwortoption beginnt mit `+`, `-`, `~` | Moodle-Sonderzeichen → Option umbenennen (z.B. `"positiv (+)"` statt `"+ positiv"`) |
 | **10 Fragen erkannt, 0 importiert** | Mindestens 1 Frage hat Fehler → gesamter Import bricht ab | Fragen einzeln importieren um fehlerhafte zu identifizieren<br>XML validieren |

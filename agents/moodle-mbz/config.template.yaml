@@ -1,0 +1,11 @@
+# Versionierbare Vorlage.
+# Keine Secrets in diese Datei schreiben.
+#
+# Rolle MoodleMBZ: KEIN Moodle-MCP. Der Agent nutzt nur das Terminal
+# (PowerShell, Docker, Python) fuer skills/moodle-mbz/scripts/mbz.ps1.
+
+terminal:
+  backend: local
+  cwd: "C:/Users/Horn/Projekte/Moodle-Kurse"
+
+# Bewusst keine mcp_servers-Eintraege.

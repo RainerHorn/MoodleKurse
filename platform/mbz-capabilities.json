@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "purpose": "Zentrale MBZ-Machbarkeit: einzige Pflegequelle fuer die Grenzen der Variante MBZ. Rollen und Dokumente verweisen hierher, statt Listen zu wiederholen.",
+  "owner": "moodle-mbz",
+  "observed_at": "2026-11-15",
+  "source": "Nur lesende Containerabfragen (version.php, ls mod und question/type, version.php der Plugins) sowie das Bauwerkzeug agents/moodle-mbz/skills/moodle-mbz/scripts/bau.php und references/kursplan-format.md. Kein Bau, keine Importprobe.",
+  "scope": "Lokaler Baucontainer und Bauwerkzeug. Kein Nachweis ueber die Schul-Moodle (Version, Plugins, Rechte, Seitenbereinigung, Browserdarstellung).",
+  "environment": {
+    "container": "mbz-moodle (Compose-Projekt mbzbau)",
+    "image": "brandkern/moodle:4.5-latest",
+    "image_id": "sha256:20c58e55eb8d3420df45a83625b9629b335185f19a39513029a771a8917ca17e",
+    "moodle_release": "4.5.4 (Build: 20250414)"
+  },
+  "activities": {
+    "supported": ["label", "page", "url", "file", "assign", "quiz", "workshop"],
+    "unsupported": ["forum", "lesson", "h5p"],
+    "notes": [
+      "Massgeblich ist, was das Bauwerkzeug (bau.php) erzeugt. Forum, Lektion und H5P sind im Image installiert, werden aber nicht gebaut.",
+      "workshop: nur Strategie 'Punkte pro Kriterium'; startet in der Vorbereitungsphase, Phasen schaltet die Lehrkraft.",
+      "Vollstaendige HTML-Dokumente mit eigenem CSS/JS als file, nicht als page (Moodle bereinigt Seitentext beim Wiederherstellen)."
+    ]
+  },
+  "also_supported": ["Abschlussverfolgung", "Zugriffsbeschraenkung nach Abschluss", "Einrueckung", "reine Fragensammlung", "Links {{LINK:id}} innerhalb derselben MBZ"],
+  "question_types": {
+    "core_present": ["calculated", "calculatedmulti", "calculatedsimple", "ddimageortext", "ddmarker", "ddwtos", "description", "essay", "gapselect", "match", "multianswer", "multichoice", "numerical", "ordering", "randomsamatch", "shortanswer", "truefalse"],
+    "plugins_present": [
+      {"name": "ddmatch", "release": "2.5.4 (Build: 2025051900)", "version": 2025051900},
+      {"name": "coderunner", "release": "5.9.2", "version": 2026051000}
+    ],
+    "notes": [
+      "'present' heisst: Verzeichnis im Container vorhanden. Eine Importprobe je Fragetyp ist damit nicht belegt.",
+      "Plugin-Fragetypen muessen auch in der Schul-Moodle installiert sein; das ist hier nicht pruefbar.",
+      "Fragetypen nie stillschweigend ersetzen (z. B. ddmatch nicht durch match)."
+    ]
+  },
+  "not_plan_controllable": [
+    "Quiz-Pruefungsoptionen (Feedbackschutz): bau.php setzt feste Werte. Sind gesperrte Rueckmeldungen gefordert, bleibt das Quiz 'sichtbar: false', bis die Lehrkraft die Optionen nach dem Wiederherstellen gesetzt und die Lernendensicht geprueft hat."
+  ],
+  "section_mode": [
+    "Weg A (als neuer Kurs) und Weg B (in bestehenden Kurs, -ZielNummer = Abschnittsnummer im Zielkurs).",
+    "Links und Voraussetzungen ueber Abschnittsgrenzen funktionieren nur in einer Kurs-MBZ."
+  ],
+  "recheck_when": "Geaendertes Image, neu installiertes oder aktualisiertes Plugin, geaendertes Bauwerkzeug oder eine Funktion, die hier nicht steht. Dann prueft moodle-mbz gezielt und aktualisiert diese Datei mit Datum und Quelle. Kursbezogene machbarkeit.json nur fuer Abweichungen von diesem Stand."
+}

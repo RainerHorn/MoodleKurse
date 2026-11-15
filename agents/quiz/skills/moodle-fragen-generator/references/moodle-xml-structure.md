@@ -1,198 +1,154 @@
-# Moodle-XML Struktur-Referenz
+# Moodle-XML: Struktur und Importableitung
 
-Kompakte technische Schnellreferenz für XML-Aufbau, Import-Fallstricke und Validierung.
+Rangfolge: Projekt-`AGENTS.md` → `agents/quiz/SOUL.md` → `../SKILL.md` →
+diese Referenz. Bei XML-Strukturfragen lesen; typspezifische XML-Dateien in
+`../templates/` verwenden. Keine zusätzliche Pflicht zur HTML-Vorschau.
 
-Diese Datei ist **nicht** die führende Regelquelle.
-Bei Abweichungen gelten in dieser Reihenfolge:
-1. `.github/instructions/questions.instructions.md`
-2. `SKILL.md`
-3. diese Datei
+## Projektkonventionen und Moodle-Format
 
-## Zweck
-- schneller Lookup für XML-Grundstruktur
-- kompakte Skelette für häufige Fragetypen
-- Import-Checks vor dem Moodle-Import
+Ein Kategorieblock je Autoren-Quiz und Tags für Bildungsgang/Lernfeld/Thema sind
+Projektkonventionen. Moodle selbst unterstützt auch andere Kategorieaufteilungen.
+Die Zielkategorie hängt vom tatsächlichen Importweg ab; keine Kategorie-IDs raten.
+UTF-8, Wurzel, Name und CDATA erläutert die
+[Moodle-4.5-Formatdokumentation](https://docs.moodle.org/405/en/Moodle_XML_format).
 
-## Allgemeine Grundstruktur
+Ein minimales Strukturbeispiel (Inhalt und Bewertung durch Auftrag ersetzen):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-  <!-- question: q1 -->
-  <question type="TYPE">
-    <name><text>Fragetitel</text></name>
-    <questiontext format="html">
-      <text><![CDATA[<p>Fragetext</p>]]></text>
-    </questiontext>
-    <generalfeedback format="html">
-      <text><![CDATA[<p>Erläuterung</p>]]></text>
-    </generalfeedback>
+  <question type="category">
+    <category><text>$course$/top/FISI/LF03/Beispielquiz</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Beispielfrage</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Fragetext</p>]]></text></questiontext>
     <defaultgrade>1</defaultgrade>
-    <penalty>0.1</penalty>
-    <hidden>0</hidden>
-    <idnumber></idnumber>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answer fraction="100" format="html">
+      <text><![CDATA[<p>Richtige Antwort</p>]]></text>
+      <feedback format="html"><text><![CDATA[<p>Begründung</p>]]></text></feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>Plausibler Distraktor</p>]]></text>
+      <feedback format="html"><text><![CDATA[<p>Korrekturhinweis</p>]]></text></feedback>
+    </answer>
+    <tags>
+      <tag><text>FISI</text></tag>
+      <tag><text>LF03</text></tag>
+      <tag><text>Beispielthema</text></tag>
+    </tags>
   </question>
 </quiz>
 ```
 
-## Pflichtregeln
+`<!-- question: q1 -->` ist ein optionaler Kommentar und kein Pflichtnachweis.
+Fragen durch `<question>`-Elemente zählen, Kategorieelemente separat behandeln.
+Der Tagname lautet wörtlich `name`, nicht `n` und nicht `na&#x6D;e`.
+Titeltexte dürfen UTF-8 enthalten; XML-Sonderzeichen außerhalb CDATA escapen.
 
-### 1. Frage-Marker vor jeder Frage
+## Autorenfassung und Transportfassung
 
-```xml
-<!-- question: q1 -->
-<question type="multichoice">
-```
+1. Aktuelle Variante aus Auftrag und Status lesen. Für MBZ die kategorisierte
+   Autorenfassung als Quelle für die Kursfragensammlung vorsehen; Kategorie und Tags
+   übergeben. Eine frühere MCP-Transportfassung nicht zur MBZ-Vorgabe erklären.
+2. Nur wenn der bestätigte MCP-Importweg eine feste Zielkategorie ohne Kategorieblock
+   verlangt, auf ausdrücklichen Auftrag eine separate geschützte Transportfassung
+   ableiten. Die Autorenfassung mit Kategorie unverändert erhalten.
+3. Die relevante Komponente `xml-transport` aus `platform/components.json` wählen
+   und ihren Hash prüfen. Bei passendem vorhandenem Nachweis das gemeinsame Werkzeug
+   `scripts/xml_transport.py` nutzen statt einen kursbezogenen Entferner neu zu bauen.
+   Die Erzeugung erfolgt mit `--derive`, die Quellenbindung optional mit
+   `--source-sha256`; das Werkzeug überschreibt keine vorhandene Zieldatei.
+4. Ausschließliche Kategorieentnahme durch Gesamtbytevergleich, Fragebaumvergleich
+   und SHA-256/Bytezahl belegen; IDs, Reihenfolge, Typen, Punkte, Antworten und Feedback
+   müssen erhalten bleiben. Für unveränderten Inhalt keine vollständige fachliche
+   Neufreigabe oder Plattform-Testserie verlangen.
+5. Beim Variantenwechsel nur betroffene Technik-/Übergabetexte ändern und testen.
+   Frühere Ableitungen und technische Generator-Alttexte als historisch kennzeichnen;
+   alte Generatoren nicht unbesehen ausführen, wenn sie aktuelle Dokumentation
+   überschreiben würden. Fach-/Quiz-Bytes bleiben bei reinem Technikwechsel erhalten.
 
-Ohne diese Marker kann der Import still mit 0 Fragen enden.
+Eine lokale Prüfung beweist keine Live-Import- oder MBZ-Baufähigkeit. MCP-Import und
+aktueller Readback gehören zu `moodle-mcp`; MBZ-Import/Bau, Kursplan, Schutzparameter
+und Probewiederherstellung zu `moodle-mbz`. Offene Bau-/Zielentscheidungen ausdrücklich
+nennen, statt frühere Kurs- oder Kategorie-IDs auf eine andere Variante zu übertragen.
 
-### 2. CDATA bei HTML-Inhalt
-Alle `<text>`-Elemente mit HTML-Inhalt gehören in CDATA.
-Das betrifft typischerweise:
-- `<questiontext><text>`
-- `<answer><text>` bei HTML
-- `<feedback><text>` bei HTML
-- `<generalfeedback><text>` bei HTML
-- `<subquestion><text>` bei HTML
+## Quellenneubindung ohne Quizinhaltsänderung
 
-Beispiel:
+Gilt nur für Bestandskurse, die bereits ein Quiz-Manifest oder hashgebundene
+Altnachweise besitzen. Neue Kurse legen kein eigenes Quiz-Manifest und keine
+Hashliste an (`_vorgaben/qualitaetsstandards/projektsteuerung.md`); für sie
+entfällt dieser Abschnitt. „P0“ bezeichnet hier die früheren Prüfpläne und
+Nachweise dieser Bestandskurse (z. B. `checks.p0.json`); die Regeln dazu heißen
+heute `pruefstrategie.md`.
 
-```xml
-<text><![CDATA[<p>Text mit <strong>HTML</strong></p>]]></text>
-```
+1. Manifest, Übergabe, Abschlussvalidator, vorhandene Regressionstests und alte
+   P0-Evidenz gemeinsam lesen. Die vollständige Eingabeliste des Altnachweises
+   prüfen: Ein korrigierter Lösungsschlüssel oder Rahmen kann dort zusätzlich
+   gebunden sein, auch wenn Fragen und XML unverändert bleiben.
+2. Aktuelle Quellenbytes mit den im Auftrag freigegebenen vollständigen Hashes
+   abgleichen. Vor Änderungen alle bisherigen Quiz-Ergebnisdateien gegen das alte
+   Manifest prüfen; dadurch lässt sich die behauptete Inhaltskonstanz belegen.
+3. Im Manifest ausschließlich die autorisierten Quellen auf neue Bytezahl/Hash
+   setzen und je Pfad das genaue Alt-/Neuhashpaar samt fachlichem Änderungsgrund
+   erfassen. Wenn das Assessment ausdrücklich bytegleich bleiben muss, auch ein
+   eingebettetes altes Rahmenhashfeld nicht ändern: Es dokumentiert die Herkunft.
+   Eine separate geschützte Rebind-Datei verknüpft genau diesen alten Hash mit dem
+   aktuellen Rahmen, den autorisierten Quellenwechseln und den unveränderten
+   Assessment-/XML-/HTML-/PDF-Hashes. Der Validator prüft Herkunft und aktuelle
+   Bindung getrennt sowie die übrigen Quellen weiterhin vollständig gegen den Rahmen.
+   Keine pauschale Ausnahme für geänderte Markdown-Dateien zulassen:
+   Sie würde auch unerlaubte weitere Quellenänderungen verdecken.
+4. Den historischen P0-Bericht und seine ursprünglichen Eingabehashes unverändert
+   lassen. Im Delta-Validator getrennt prüfen: Der Altbeleg nennt den alten Hash,
+   die heutige Quelle besitzt exakt den neu autorisierten Hash. Nicht betroffene
+   Eingaben, Validatoren und Quiz-Ergebnisdateien weiterhin strikt vergleichen.
+   Einen ursprünglichen Gesamt-PASS nur für seine damaligen Bytes ausweisen;
+   aktuelle Quellenbindung ist weder neuer Fachreview noch aktueller Gesamt-PASS.
+5. Manifesthash erst nach der letzten Manifeständerung berechnen und in die
+   Übergabe übernehmen. Abschluss-Prüfcode separat hashen statt ihn an seinen
+   eigenen veralteten Hash im Prüfmanifest zu binden. Herkunftshashes in bewusst
+   unveränderten Generatoren/Fragenpools als historisch erklären; solche Generatoren
+   nicht zur vermeintlichen Reparatur erneut ausführen.
+6. Den Abschlussvalidator und die vorhandenen Regressionstests ausführen, jeweils
+   mit Exitcode und getrenntem Log. Beispielsweise ab Repository-Wurzel:
+   `python courses/<Kurs>/quiz/validate_abschluss.py` und
+   `python -m unittest discover -s courses/<Kurs>/quiz -p test_validate_abschluss.py -v`.
+   Die Pfade dem tatsächlichen Projektbestand entnehmen, nicht neu voraussetzen.
+   Bei vorhandenen P0-Plänen den betroffenen Check gezielt mit
+   `python scripts/check_runner.py run --spec <Plan> --check <Check-ID>` wählen;
+   keine komplette Produktion oder unverändertes PDF-Rendering starten. Neue vom
+   Validator gelesene Rebind-Dateien und Inhaltsanker in dessen Eingabeliste aufnehmen.
+   Vorher prüfen, ob alte Evidenz tatsächlich lokal vorliegt: Ein Bericht mit früherem
+   PASS oder ein fehlender Cache belegt keinen aktuellen REUSED-Lauf. Fehlende alte
+   Evidenz offen nennen und den erforderlichen gezielten Check neu ausführen.
+7. Regressionen um die konkrete Bindungsänderung ergänzen: autorisierte neue
+   Quellen akzeptieren; weitere veränderte Quellenbytes, ein als aktuell
+   umetikettiertes Alt-PASS und nachträglich auf neue Werte umgeschriebene
+   P0-Eingabehashes ablehnen. Bei getrennten Herkunfts-/Aktuellbindungen auch das
+   Überschreiben des alten Assessment-Herkunftshashs sowie veraltete aktuelle
+   Rahmenbindungen ablehnen. Kontext-/Hashmutationen in Tests im Speicher mocken,
+   damit keine fremden Fach- oder Statusdateien für Negativtests geändert werden.
+   Den erwarteten Ablehnungsgrund oder die erreichte Prüfstufe mitprüfen: Ein neuer
+   vorgelagerter Hashwächter kann sonst sämtliche alten Mutationstests früh abbrechen
+   und eine nicht mehr ausgeübte Bewertungs-/Paritätsprüfung scheinbar bestätigen.
+   Bei temporären Testkopien neue gelesene Metadaten und Inhaltsanker mitkopieren,
+   damit fehlende Dateien nicht als erfolgreiche fachliche Fehlererkennung zählen.
+8. In der Übergabe geänderte Metadaten-/Prüfdateien mit vollständigen SHA-256,
+   erfolgreiche Exitcodes und unveränderte Quiz-Contenthashes melden. Ein neues
+   Metadatenpaket nicht als neue Reviewer- oder Veröffentlichungsfreigabe ausgeben.
 
-### 3. Templates aus `templates/` verwenden
-Für neue Dateien die Vorlagen aus dem Ordner `templates/` und `templates/README.md` nutzen.
+## Gezielt prüfen
 
-### 4. HTML-Vorschau ist Pflicht
-Neben der XML-Datei wird immer auch eine HTML-Vorschau erzeugt.
-
-## Fragetypen – Schnellskizzen
-
-### ddmatch
-
-```xml
-<question type="ddmatch">
-  <questiontext format="html">
-    <text><![CDATA[<p>Ordne zu.</p>]]></text>
-  </questiontext>
-  <defaultgrade>2</defaultgrade>
-  <shuffleanswers>true</shuffleanswers>
-
-  <subquestion format="html">
-    <text><![CDATA[<p>Begriff A</p>]]></text>
-    <answer format="html">
-      <text><![CDATA[<p>Erklärung A</p>]]></text>
-    </answer>
-  </subquestion>
-</question>
-```
-
-Kurzregeln:
-- `<defaultgrade>` = Anzahl der Zuordnungspaare.
-- HTML-Inhalte in CDATA.
-
-### ddwtos
-
-```xml
-<question type="ddwtos">
-  <questiontext format="html">
-    <text><![CDATA[<p>Text mit [[1]] und [[2]].</p>]]></text>
-  </questiontext>
-  <defaultgrade>2</defaultgrade>
-
-  <dragbox><text>Antwort 1</text><group>1</group></dragbox>
-  <dragbox><text>Antwort 2</text><group>2</group></dragbox>
-  <dragbox><text>Distractor 1</text><group>1</group></dragbox>
-  <dragbox><text>Distractor 2</text><group>2</group></dragbox>
-</question>
-```
-
-Kurzregeln:
-- Lücken im Text als `[[1]]`, `[[2]]`, ...
-- Richtige Antworten zuerst, Distractoren danach.
-- `<defaultgrade>` = Anzahl der Lücken.
-- Details zu Reihenfolge, `infinite` und Gruppenlogik stehen in `SKILL.md`.
-
-### multichoice
-
-```xml
-<question type="multichoice">
-  <questiontext format="html">
-    <text><![CDATA[<p>Welche Aussage ist richtig?</p>]]></text>
-  </questiontext>
-  <defaultgrade>1</defaultgrade>
-  <single>true</single>
-  <shuffleanswers>true</shuffleanswers>
-
-  <answer fraction="100" format="html">
-    <text><![CDATA[<p>Richtige Antwort</p>]]></text>
-  </answer>
-  <answer fraction="-33.33333" format="html">
-    <text><![CDATA[<p>Falsche Antwort</p>]]></text>
-  </answer>
-</question>
-```
-
-Kurzregeln:
-- `single=true`: genau eine richtige Antwort.
-- `single=false`: richtige Antworten summieren sich zu etwa 100 %.
-- `<defaultgrade>` richtet sich nach der Zahl der Bewertungseinheiten.
-- Keine Antworttexte mit führendem `+`, `-` oder `~`.
-
-### cloze
-
-```xml
-<question type="cloze">
-  <questiontext format="html">
-    <text><![CDATA[
-<p>{1:MULTICHOICE:Option A~Option B~=Richtig~Option C}</p>
-    ]]></text>
-  </questiontext>
-</question>
-```
-
-Kurzregeln:
-- `=` markiert die richtige Option.
-- `~` trennt Optionen.
-- MULTICHOICE-Blöcke immer auf einer einzigen Zeile.
-- Kein zusätzliches `<defaultgrade>` nötig.
-
-## SVG und Diagramme
-SVG-spezifische Detailregeln werden nicht in dieser Datei gepflegt.
-Für SVG, Cisco-Symbole, Base64-Einbettung, responsive HTML-Vorschau und Diagrammregeln ist `SKILL.md` maßgeblich.
-
-## Validierung vor dem Abschluss
-
-### XML-Syntax prüfen
-
-```powershell
-python -c "import xml.etree.ElementTree as ET; ET.parse(r'res\DATEI.xml'); print('XML valid')"
-```
-
-### Marker prüfen
-
-```powershell
-grep -c "<!-- question:" res/DATEI.xml
-```
-
-Die Zahl sollte der Anzahl der Fragen entsprechen.
-
-### Cloze-MULTICHOICE prüfen
-
-```powershell
-grep -n "MULTICHOICE" res/DATEI.xml
-```
-
-Jeder MULTICHOICE-Block muss vollständig auf einer Zeile stehen.
-
-### CDATA-Lücken suchen
-
-```powershell
-grep -n "<text>[^<]*<[a-z]" res/DATEI.xml
-```
-
-## Einsatzgrenze dieser Datei
-Diese Datei dient nur als Schnellreferenz.
-Sie soll keine vollständige Fachspezifikation mehr enthalten.
-Für Detailregeln immer die führende Instruktionsdatei und `SKILL.md` heranziehen.
+- XML parsen; Kategorie, Titel, Text und Tags strukturell prüfen.
+- Bewertung/Antworten/Feedback gegen den freigegebenen Blueprint prüfen.
+- In Typvorlagen benötigte Felder ergänzen; Platzhalter nicht ausliefern.
+- CLOZE-Syntax und Toleranzen typspezifisch prüfen; lokale Syntaxprüfung ersetzt
+  keine Moodle-Vorschau bei bislang ungeprüfter Interaktion.
+- Für `ddwtos`, CodeRunner und SVG nur den passenden Abschnitt in
+  `authoring-details.md` lesen.
+- Keine wiederholte Markerzählung, zusätzliche Pflichtvorschau oder vollständige
+  Testserie für eine unveränderte Datei. Vorhandene Nachweise nach
+  `pruefstrategie.md` verwenden.

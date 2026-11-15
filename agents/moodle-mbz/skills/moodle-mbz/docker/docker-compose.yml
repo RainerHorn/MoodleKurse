@@ -1,0 +1,36 @@
+# Lokales Moodle 4.5 NUR zum Erzeugen und Prüfen von .mbz-Dateien (kein Unterricht, keine echten Daten).
+# Der Port ist nur für localhost gebunden. Die Passwörter sind reine Entwicklungswerte.
+name: mbzbau
+services:
+  moodle:
+    image: brandkern/moodle:4.5-latest
+    container_name: mbz-moodle
+    ports:
+      - "127.0.0.1:8099:80"
+    environment:
+      DB_HOST: db
+      DB_NAME: moodle
+      DB_USER: moodleuser
+      DB_PASS: moodlepass
+      WWWROOT: http://localhost:8099
+    volumes:
+      - moodledata:/var/www/moodledata
+      - moodlehtml:/var/www/html
+      - ./work:/work
+    depends_on:
+      - db
+  db:
+    image: mariadb:11.3
+    container_name: mbz-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: moodle
+      MYSQL_USER: moodleuser
+      MYSQL_PASSWORD: moodlepass
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - dbdata:/var/lib/mysql
+volumes:
+  moodledata:
+  moodlehtml:
+  dbdata:

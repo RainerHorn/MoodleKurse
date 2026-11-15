@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category"><category><text>$course$/top/Beispiel</text></category></question>
+  <question type="multichoice">
+    <name><text>Variable speichern</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Was speichert eine Variable?</p>]]></text></questiontext>
+    <defaultgrade>1</defaultgrade><penalty>0.3333333</penalty><hidden>0</hidden>
+    <single>true</single><shuffleanswers>true</shuffleanswers><answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text>Richtig.</text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text>Teilweise.</text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text>Falsch.</text></incorrectfeedback>
+    <answer fraction="100" format="html"><text>Einen Wert</text></answer>
+    <answer fraction="0" format="html"><text>Ein Programm</text></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Wahr oder falsch</text></name>
+    <questiontext format="html"><text><![CDATA[<p>int speichert Text.]]></text></questiontext>
+    <defaultgrade>1</defaultgrade><penalty>1</penalty><hidden>0</hidden>
+    <answer fraction="0" format="moodle_auto_format"><text>true</text></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>false</text></answer>
+  </question>
+</quiz>

@@ -3,6 +3,8 @@
 Diese Datei ist eine vertiefende Referenz. Die übergeordnete `../SKILL.md`, `agents/quiz/SOUL.md` und das Projekt-`AGENTS.md` haben Vorrang. Aussagen wie „Pflicht“ gelten nur, soweit sie diesen Quellen und der bestätigten Moodle-/Plugin-Konfiguration nicht widersprechen.
 
 ## Vorgehen (Standard-Workflow)
+Nur bei einem passenden Spezialfall lesen. Auftrag, aktueller Status und vorhandene Prüfnachweise
+haben Vorrang vor den nachstehenden Beispielen. Keine zusätzliche Vollprüfung starten.
 1. Kläre kurz die Parameter (falls nicht gegeben): Thema, Zielklasse/-stufe, Schwierigkeitsgrad (leicht/mittel/schwer), Anzahl Fragen, gewünschte Fragetypen.
 2. Nutze als Strukturvorlage die Dateien im Ordner `templates` und beachte `templates/README.md`.
 3. Erzeuge valide Moodle-XML in der Form:
@@ -21,13 +23,13 @@ Diese Datei ist eine vertiefende Referenz. Die übergeordnete `../SKILL.md`, `ag
   ```xml
   <question type="multichoice">
     <!-- Tag-Name besteht aus den 4 Buchstaben: n, a, m, e -->
-    <na&#x6D;e>
+    <name>
       <text>Mein Fragetitel</text>
-    </na&#x6D;e>
+    </name>
   ```
-- **WARNUNG:** Dieses Dokument kann den Tag-Namen aufgrund von HTML-Rendering-Problemen verkürzt darstellen. Der tatsächliche Tag in Moodle-XML ist IMMER das englische Wort für "Name" mit 4 Buchstaben. Im Zweifelsfall orientiere dich an den Template-Dateien im Ordner `templates/` – dort ist der Tag korrekt geschrieben.
+- XML-Tagnamen wörtlich schreiben; Zeichenreferenzen innerhalb eines Tagnamens sind unzulässig. Bei Strukturfragen `moodle-xml-structure.md` verwenden.
 - **Verifikation:** Nach dem Erzeugen der XML-Datei muss geprüft werden, dass der Tag 4 Buchstaben hat (Hex: `3c6e616d653e`). Ein Tag mit nur 1 Buchstabe (`3c6e3e`) ist FALSCH und führt dazu, dass Moodle keinen Fragentitel anzeigt.
-- **Reines ASCII im Titel-Tag:** Keine Umlaute, keine Nicht-ASCII-Zeichen (kein `–` U+2013, kein `—`). Statt `ü` → `ue`, statt `–` → `-`.
+- Der Tagname ist `name`; der Titeltext darf UTF-8 einschließlich Umlauten enthalten. XML-Sonderzeichen im Text korrekt escapen.
 
 ### CDATA (kritisch)
 - **Jedes** `<text>`-Element, das HTML enthält, **muss** in CDATA stehen:
@@ -90,36 +92,17 @@ Diese Datei ist eine vertiefende Referenz. Die übergeordnete `../SKILL.md`, `ag
 - `=` markiert die richtige Option, `~` trennt Optionen.
 - Kein zusätzliches `<defaultgrade>` nötig.
 
-#### Sourcecode in Aufgabentexten (Pflicht)
-- **Jeglicher Sourcecode** im Aufgabentext (`<questiontext>`), in Feedbacks (`<feedback>`, `<generalfeedback>`) und in Antwortoptionen (`<answer>`) **muss** in einen Markdown-konformen Fenced-Code-Block eingebettet werden:
-  ```
-  ```java
-  public class Beispiel { ... }
-  ```
-  ```
-- Dies gilt für alle Programmiersprachen (Java, Python, SQL, …). Das Sprachkürzel nach den drei Backticks ist **Pflicht** (z. B. ` ```java `, ` ```python `, ` ```sql `).
-- **Kein roher Code** außerhalb von Code-Blöcken: Inline-Bezeichner (Klassennamen, Methoden, Schlüsselwörter) bleiben in `<code>`-Tags, aber mehrzeilige Codeblöcke niemals als nackter Text oder nur in `<pre>` ohne Backtick-Fence.
-- In HTML-CDATA-Blöcken (`<questiontext>`, `<feedback>` usw.) wird der Fenced-Code-Block als Ganzes in ein `<pre><code class="language-java">…</code></pre>`-Konstrukt überführt, damit Moodle ihn korrekt rendert und ggf. Syntax-Highlighting anwendet.
-- **Konkretes Muster** für CDATA-Fragetext mit Javacode:
-  ```xml
-  <questiontext format="markdown">
-    <text><![CDATA[
-  Gegeben ist folgender Code:
+#### Sourcecode in Aufgabentexten
 
-  ```java
-  public class Hund extends Tier {
-      private String rasse;
-  }
-  ```
+Zum Format passende Darstellung verwenden: bei HTML mehrzeiligen Code als
+`<pre><code>…</code></pre>` innerhalb von CDATA, bei Markdown einen Fenced-Code-Block
+mit Sprachkürzel und `format="markdown"`. HTML-Inhalt korrekt escapen; Backticks
+nicht unverarbeitet in HTML anzeigen. Inline-Bezeichner bei HTML als `<code>`.
+Die gewählte Vorlage und Zielinstallation bestimmen das Rendering.
 
-  Welche Aussage ist korrekt?
-    ]]></text>
-  </questiontext>
-  ```
-- Das `format`-Attribut des `<questiontext>`-Elements muss auf `"markdown"` gesetzt werden, sobald Fenced-Code-Blöcke genutzt werden, damit Moodle die Backtick-Syntax korrekt verarbeitet.
-
-#### `coderunner` – Erlaubte Fragetypen (verbindlich)
-Nur die folgenden `<coderunnertype>`-Werte dürfen verwendet werden – exakt so wie hier geschrieben, keine anderen:
+#### `coderunner` – Beispiele für Fragetypen
+Die tatsächlich verfügbaren Typen/Prototypen der Zielinstallation sind maßgeblich.
+Die folgende Liste ist keine Verfügbarkeitszusage und keine abschließende Whitelist:
 
 | Typ | Verwendung |
 |---|---|
@@ -154,8 +137,8 @@ Nur die folgenden `<coderunnertype>`-Werte dürfen verwendet werden – exakt so
   `if ret == 0: os.system('java -Xmx128m -XX:CompressedClassSpaceSize=64m -cp . Test')`
 - Das Python-Template (`<template>`) in XML muss linksbündig (ohne führende Leerzeichen) beginnen, anderenfalls produziert der CodeRunner einen `IndentationError` in Python.
 - **`<template>` muss immer in CDATA eingebettet sein:** `<template><![CDATA[\n ... \n]]></template>`. Ohne CDATA brechen `&`-Zeichen (z. B. in `-J-Xmx128m`) das XML.
-- **Keine Sonderzeichen im Fragentitel-Tag (n-a-m-e):** Fragetitel dürfen **keine Nicht-ASCII-Zeichen** enthalten (kein `–` U+2013, kein `—`, keine Umlaute). Statt `–` immer einfaches `-` verwenden. Der Fragentitel-Tag wird nicht in CDATA eingebettet und muss reines ASCII sein. Siehe auch den Abschnitt "Fragentitel-Tag" oben. Das `<answer>`-Tag darf in CodeRunner-Fragen **nicht** vorkommen. Moodle's Import-Parser interpretiert es als Array und wirft `mysqli::real_escape_string(): Argument #1 must be of type string, array given`. Die Musterlösung gehört ausschließlich in `<generalfeedback>`, nie in `<answer>`.
-- **Separate XML-Dateien pro Aufgabe:** CodeRunner-Fragen immer als einzelne XML-Dateien exportieren (eine Datei = eine Frage), nicht gebündelt mit anderen Fragetypen, um Import-Konflikte zu vermeiden.
+- **Importerspezifische Felder:** Titeltext darf UTF-8 enthalten. Musterlösung und CodeRunner-Felder anhand eines Exports der bestätigten Zielinstallation bzw. passender Vorlage übernehmen. Frühere Fehler mit `<answer>` sind kein allgemeines Verbot für jede Plugin-/Importer-Version; den bestätigten Importvertrag beachten.
+- **Separate XML-Dateien pro Aufgabe:** Nur wenn der konkrete Importweg dies nachweislich verlangt; andernfalls nach Auftrag bündeln. Jede Autoren-Datei erhält den Kategorieblock gemäß Hauptskill.
 - **`<expected>` immer in CDATA:** Das `<expected><text>`-Element muss immer in CDATA eingebettet sein: `<expected><text><![CDATA[...]]></text></expected>`. Ohne CDATA führen Sonderzeichen (z. B. `–` U+2013, `|`, Umlaute) zu `mysqli`-Fehlern beim Import.
 - **Kein `textwrap.dedent()` mit Triple-Quotes im Template:** Triple-Quote-Strings im Python-Template dürfen nicht zusammen mit `printf`-Formatstrings (`%s`, `%f`, `%n`) verwendet werden – Moodle's Template-Engine kann `%`-Sequenzen fehlinterpretieren. Stattdessen **immer einfache String-Konkatenation** verwenden:
   ```python
@@ -181,13 +164,13 @@ Nur die folgenden `<coderunnertype>`-Werte dürfen verwendet werden – exakt so
 - Für gestrichelte Beziehungen: `stroke-dasharray="6,3"`.
 
 ### Netzwerktopologien – Cisco-Symbole (Pflicht)
-- Bei **jeder** Netzwerktopologie-Darstellung (VLANs, Routing, Switching, IP-Netze, etc.) **müssen** die Symbole aus `symbols/cisco/` verwendet werden.
+- Bei **jeder** Netzwerktopologie-Darstellung (VLANs, Routing, Switching, IP-Netze, etc.) **müssen** die Symbole aus `assets/symbols/cisco/` verwendet werden.
 - Verfügbare Symbole:
   | Datei | Symbol | viewBox | Empfohlene Rendergröße |
   |---|---|---|---|
-  | `symbols/cisco/router.svg` | Cisco Router (3D-Zylinder, blau) | `0 0 60 41` | `width="84" height="57"` |
-  | `symbols/cisco/switch.svg` | Cisco L2-Switch (3D-Gehäuse, blau) | `0 0 77 39` | `width="66" height="34"` |
-  | `symbols/cisco/pc.svg` | Cisco PC/Workstation (3D-Arbeitsplatz, blau) | `0 0 59 53` | `width="78" height="70"` |
+  | `assets/symbols/cisco/router.svg` | Cisco Router (3D-Zylinder, blau) | `0 0 60 41` | `width="84" height="57"` |
+  | `assets/symbols/cisco/switch.svg` | Cisco L2-Switch (3D-Gehäuse, blau) | `0 0 77 39` | `width="66" height="34"` |
+  | `assets/symbols/cisco/pc.svg` | Cisco PC/Workstation (3D-Arbeitsplatz, blau) | `0 0 59 53` | `width="78" height="70"` |
 
 - **Einbettung: ausschließlich via Base64-`<image>`-Tag** (Pflicht, keine andere Methode):
   1. SVG-Datei binär lesen und als Base64 kodieren (Python: `base64.b64encode(data).decode()`)
@@ -257,15 +240,64 @@ Nur die folgenden `<coderunnertype>`-Werte dürfen verwendet werden – exakt so
 
 ## Qualitätsanforderungen
 
-### Bepunktung (`<defaultgrade>`) – Pflicht
-**Die Punktzahl einer Frage muss der Anzahl der Bewertungseinheiten entsprechen:**
-- **`multichoice` (Mehrfachauswahl):** `<defaultgrade>` = Anzahl der **richtigen** Antwortoptionen. Beispiel: 3 richtige Antworten → `<defaultgrade>3</defaultgrade>`. Die `fraction`-Werte der richtigen Antworten summieren sich weiterhin zu ≈ 100 % (z. B. 3 × 33.33333).
-- **`multichoice` (Einfachauswahl):** `<defaultgrade>1</defaultgrade>`.
-- **`ddwtos` (Drag & Drop in Text):** `<defaultgrade>` = Anzahl der **Lücken** (`[[n]]`). Beispiel: 5 Lücken → `<defaultgrade>5</defaultgrade>`.
-- **`ddmatch` (Zuordnung):** `<defaultgrade>` = Anzahl der **Zuordnungspaare** (`<subquestion>`).
-- **`cloze`:** Punktzahl ergibt sich automatisch aus den eingebetteten Teilfragen.
-- **`coderunner`:** `<defaultgrade>` = Anzahl der Testfälle (oder nach Aufgabenkomplexität).
-- **HTML-Vorschau:** Die angezeigte Punktzahl pro Frage und die Gesamtpunktzahl im Quiz-Header und in der Sidebar müssen mit den `<defaultgrade>`-Werten übereinstimmen.
+### Numerische Grenzwerte und konservative Rundung
+
+Bei konservativ gerundeten Positionsfenstern auch die unmittelbar benachbarten,
+nach außen gerundeten Werte prüfen. Eine pauschale numerische Toleranz darf kein
+vergrößertes Fenster als voll richtig akzeptieren. Bei ausdrücklich geforderten
+Hundertstel-Endwerten gegebenenfalls Toleranz 0 verwenden und begründen.
+Nur bei Änderungen an Werten, Toleranzen oder Bewertungslogik neu prüfen (`pruefstrategie.md`).
+
+### Druckbare Testbögen
+
+Wenn druckbare HTML-Testbögen geliefert werden, echten PDF-Druckexport und
+Seitenrendering zur Sichtprüfung verwenden: Leer-/Überlaufseiten, Pagination und
+Antwortflächen kontrollieren. CSS-Seitenabschnitte allein sind kein Nachweis.
+Ein bestehender Nachweis bleibt bei unverändertem Inhalt, Layout und Druckweg
+verwendbar; keine zusätzlichen Druckprodukte allein zum Testen erzeugen.
+
+Vorgehen für eine neue oder geänderte Druckfassung:
+1. Erzeuge XML und Papier-HTML aus derselben internen Aufgabenquelle; vergleiche
+   Fallangaben, Auftrag, Kriterien, Punkte und alle Auswahloptionen. Dropdowns
+   dürfen auf Papier Ankreuzfelder werden, ihre Optionen und Teilpunkte nicht.
+2. Drucke die lokale HTML-Datei etwa mit einem vorhandenen Chromium-Browser:
+   `BROWSER --headless --disable-gpu --no-pdf-header-footer --user-data-dir=SCRATCHPROFIL --print-to-pdf=ABSOLUTES_ZIEL file:///ABSOLUTE_QUELLE`.
+   Verwende einen separaten Profilpfad und prüfe den tatsächlichen PDF-Ausgang.
+3. Extrahiere den Text mit `pdftotext -enc UTF-8 -layout TEST.pdf -` und vergleiche
+   je echter PDF-Seite mit dem sichtbaren HTML. Berücksichtige vom Browser erzeugte
+   Listenbuchstaben und schließe nicht gedruckte SVG-`title`/`desc`-Metadaten aus.
+   Prüfe vollständige Textpassagen/Optionen; gleiche Zeichenhäufigkeiten allein
+   beweisen weder Wortlaut noch Reihenfolge. Normalisiere keine fachlich relevanten
+   Zahlen, Einheiten oder Zeichen weg.
+4. Rendere die Seiten und prüfe Grafikbeschriftung, Ankreuzfelder und Schreibraum
+   visuell. Bei Überläufen erst Abstände oder Optionsanordnung korrigieren, nicht
+   unbemerkt Inhalte kürzen. Nach Korrekturen neue PDF erzeugen und die betroffenen
+   Seiten erneut ansehen.
+5. Halte PDF-Parität, visuelle Druckprüfung, geplante Bearbeitungszeit und späteren
+   Moodle-Import/Schutz als getrennte Nachweise fest. Ein lokaler Parserlauf ersetzt
+   keinen Moodle-Cloze-Import, eine Textprüfung keine Layoutprüfung.
+
+### Bepunktung (`<defaultgrade>`) nach Blueprint
+
+Lege Punktgewichte aus Lernziel und beobachtbarer Leistung im Blueprint fest;
+Moodle schreibt nicht vor, jede Einzelwahl mit genau einem Punkt oder jede
+Mehrfachwahl nach Anzahl richtiger Optionen zu gewichten.
+- **`multichoice`:** `<defaultgrade>` ist das vereinbarte Fragegewicht. Bei
+  Einzelwahl genau eine Antwort mit `fraction="100"`; falsche Antworten nach
+  vereinbartem Schema, üblicherweise 0. Bei Mehrfachwahl ergeben die positiven
+  Gewichte ungefähr 100 Prozent; Teilpunkt-/Abzugsregeln ausdrücklich festlegen.
+- **Zuordnungen/Lücken:** Gleichgewichtete Teilaufgaben können je einen Punkt
+  erhalten, müssen es aber nicht. Fragegewicht und Papier-Teilpunkte abstimmen.
+- **`cloze`:** Eingebettete Teilgewichte maschinell summieren. Ein zusätzliches
+  Defaultgrade-Feld ist nicht nötig; falls vorhanden, muss es mit dem beabsichtigten
+  Gesamtgewicht übereinstimmen. Die importierten Teil-/Slotgewichte später prüfen.
+- **Freitext:** Beobachtbare Teilkriterien mit eindeutigen Punktwerten festlegen;
+  Rubriksumme mit XML- und Papiergewicht vergleichen. Automatische und manuelle
+  Punkte getrennt ausweisen; vor Handkorrektur Gesamtwertung als vorläufig führen.
+- **`coderunner`:** Gewichtung aus dem beauftragten Bewertungsschema übernehmen,
+  nicht automatisch aus der Zahl technischer Testfälle ableiten.
+- **Parität:** XML-Fragegewichte, späterer Slotplan, Blueprint, Schlüssel und
+  sichtbare Papier-/Vorschaupunkte müssen dieselbe Gesamtsumme ergeben.
 
 - Inhaltliche Konsistenz: Diagramm ↔ Frage ↔ Lösungen/Feedback müssen zusammenpassen.
 - Keine „unsichtbaren“ Beziehungen: wenn eine Beziehung im Diagramm existiert, muss sie in Text/Antworten nachvollziehbar sein.
@@ -303,6 +335,8 @@ Nach jeder XML-Erzeugung MUSS geprüft werden, dass der Fragentitel-Tag korrekt 
 import xml.etree.ElementTree as ET
 tree = ET.parse('DATEI.xml')
 for q in tree.getroot().findall('question'):
+    if q.get('type') == 'category':
+        continue
     n = q.find('name')  # sucht Tag mit 4 Buchstaben n-a-m-e
     if n is not None and n.find('text') is not None:
         print(f"OK: tag='{n.tag}', titel='{n.find('text').text}'")
@@ -314,15 +348,21 @@ Wenn die Ausgabe `tag='name'` (4 Buchstaben) zeigt, ist der Tag korrekt. Wenn `t
 
 ## Standard-Ausgabeformat im Chat
 
-Nach der XML-Erzeugung und Validierung wird **immer** eine vollständige, interaktive HTML-Vorschau als zweite Ausgabedatei erzeugt und präsentiert. Das XML wird zusätzlich zum Download angeboten.
+XML und Prüfnachweis intern übergeben. HTML-Vorschau nur nach den Kriterien des
+Hauptskills erzeugen; keine zusätzliche Vorschaupflicht. Lösungsreiche Dateien
+nicht als Lernenden-Download anbieten.
 
 ---
 
-## HTML-Vorschau – Pflichtspezifikation
+## HTML-Vorschau – optionale Gestaltungsvorlage
+
+Nur bei tatsächlich benötigter Vorschau diesen Abschnitt lesen. Die folgenden
+Gestaltungsangaben sind eine Vorlage, keine zusätzlichen Abnahmekriterien.
+Bestehende Projekt-Templates und konkrete Benutzerwünsche haben Vorrang.
 
 ### Technische Rahmenbedingungen
 - Einzelne `.html`-Datei, kein externes CSS/JS
-- Google Fonts: `Source Sans 3` (Text) + `Source Code Pro` (Code/Pre)
+- Lokale Systemschriften oder vorhandene Projektfonts; keine neuen externen Font-Abhängigkeiten.
 - Hintergrund der Seite: `#e9eaec`
 
 ### CSS-Variablen (verbindlich)
@@ -360,7 +400,9 @@ Nach der XML-Erzeugung und Validierung wird **immer** eine vollständige, intera
 2. **`<div class="quiz-header">`** – weißer Metabereich unter Header
    - Emoji-Icon-Box (48×48px, orange), Quiz-Titel (h1), Untertitel (Klasse · Niveau · Anzahl)
    - Rechts: Badges für Zeitangabe und Gesamtpunkte
-   - **Zeitberechnung:** Die angezeigte Bearbeitungszeit wird automatisch aus der Fragenanzahl berechnet: **2 Minuten pro Frage** (z. B. 5 Fragen → „10 Min.", 8 Fragen → „16 Min.").
+   - **Zeitangabe:** Den freigegebenen Testslot aus Auftrag/Didaktik anzeigen.
+     Aufgabenrichtzeiten einschließlich Orientierung und Endkontrolle dagegen
+     prüfen; keine pauschale Zwei-Minuten-pro-Frage-Berechnung verwenden.
 
 3. **`<div class="main-wrap">`** – 2-Spalten-Grid (`1fr 220px`), max-width 900px, zentriert
    - **Linke Spalte**: `.questions` – alle Fragekarten gestapelt

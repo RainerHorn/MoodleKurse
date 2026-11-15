@@ -1,0 +1,18 @@
+{
+  "checks": [
+    {
+      "id": "replace-with-check-id",
+      "phase": "fach",
+      "property": "Beschreiben, welche Eigenschaft dieser Test belegt",
+      "scope": "Nur explizit aufgeführte lokale Artefakte; keine Moodle-Freigabe",
+      "cwd": ".",
+      "command": ["{python}", "validate.py"],
+      "inputs": ["input.json"],
+      "validators": ["validate.py"],
+      "environment": {"dependency_versions": "Hier relevante Versionen festhalten; keine Secrets"},
+      "cacheable": false,
+      "reason": "change",
+      "timeout_seconds": 300
+    }
+  ]
+}

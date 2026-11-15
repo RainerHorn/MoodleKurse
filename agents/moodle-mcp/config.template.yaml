@@ -9,7 +9,7 @@ mcp_servers:
   moodle:
     command: "node"
     args:
-      - "C:/Users/Horn/Projekte/moodle2/MoodleMcp/moodle-mcp.js"
+      - "C:/MoodleMCP/moodle-mcp.js"
     enabled: true
     timeout: 120
     connect_timeout: 60
@@ -22,6 +22,12 @@ mcp_servers:
         - moodle_get_assign_content
         - moodle_get_label_content
         - moodle_get_page_content
+        - moodle_get_module_info
+        - moodle_get_quiz_settings
+        - moodle_get_quiz_slots
+        - moodle_get_questions
+        - moodle_import_page_file
+        - moodle_import_resource_file
         - moodle_update_section
         - moodle_create_label
         - moodle_update_label

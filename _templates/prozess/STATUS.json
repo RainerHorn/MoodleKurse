@@ -1,0 +1,14 @@
+{
+  "schema_version": 2,
+  "course": "Neuer Auftrag",
+  "updated_at": null,
+  "owner": "orchestrator",
+  "basis": "NEW",
+  "brief": {"moodle_variant": null, "program": null, "learning_field": null, "minutes": null, "product": null, "sources": [], "acceptance_criteria": []},
+  "package": {"id": "draft-1", "files": [], "binding": null},
+  "reviews": [],
+  "technical": {"status": "UNKNOWN", "environment": null, "capabilities": null, "evidence": []},
+  "user_authorization": {"status": "NOT_GRANTED", "scope": null, "package_id": null, "binding": null, "evidence": []},
+  "findings": [],
+  "next_action": {"owner": "orchestrator", "action": "Auftrag klaeren; Bedarf gegen platform/mbz-capabilities.json halten."}
+}

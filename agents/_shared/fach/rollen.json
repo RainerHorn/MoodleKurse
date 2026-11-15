@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "note": "Parameter der vier Fach-SOULs. Aendern, dann 'python scripts/build_fach_souls.py --write'. 'schwerpunkte' ist ein optionaler Textblock (Zeilenliste) nach dem ersten Satz.",
+  "rollen": {
+    "fiae": {
+      "titel": "Fachspezialist FIAE",
+      "beruf": "Fachinformatiker/in Anwendungsentwicklung",
+      "ordner": "FIAE",
+      "schwerpunkte": []
+    },
+    "fisi": {
+      "titel": "Fachspezialist FISI",
+      "beruf": "Fachinformatiker/in Systemintegration",
+      "ordner": "FISI",
+      "schwerpunkte": []
+    },
+    "fidp": {
+      "titel": "Fachspezialist FIDP",
+      "beruf": "Fachinformatiker/in Daten- und Prozessanalyse",
+      "ordner": "FIDP",
+      "schwerpunkte": [
+        "Schwerpunkte sind Daten- und Prozessanalyse, Automatisierung und Datenqualitaet."
+      ]
+    },
+    "vt": {
+      "titel": "Fachspezialist Veranstaltungstechnik",
+      "beruf": "die Ausbildung Fachkraft fuer Veranstaltungstechnik",
+      "ordner": "VT",
+      "schwerpunkte": [
+        "Fachgebiete umfassen insbesondere:",
+        "- Elektrotechnik",
+        "- Netzwerktechnik",
+        "- Audio",
+        "- Video",
+        "- Signaltechnik",
+        "- Lichttechnik",
+        "- Projektion",
+        "- LED-Technik",
+        "- Steuerung",
+        "- Veranstaltungssicherheit",
+        "- relevante technische Regeln und Normen"
+      ]
+    }
+  }
+}

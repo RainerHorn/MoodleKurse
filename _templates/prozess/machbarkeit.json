@@ -1,0 +1,14 @@
+{
+  "status": "UNKNOWN",
+  "owner": "moodle-mcp | moodle-mbz",
+  "variant": null,
+  "environment": {"mbz_note": "Bei Variante MBZ: moodle_version = Image-Stand (z. B. 4.5.4), instance = lokaler Container, plugin_version = installierte Fragetyp-Plugins; Adapter-/Allowlist-Felder entfallen.", "instance": null, "moodle_version": null, "plugin_version": null, "adapter_fingerprint": null, "tool_allowlist_fingerprint": null},
+  "observed_at": null,
+  "source": null,
+  "required_features": [],
+  "features": [],
+  "feature_record_example": {"name": "page-file-import", "status": "UNKNOWN", "evidence": null, "manual_step": null, "browser_acceptance": null},
+  "allowed_feature_statuses": ["VERIFIED", "UNAVAILABLE", "UNKNOWN"],
+  "open_dependencies": [],
+  "notes": "variant: MBZ (Standard) oder MCP (nur nach ausdruecklichem Wechsel). Bei MBZ nur fuer kursspezifische Abweichungen von platform/mbz-capabilities.json ausfuellen; deckt die zentrale Datei den Bedarf, entfaellt diese Datei. Nur die Rolle der Variante fuellt nach lesender Pruefung aus; unbenoetigte Funktionen weglassen. Keine Schreibprobe und keine Freigabe durch diese Vorlage."
+}
