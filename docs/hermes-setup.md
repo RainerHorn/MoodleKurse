@@ -17,10 +17,17 @@ Prozessregeln aus dem gemeinsamen Repository.
 
 Das Standardprofil `hermes` liegt nicht unter `profiles/`, sondern direkt in
 `%LOCALAPPDATA%/hermes`; der Abgleich erfasst es nicht. Seine Regeln für die
-Kursproduktion stehen in `agents/_shared/hermes/SOUL.md`. Diesen Text von Hand
-in `%LOCALAPPDATA%/hermes/SOUL.md` übernehmen (als Abschnitt, falls dort schon
-anderes steht) und den Skill `agents/_shared/skills/moodle-agent-control-plane`
-nach `%LOCALAPPDATA%/hermes/skills/` kopieren. Danach eine neue Sitzung starten.
+Kursproduktion stehen in `agents/_shared/hermes/SOUL.md`. Diesen Text als
+Abschnitt an `%LOCALAPPDATA%/hermes/SOUL.md` anhängen; die Datei enthält bereits
+die allgemeine Hermes-Persona und wird nie ersetzt (eingerichtet am 15.11.2026,
+Sicherung `SOUL.md.bak` daneben). Bei einer Änderung der Pflegequelle den
+Abschnitt ab der Überschrift „Hermes: Einstieg in die Moodle-Kursproduktion“
+austauschen. Danach eine neue Sitzung starten.
+
+`hermes` hat unter `%LOCALAPPDATA%/hermes/skills/productivity/` einen eigenen
+Skill `moodle-agent-control-plane` mit Smoke-Test aus Hermes-Sicht. Er ist keine
+Kopie des gemeinsamen Skills und wird nicht aus dem Repository überschrieben;
+den gemeinsamen Skill nicht zusätzlich dorthin kopieren (gleicher Name).
 Wer Kurse nur direkt im Orchestrator-Chat beauftragt, braucht diesen Schritt nicht.
 
 `setup-hermes.ps1` erzeugt keine Projekttexte mehr. Standard ist ein lesender

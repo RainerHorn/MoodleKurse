@@ -256,15 +256,48 @@ Antwortflächen kontrollieren. CSS-Seitenabschnitte allein sind kein Nachweis.
 Ein bestehender Nachweis bleibt bei unverändertem Inhalt, Layout und Druckweg
 verwendbar; keine zusätzlichen Druckprodukte allein zum Testen erzeugen.
 
-### Bepunktung (`<defaultgrade>`) – Pflicht
-**Die Punktzahl einer Frage muss der Anzahl der Bewertungseinheiten entsprechen:**
-- **`multichoice` (Mehrfachauswahl):** `<defaultgrade>` = Anzahl der **richtigen** Antwortoptionen. Beispiel: 3 richtige Antworten → `<defaultgrade>3</defaultgrade>`. Die `fraction`-Werte der richtigen Antworten summieren sich weiterhin zu ≈ 100 % (z. B. 3 × 33.33333).
-- **`multichoice` (Einfachauswahl):** `<defaultgrade>1</defaultgrade>`.
-- **`ddwtos` (Drag & Drop in Text):** `<defaultgrade>` = Anzahl der **Lücken** (`[[n]]`). Beispiel: 5 Lücken → `<defaultgrade>5</defaultgrade>`.
-- **`ddmatch` (Zuordnung):** `<defaultgrade>` = Anzahl der **Zuordnungspaare** (`<subquestion>`).
-- **`cloze`:** Punktzahl ergibt sich automatisch aus den eingebetteten Teilfragen.
-- **`coderunner`:** `<defaultgrade>` = Anzahl der Testfälle (oder nach Aufgabenkomplexität).
-- **HTML-Vorschau:** Die angezeigte Punktzahl pro Frage und die Gesamtpunktzahl im Quiz-Header und in der Sidebar müssen mit den `<defaultgrade>`-Werten übereinstimmen.
+Vorgehen für eine neue oder geänderte Druckfassung:
+1. Erzeuge XML und Papier-HTML aus derselben internen Aufgabenquelle; vergleiche
+   Fallangaben, Auftrag, Kriterien, Punkte und alle Auswahloptionen. Dropdowns
+   dürfen auf Papier Ankreuzfelder werden, ihre Optionen und Teilpunkte nicht.
+2. Drucke die lokale HTML-Datei etwa mit einem vorhandenen Chromium-Browser:
+   `BROWSER --headless --disable-gpu --no-pdf-header-footer --user-data-dir=SCRATCHPROFIL --print-to-pdf=ABSOLUTES_ZIEL file:///ABSOLUTE_QUELLE`.
+   Verwende einen separaten Profilpfad und prüfe den tatsächlichen PDF-Ausgang.
+3. Extrahiere den Text mit `pdftotext -enc UTF-8 -layout TEST.pdf -` und vergleiche
+   je echter PDF-Seite mit dem sichtbaren HTML. Berücksichtige vom Browser erzeugte
+   Listenbuchstaben und schließe nicht gedruckte SVG-`title`/`desc`-Metadaten aus.
+   Prüfe vollständige Textpassagen/Optionen; gleiche Zeichenhäufigkeiten allein
+   beweisen weder Wortlaut noch Reihenfolge. Normalisiere keine fachlich relevanten
+   Zahlen, Einheiten oder Zeichen weg.
+4. Rendere die Seiten und prüfe Grafikbeschriftung, Ankreuzfelder und Schreibraum
+   visuell. Bei Überläufen erst Abstände oder Optionsanordnung korrigieren, nicht
+   unbemerkt Inhalte kürzen. Nach Korrekturen neue PDF erzeugen und die betroffenen
+   Seiten erneut ansehen.
+5. Halte PDF-Parität, visuelle Druckprüfung, geplante Bearbeitungszeit und späteren
+   Moodle-Import/Schutz als getrennte Nachweise fest. Ein lokaler Parserlauf ersetzt
+   keinen Moodle-Cloze-Import, eine Textprüfung keine Layoutprüfung.
+
+### Bepunktung (`<defaultgrade>`) nach Blueprint
+
+Lege Punktgewichte aus Lernziel und beobachtbarer Leistung im Blueprint fest;
+Moodle schreibt nicht vor, jede Einzelwahl mit genau einem Punkt oder jede
+Mehrfachwahl nach Anzahl richtiger Optionen zu gewichten.
+- **`multichoice`:** `<defaultgrade>` ist das vereinbarte Fragegewicht. Bei
+  Einzelwahl genau eine Antwort mit `fraction="100"`; falsche Antworten nach
+  vereinbartem Schema, üblicherweise 0. Bei Mehrfachwahl ergeben die positiven
+  Gewichte ungefähr 100 Prozent; Teilpunkt-/Abzugsregeln ausdrücklich festlegen.
+- **Zuordnungen/Lücken:** Gleichgewichtete Teilaufgaben können je einen Punkt
+  erhalten, müssen es aber nicht. Fragegewicht und Papier-Teilpunkte abstimmen.
+- **`cloze`:** Eingebettete Teilgewichte maschinell summieren. Ein zusätzliches
+  Defaultgrade-Feld ist nicht nötig; falls vorhanden, muss es mit dem beabsichtigten
+  Gesamtgewicht übereinstimmen. Die importierten Teil-/Slotgewichte später prüfen.
+- **Freitext:** Beobachtbare Teilkriterien mit eindeutigen Punktwerten festlegen;
+  Rubriksumme mit XML- und Papiergewicht vergleichen. Automatische und manuelle
+  Punkte getrennt ausweisen; vor Handkorrektur Gesamtwertung als vorläufig führen.
+- **`coderunner`:** Gewichtung aus dem beauftragten Bewertungsschema übernehmen,
+  nicht automatisch aus der Zahl technischer Testfälle ableiten.
+- **Parität:** XML-Fragegewichte, späterer Slotplan, Blueprint, Schlüssel und
+  sichtbare Papier-/Vorschaupunkte müssen dieselbe Gesamtsumme ergeben.
 
 - Inhaltliche Konsistenz: Diagramm ↔ Frage ↔ Lösungen/Feedback müssen zusammenpassen.
 - Keine „unsichtbaren“ Beziehungen: wenn eine Beziehung im Diagramm existiert, muss sie in Text/Antworten nachvollziehbar sein.
@@ -367,7 +400,9 @@ Bestehende Projekt-Templates und konkrete Benutzerwünsche haben Vorrang.
 2. **`<div class="quiz-header">`** – weißer Metabereich unter Header
    - Emoji-Icon-Box (48×48px, orange), Quiz-Titel (h1), Untertitel (Klasse · Niveau · Anzahl)
    - Rechts: Badges für Zeitangabe und Gesamtpunkte
-   - **Zeitberechnung:** Die angezeigte Bearbeitungszeit wird automatisch aus der Fragenanzahl berechnet: **2 Minuten pro Frage** (z. B. 5 Fragen → „10 Min.", 8 Fragen → „16 Min.").
+   - **Zeitangabe:** Den freigegebenen Testslot aus Auftrag/Didaktik anzeigen.
+     Aufgabenrichtzeiten einschließlich Orientierung und Endkontrolle dagegen
+     prüfen; keine pauschale Zwei-Minuten-pro-Frage-Berechnung verwenden.
 
 3. **`<div class="main-wrap">`** – 2-Spalten-Grid (`1fr 220px`), max-width 900px, zentriert
    - **Linke Spalte**: `.questions` – alle Fragekarten gestapelt
