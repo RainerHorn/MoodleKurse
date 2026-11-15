@@ -1,7 +1,9 @@
 # Test 01 – Bot-Kommunikation
 
-Direkt im Orchestrator-Chat eingeben (der Benutzer ist Auftraggeber, `hermes` ist
-nicht beteiligt):
+In der Hermes-App in einem neuen Chat des Profils `orchestrator` eingeben (der
+Benutzer ist Auftraggeber, `hermes` ist nicht beteiligt). Nicht per
+`hermes -p orchestrator chat`: In CLI-Sitzungen fehlt `message_agent`, der
+Orchestrator kann dort keinen Agenten erreichen.
 
 Dies ist ein Erreichbarkeitstest, kein Kursauftrag.
 Frage `didaktik`, `fiae`, `quiz` und `visual-designer` in **einer** gebündelten

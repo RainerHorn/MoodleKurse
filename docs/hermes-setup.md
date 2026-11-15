@@ -127,7 +127,9 @@ aus dem alten Profil und muss deshalb zweimal angepasst werden.
 4. **Testen:** Ein Fehlversuch an einen Bot verbraucht trotzdem einen Hop von
    `gateway.bot_loop_guard.max_hops`. Den Test deshalb mit einer eigenen
    Benutzernachricht im Orchestrator-Chat neu starten, nicht über `hermes`, oder
-   10 Minuten Ruhe abwarten. `max_hops` nicht erhöhen. Erfolgreich ist der Test,
+   10 Minuten Ruhe abwarten. `max_hops` nicht erhöhen. Den Test in der Hermes-App
+   eingeben, nicht per `hermes -p orchestrator chat`: In CLI-Sitzungen fehlt
+   `message_agent`. Erfolgreich ist der Test,
    wenn im Log des Zielprofils eine neue `chat=local-…`-ID mit `api_calls` ≥ 1
    steht.
 
