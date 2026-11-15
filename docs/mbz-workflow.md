@@ -24,21 +24,24 @@ und Readback durch `moodle-mcp` nach `docs/mcp-anhang.md`.
 
 ## 2. Materialien und einfache Standbindung
 
-4. Erste Welle, gebündelt und parallel: Fachagent (Grundlagen, Quellen, Werte)
-   und `didaktik` (Ablaufskizze); eine nach Schritt 3 nötige Vorprüfung läuft
-   mit. Widersprüche beheben und einen gemeinsamen Rahmen (`RAHMEN.md`) mit
-   Testzeit einfrieren. Zweite Welle, wieder gebündelt: `quiz` und
-   `visual-designer` auf diesem Rahmen, mit getrennten Ausgabepfaden. Regeln
+4. Erste Welle, gebündelt und parallel: Fachagent (Grundlagen, Quellen,
+   Informationstexte, Werte, Lösungen) und `didaktik` (vollständige
+   Lernsituation mit Arbeitsaufträgen und Aktivitätenliste); eine nach Schritt 3
+   nötige Vorprüfung läuft mit. Widersprüche beheben und einen gemeinsamen
+   Rahmen (`RAHMEN.md`) mit Testzeit und Aktivitätenliste samt IDs einfrieren.
+   Zweite Welle, wieder gebündelt: `quiz` und `visual-designer` auf diesem
+   Rahmen, mit getrennten Ausgabepfaden; danach folgt kein Integrationsschritt. Regeln
    für die Wellen: `projektsteuerung.md`. Plattformlücken als eigenen Auftrag
    führen. Keine Hashes in den Fachdokumenten pflegen.
-5. `quiz` benennt die **genaue MBZ-XML-Quelle** (mit oder ohne Kategorieblock) und prüft sie gegen den tatsächlichen lokalen `quiz.quelle`-Importpfad. Historische Transportdateien einer anderen Variante nicht stillschweigend verwenden. Lösungen/Antworten, XML mit Antwortdaten und Prüflogs bleiben intern.
-6. `visual-designer` mappt alle Lernendenressourcen auf Seite/Datei/Test und Zugriffsstatus. Vollständige HTML-Dokumente mit eigenem CSS/JS sind als Dateien zu planen; Moodle-Editor-Fragmente als Seiten benötigen eine spätere Darstellungsprüfung. Optionale Vertiefung, Testmaterial und geschützte Lösungen getrennt halten.
-7. Braucht der Review eine exakte Standbindung, referenziert er im Regelfall
-   einen Git-Commit. Ein Quellmanifest nur, wenn ein vorhandenes Werkzeug es aus
-   den Auslieferungsquellen erzeugt; ein gemeinsames Manifest-Werkzeug gibt es
-   bisher nicht, und von Hand wird keines geschrieben. Keine Teilmanifeste je
-   Rolle und keine Hashlisten in Rahmen-,
-   Design-, Quiz-, Status- oder Übergabedokumenten. Eine Inhaltsänderung führt nur
+5. `quiz` benennt in der Übergabe die **genaue MBZ-XML-Quelle** (kategorisierte Autoren-XML, Dateipfad im Kursordner) samt Slot-, Punkte-, Zeit- und Schutzplan und prüft die XML lokal auf Wohlgeformtheit. Den Importpfad gibt es zu diesem Zeitpunkt noch nicht: `moodle-mbz` trägt genau diese Datei in Schritt 10 als `quiz.quelle` in den Kursplan ein, und der Import wird erst im Bau geprüft (Schritt 11). Historische Transportdateien einer anderen Variante nicht stillschweigend verwenden. Lösungen/Antworten, XML mit Antwortdaten und Prüflogs bleiben intern.
+6. `visual-designer` ordnet alle Lernendenressourcen den Aktivitäten und IDs des Rahmens zu (Seite/Datei/Test, Zugriffsstatus) und verlinkt mit `{{LINK:id}}`. Vollständige HTML-Dokumente mit eigenem CSS/JS sind als Dateien zu planen; Moodle-Editor-Fragmente als Seiten benötigen eine spätere Darstellungsprüfung. Optionale Vertiefung, Testmaterial und geschützte Lösungen getrennt halten.
+7. Der Orchestrator committet den Kursordner im Kurs-Repository `courses/`
+   (kein Push) und nennt diesen Commit als Standbindung des Pakets; der Review
+   bezieht sich darauf. Nach einer Korrekturwelle entsteht ein neuer Commit.
+   Keine Teilmanifeste je Rolle und keine Hashlisten in Rahmen-,
+   Design-, Quiz-, Status- oder Übergabedokumenten. Das `quelle-manifest.json`
+   von `moodle-mbz` (Schritt 10) ist ein internes Werkzeugprotokoll des
+   Bauwerkzeugs und keine Reviewbindung. Eine Inhaltsänderung führt nur
    zur gezielten Nachprüfung ihrer Auswirkungen, nicht automatisch zum Vollreview.
 
 ## 3. Review und lokaler Bau
@@ -50,7 +53,7 @@ und Readback durch `moodle-mcp` nach `docs/mcp-anhang.md`.
    folgt keine weitere Welle, sondern ein Benutzergate mit offenen `BLOCKER`,
    vermuteter Ursache und Optionen.
 9. **Nach aktuellem Artefakt-APPROVED** beauftragt der Orchestrator `moodle-mbz` in derselben Kette mit dem vollständigen `moodle-mbz/kursplan.json` und dem finalen Bau. Eine gesonderte Benutzerfreigabe braucht dieser Schritt nicht: Die `.mbz` entsteht lokal, kein Agent handelt in der Schul-Moodle, und über den Einsatz entscheidet die Lehrkraft mit dem Wiederherstellen. Ein Benutzergate entsteht nur, wenn der Plan vom Auftrag abweicht (Ebene, Zielweg, Zielabschnitt), ein Element nicht unterstützt wird oder der Plan Sichtbarkeit oder Schutz gegenüber dem geprüften Paket ändert (dann zusätzlich Reviewer nach `projektsteuerung.md`). Lokale **Testbauten** auf ausdrücklich abgegrenzten Plan sind schon vorher zulässig.
-10. Anforderungen an den Kursplan: eindeutige Quellzuordnung, Reihenfolge, Aktivitätsart, Sichtbarkeit, Quiz-Fragenquelle, Bewertung, Zeitlimit, Versuche und Dateiformate. Geschützte Dateien (`_intern`, siehe `projektsteuerung.md`) nicht als Lernendenressourcen eintragen; `moodle-mbz` stoppt, wenn der Plan es doch tut. Wenn der Builder Quiz-Review-Optionen nicht sicher setzt: Quiz im Plan und in der Sicherung `sichtbar:false`; nach Wiederherstellung muss die Lehrkraft die Antwort-/Feedbackoptionen setzen und die Lernendensicht prüfen, **bevor** sie es sichtbar schaltet. Keine automatische Plattformerweiterung ohne eigenen Auftrag und Abnahme. Der Orchestrator prüft Plan und Baunachweise gegen das APPROVED-Paket, **bevor** er die `.mbz` übergibt; bei Abweichung keine Übergabe, sondern ein Finding an `moodle-mbz`.
+10. Anforderungen an den Kursplan: Aktivitäts-IDs aus dem Rahmen, Quellen als unveränderte Kopien unter `moodle-mbz/quelle/` (erzeugt und geprüft mit `scripts/stage.py` des MBZ-Skills, `PASS` vor dem Bau), eindeutige Quellzuordnung, Reihenfolge, Aktivitätsart, Sichtbarkeit, Quiz-Fragenquelle, Bewertung, Zeitlimit, Versuche und Dateiformate. Geschützte Dateien (`_intern`, siehe `projektsteuerung.md`) nicht als Lernendenressourcen eintragen; `moodle-mbz` stoppt, wenn der Plan es doch tut. Wenn der Builder Quiz-Review-Optionen nicht sicher setzt: Quiz im Plan und in der Sicherung `sichtbar:false`; nach Wiederherstellung muss die Lehrkraft die Antwort-/Feedbackoptionen setzen und die Lernendensicht prüfen, **bevor** sie es sichtbar schaltet. Keine automatische Plattformerweiterung ohne eigenen Auftrag und Abnahme. Der Orchestrator prüft Plan und Baunachweise gegen das APPROVED-Paket, **bevor** er die `.mbz` übergibt; bei Abweichung keine Übergabe, sondern ein Finding an `moodle-mbz`.
 11. `moodle-mbz` baut ausschließlich im lokalen Container. Das Bauprotokoll nennt
     Planstand, Image-/Plugin-Stand und SHA-256 der fertigen `.mbz`. Es führt drei
     technische Nachweise: `check_mbz.py`, Probe-Wiederherstellung und
@@ -58,9 +61,10 @@ und Readback durch `moodle-mcp` nach `docs/mcp-anhang.md`.
     erneut bauen.
 12. Lehrkraft stellt die Sicherung selbst wieder her und nimmt **in ihrer Schul-Moodle** Berechtigungen, Seiten-Sanitization, Desktop/Mobil/Druck, Downloads, Quizschutz und Lernendenansicht ab. Lokale Probe und Hash beweisen diese Eigenschaften nicht. `STATUS.json` führt Artefakt-Review und technische Bereitschaft getrennt.
 
-Der Orchestrator aktualisiert `STATUS.json` nur an fünf Meilensteinen: Auftrag
-(nach Schritt 3), Rahmen (in Schritt 4), fertige Materialien (vor Schritt 8),
-Review (nach Schritt 8) und MBZ-Bau (nach Schritt 11).
+Der Orchestrator aktualisiert `STATUS.json` inhaltlich nur an fünf Meilensteinen:
+Auftrag (nach Schritt 3), Rahmen (in Schritt 4), fertige Materialien (vor
+Schritt 8), Review (nach Schritt 8) und MBZ-Bau (nach Schritt 11). `next_action`
+setzt er zusätzlich an jedem Kettenende und Benutzergate (Abschnitt Ketten).
 
 ## Ketten
 

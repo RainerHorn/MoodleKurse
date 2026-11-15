@@ -25,10 +25,11 @@ beauftragt keine weiteren Rollen.
 2. Passende XML-Vorlage aus `templates/` wählen. Den Katalog
    [templates/README.md](templates/README.md) nur zur Auswahl bzw. für den benötigten Typ lesen.
 3. Im vereinbarten Kursordner erzeugen (vorhandene Struktur nutzen, sonst
-   `05-assessment/`); Beispiele nie überschreiben.
+   `04-quiz/`); Beispiele nie überschreiben.
 4. Geänderte XML auf Wohlgeformtheit, Kategorien/Tags, Titel/Typen, Punkte,
    Gewichtungen, Feedback, Platzhalterfreiheit und fachliche Konsistenz prüfen.
-   Gültige technische Nachweise gemäß P0 wiederverwenden.
+   Gültige technische Nachweise gemäß
+   `_vorgaben/qualitaetsstandards/pruefstrategie.md` wiederverwenden.
 5. Vor Abschluss alle angekündigten Übergabedateien tatsächlich erstellen und
    ihre Verweise prüfen; fertige Fragen allein schließen das Paket nicht ab.
    Prüf-Exitcodes, wiederverwendeten Geltungsbereich und offene Gates nennen.
@@ -99,7 +100,7 @@ nicht in die statische Quellenbindung aufnehmen; Variante und gewählten Kursumf
 zur Laufzeit semantisch prüfen. Einen optional dokumentierten Lesestand klar von
 unveränderlichen Fach-/Ergebnisartefakten trennen, damit legitime Kontextänderungen
 keinen fachlich unveränderten Test blockieren.
-Bei freigegebenen Quellenkorrekturen auch die Eingabeliste alter P0-Nachweise prüfen.
+Bei freigegebenen Quellenkorrekturen auch die Eingabeliste alter Prüfnachweise (früher „P0“) prüfen.
 Alte Nachweise unverändert historisch erhalten; nur explizit autorisierte Pfade mit
 vollständigen Alt-/Neuhashes neu binden, alle übrigen Hashprüfungen strikt lassen.
 Unveränderte Quiz-/XML-/HTML-/PDF-Bytes weiter gegen den früheren Stand vergleichen,

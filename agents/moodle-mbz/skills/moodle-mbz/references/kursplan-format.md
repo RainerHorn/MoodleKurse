@@ -34,7 +34,7 @@ Die Reihenfolge der Abschnitte ist die Abschnittsnummer im gebauten Kurs (erster
 
 ## Aktivitäten
 
-Gemeinsame Felder: `id` (Pflicht, im ganzen Plan eindeutig), `art` (Pflicht), `name` (Pflicht), `sichtbar` (true/false),
+Gemeinsame Felder: `id` (Pflicht, im ganzen Plan eindeutig; in einer Kursproduktion die ID aus der Aktivitätenliste in `RAHMEN.md`), `art` (Pflicht), `name` (Pflicht), `sichtbar` (true/false),
 `beschreibung` (Datei mit HTML-Beschreibung), `beschreibung_anzeigen` (true: Beschreibung auf der Kursseite zeigen),
 `einrueckung` (0 bis 16, Einrückung auf der Kursseite), `abschluss` und `voraussetzung` (siehe unten).
 
@@ -76,7 +76,7 @@ Peer-Review-Workshop mit der Strategie „Punkte pro Kriterium“ (`accumulative
 
 Dem Workshop `abschluss: manuell` geben, wenn danach eine Lösung per `voraussetzung` freigeschaltet werden soll.
 
-Nicht unterstützt: Forum, Lektion, H5P und andere Workshop-Strategien. Wer sie braucht, ergänzt sie nach dem Wiederherstellen in Moodle oder erweitert `bau.php`.
+Andere Aktivitätsarten und Workshop-Strategien baut das Werkzeug nicht (Stand: `platform/mbz-capabilities.json`). Wer sie braucht, ergänzt sie nach dem Wiederherstellen in Moodle oder erweitert `bau.php`.
 
 Bilder in HTML: Inline (data-URI) oder als eigene Moodle-Datei; `@@PLUGINFILE@@`-Verweise werden vom Bau nicht aufgebaut.
 

@@ -74,6 +74,12 @@ Ordneraufbau, Eigentuemer und die Kennzeichnung geschuetzter Dateien (`_intern`)
 stehen in `_vorgaben/qualitaetsstandards/projektsteuerung.md`.
 Quelldateien anderer Agenten werden nicht stillschweigend ueberschrieben.
 
+`courses/` ist ein eigenes, privates Git-Repository (Benutzerentscheidung vom
+15.11.2026) und in diesem oeffentlichen Repository per `.gitignore`
+ausgeschlossen. Der Orchestrator committet dort den Kursordner an jedem
+Meilenstein; kein Agent pusht. Der Commit vor dem Review ist die Standbindung
+des Pakets (`projektsteuerung.md`).
+
 Fuer versionierte Dateien ist Git die Sicherung. Keine `.bak`-Dateien neben
 Projektdateien erzeugen. Vor groesseren automatischen Aenderungen vorhandene
 Fremdaenderungen mit `git status` pruefen und bei Bedarf einen Commit oder Branch

@@ -32,9 +32,16 @@ Plattformfunktionen nicht ungefragt implementieren.
 
 ## Kursplan
 
-Aus dem freigegebenen Paket (HTML aus `06-design/`, Fragen-XML, Dateien) erstellst du
+Aus dem Paket mit Reviewer-`APPROVED` (HTML aus `06-design/`, Fragen-XML, Dateien) erstellst du
 `kursplan.json` nach `skills/moodle-mbz/references/kursplan-format.md` im Ordner
-`<Kursordner>/moodle-mbz/`. Inhalte uebernimmst du unveraendert; Quellen anderer Agenten
+`<Kursordner>/moodle-mbz/`. Die Aktivitaets-IDs uebernimmst du aus der
+Aktivitaetenliste in `RAHMEN.md`; fehlt eine ID oder passt ein `{{LINK:id}}` nicht
+dazu, meldest du das und vergibst keine eigene. Weil der Bau nur den Plan-Ordner
+liest, legst du die Quellen mit `skills/moodle-mbz/scripts/stage.py` als
+unveraenderte Kopien nach `moodle-mbz/quelle/` (Zuordnung in
+`quelle-zuordnung.json`); das dabei erzeugte `quelle-manifest.json` ist internes
+Werkzeugprotokoll. Gebaut wird nur nach `PASS` von `stage.py pruefen`.
+Inhalte uebernimmst du unveraendert; Quellen anderer Agenten
 werden nicht ueberschrieben. Vollstaendige HTML-Dokumente mit eigenem CSS/JS gehoeren als
 `file`, nicht als `page` in den Plan (Moodle bereinigt Seitentext beim Wiederherstellen).
 Ergebnis: `<Kursordner>/moodle-mbz/mbz/*.mbz`.

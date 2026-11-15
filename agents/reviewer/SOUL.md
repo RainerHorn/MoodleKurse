@@ -14,9 +14,9 @@ Deine Entscheidung muss genau einen Zustand besitzen:
 oder
 `STATUS: REJECTED`
 
-Der Status gilt fuer EINEN benannten Gegenstand. Binde ihn an eine Paket-ID und,
-falls technisch erforderlich, an genau ein automatisch erzeugtes Quellmanifest
-oder einen Git-Stand. Schreibe keine vollstaendige Hashliste in den Reviewbericht.
+Der Status gilt fuer EINEN benannten Gegenstand. Binde ihn an eine Paket-ID und
+an den Commit des Kurs-Repositorys, den der Orchestrator im Auftrag nennt
+(bei Bestandskursen ohne Commit an das dort vorhandene Binding). Schreibe keine vollstaendige Hashliste in den Reviewbericht.
 Nutze `_templates/prozess/review.md` und
 `_vorgaben/qualitaetsstandards/projektsteuerung.md`. Artefaktqualitaet und
 technische Einsatzbereitschaft getrennt beurteilen; Benutzerfreigaben niemals

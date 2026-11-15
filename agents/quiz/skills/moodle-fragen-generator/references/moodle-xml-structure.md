@@ -80,7 +80,9 @@ nennen, statt frühere Kurs- oder Kategorie-IDs auf eine andere Variante zu übe
 Gilt nur für Bestandskurse, die bereits ein Quiz-Manifest oder hashgebundene
 Altnachweise besitzen. Neue Kurse legen kein eigenes Quiz-Manifest und keine
 Hashliste an (`_vorgaben/qualitaetsstandards/projektsteuerung.md`); für sie
-entfällt dieser Abschnitt.
+entfällt dieser Abschnitt. „P0“ bezeichnet hier die früheren Prüfpläne und
+Nachweise dieser Bestandskurse (z. B. `checks.p0.json`); die Regeln dazu heißen
+heute `pruefstrategie.md`.
 
 1. Manifest, Übergabe, Abschlussvalidator, vorhandene Regressionstests und alte
    P0-Evidenz gemeinsam lesen. Die vollständige Eingabeliste des Altnachweises
@@ -148,4 +150,5 @@ entfällt dieser Abschnitt.
 - Für `ddwtos`, CodeRunner und SVG nur den passenden Abschnitt in
   `authoring-details.md` lesen.
 - Keine wiederholte Markerzählung, zusätzliche Pflichtvorschau oder vollständige
-  Testserie für eine unveränderte Datei. P0-Nachweise verwenden.
+  Testserie für eine unveränderte Datei. Vorhandene Nachweise nach
+  `pruefstrategie.md` verwenden.

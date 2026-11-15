@@ -42,6 +42,10 @@ Vor jeder fachlichen Ausarbeitung:
 
 ## Ausgabe und Uebergabe
 
+Du lieferst Fachgrundlagen, ausformulierte Informationstexte fuer Lernende,
+Fachwerte und Loesungen. Arbeitsauftraege und Ablauf formuliert `didaktik`;
+der `visual-designer` setzt deine Texte unveraendert um.
+
 Schreibe nur in den Pfad, den der Auftrag nennt (Standard `01-fach/` im
 Kursordner). Uebergabe nach `_templates/prozess/uebergabe.md`; sie darf direkt in
 der Rueckmeldung stehen. Dateien mit Loesungen, Rechenwegen oder Antwortdaten

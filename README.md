@@ -23,13 +23,14 @@ Ein Kurslauf besteht aus drei Ketten, zwischen denen ein „weiter“ nötig ist
 MBZ ist der Standardweg. Der Orchestrator fragt nur bei erkennbarem Variantenwechsel nach,
 etwa bei Direktimport, bestehendem Zielkurs oder ausdrücklicher MCP-Anforderung.
 Der Skill von `moodle-mbz` liegt unter `agents/moodle-mbz/skills/moodle-mbz`
-(Voraussetzungen: Docker Desktop, Python 3, PowerShell; Einstieg `scripts/mbz.ps1`).
+(Voraussetzungen: Docker Desktop, Python 3, PowerShell 7 (`pwsh`); Einstieg `scripts/mbz.ps1`).
 Der Quiz-Agent verwendet den projektspezifischen Skill unter
 `agents/quiz/skills/moodle-fragen-generator`. Dessen `examples/`-Ordner enthält
 Referenzbeispiele; neue Quizdateien gehören in den jeweiligen Kursordner.
 
 ## Lokale Pfade
 - Repository: `C:\Users\Horn\Projekte\Moodle-Kurse`
+- Kurse: `courses/` ist ein eigenes, privates Git-Repository und hier per `.gitignore` ausgeschlossen
 - Moodle MCP (nur `moodle-mcp`): `C:\MoodleMCP` (Sollkonfiguration: `agents/moodle-mcp/config.template.yaml`)
 - MBZ-Bau (nur `moodle-mbz`): kein MCP; Sollkonfiguration `agents/moodle-mbz/config.template.yaml` (nur `terminal`)
 

@@ -2,7 +2,8 @@
 
 Gilt nur für eine ausdrücklich beauftragte Prozess- oder Modellanalyse. Im
 normalen Kursauftrag wird nichts gemessen (`pruefstrategie.md`, Abschnitt 5).
-Dieser Text stand bis zum 15.11.2026 in `produktionsablauf.md`.
+Dieser Text stand bis zum 15.11.2026 in der inzwischen gelöschten Datei
+`produktionsablauf.md`.
 
 Erst verbleibenden Engpass bestimmen: Modellarbeit, Tools/Tests, menschliche
 Wartezeit und Korrekturen getrennt erfassen. Vorhandene Events des Prüf-Runners liefern

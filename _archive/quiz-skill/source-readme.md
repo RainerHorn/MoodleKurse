@@ -2,8 +2,9 @@
 
 Vorlagen, Beispiele und Spezialhinweise stammen aus einem früheren
 MoodleQuestionGenerator-Einzelrepository. Dessen Ordnerstruktur und Arbeitsablauf
-sind keine Vorgaben für MoodleKurse. Die ursprüngliche Übersicht bleibt in der
-einmaligen lokalen Sicherung `source-readme.md.bak` erhalten.
+sind keine Vorgaben für MoodleKurse. Die ursprüngliche Übersicht wird im
+Repository nicht geführt; eine Sicherung `source-readme.md.bak` kann lokal im
+Hermes-Profil `quiz` liegen.
 
 Aktuelle Zuständigkeiten und Regeln: Projekt-`AGENTS.md` →
 `agents/quiz/SOUL.md` → `../SKILL.md` → gezielt ausgewählte Referenzen.

@@ -46,77 +46,42 @@ startest du den naechsten abhaengigen Schritt weiterhin im selben Turn.
 
 ## Moodle-Variante
 
-**Standard ist MBZ, auch fuer kuenftige Kursauftraege.** Trage MBZ ohne erneute
-Pflichtfrage in Auftrag und `STATUS.json` ein. Frage die Variante nur, wenn der
-Auftrag Direktimport, Moodle-MCP, einen bestehenden Zielkurs oder einen
-ausdruecklichen Wechsel erkennen laesst. Ohne ausdruecklichen Wechsel keine
-MCP-Machbarkeit, keinen Auftrag an `moodle-mcp` und keine Moodle-MCP-Werkzeuge.
-Fuer MBZ gilt `docs/mbz-workflow.md`.
-
-Bei einem tatsaechlich offenen Variantenentscheid erklaerst du dem Benutzer kurz
-die Unterschiede, die den konkreten Auftrag betreffen. Unterschiede, Gate und
-Ablauf der Variante MCP stehen in `docs/mcp-anhang.md`; lies ihn nur dann.
-Bei MBZ-Abschnitten zusaetzlich klaeren: Weg A (als neuer Kurs) oder Weg B (in
-bestehenden Kurs, Abschnittsnummer im Zielkurs).
+**Standard ist MBZ** (`AGENTS.md`): ohne Rueckfrage in Auftrag und `STATUS.json`
+eintragen. Die Variante nur klaeren, wenn der Auftrag Direktimport, Moodle-MCP,
+einen bestehenden Zielkurs oder einen ausdruecklichen Wechsel nennt; sonst keine
+MCP-Machbarkeit, kein Auftrag an `moodle-mcp`, keine Moodle-MCP-Werkzeuge. Bei
+offenem Variantenentscheid die Unterschiede fuer den konkreten Auftrag kurz
+erklaeren; dafuer und fuer die Variante MCP gilt `docs/mcp-anhang.md`. Bei
+MBZ-Abschnitten klaeren: Weg A (als neuer Kurs) oder Weg B (in bestehenden Kurs,
+Abschnittsnummer im Zielkurs).
 
 ## Direkte und gebuendelte Beauftragung
 
-Der Benutzer hat die direkte, gebuendelte Beauftragung unabhaengiger Fach-,
-Didaktik- und Designauftraege als Standard festgelegt. Vermeide Ketten wie
-`orchestrator -> reviewer -> orchestrator -> fachagent`. Reviewer pruefen und
-melden Findings; sie beauftragen keine Korrekturrollen.
+Transport-, Hop- und Rueckmelderegeln stehen im Skill
+`skills/moodle-agent-control-plane/SKILL.md` und werden hier nicht wiederholt.
+Was nur dich betrifft:
 
-Erstelle vor jeder Beauftragungswelle eine kurze Zuordnung `Finding/Aufgabe ->
-Eigentuemer -> Eingaben -> Ausgabe -> Pruefung`. Sende unabhaengige Auftraege in
-derselben Orchestrator-Runde direkt an alle zustaendigen Rollen. Nutze dafuer
-nach Moeglichkeit einen gemeinsamen `message_agent`-Aufruf mit kommaseparierten
-Zielen und klar getrennten Rollenabschnitten. Gemeinsame Randbedingungen nur
-einmal nennen; jede Rolle erhaelt einen eindeutigen Schreibbereich. Serialisiere
-nur, wenn die Ausgabe einer Rolle tatsaechlich Eingabe der naechsten ist.
-
-Eine substanzielle Fertigmeldung eines beauftragten Bots ist ein Arbeitssignal,
-kein reines FYI. Wenn sie einen laufenden Kursworkflow voranbringt, verifiziere
-die genannten Dateien und Nachweise sofort, aktualisiere den faelligen
-Meilenstein und starte den naechsten abhaengigen Schritt im selben Turn. Antworte
-in diesem Fall niemals mit `[SILENT]`. `[SILENT]` ist nur fuer echte
-Benachrichtigungen ohne offene Folgearbeit zulaessig. Wenn eine Antwort lediglich
-den Eingang bestaetigt, aber Ergebnisse noch ausstehen, beende den Turn mit dem
-konkreten wartenden Eigentümer und Wiederaufnahmepunkt statt einen Abschluss zu
-behaupten.
-
-Wurde der Workflow von einem anderen Bot per `message_agent` beauftragt, reicht
-eine spaetere Antwort nur im eigenen Bot-Chat nicht aus: Sie wird nicht
-automatisch an den Auftraggeber zuruecktransportiert. Merke dir deshalb den
-beauftragenden Bot. Sobald ein spaeter eingetroffenes Unteragentenergebnis den
-beauftragten Meilenstein abschliesst oder ein Benutzergate erreicht, sende dem
-Auftraggeber genau eine kompakte Abschlussmeldung per `message_agent` mit
-`expects_reply=false`. Melde keine blossen Zwischenstaende zurueck und verhindere
-doppelte Abschlussmeldungen. Diese Rueckmeldung ist Transport des Ergebnisses,
-keine neue Delegation.
-
-Erhoehe oder fordere niemals das Hop-Limit an, um einen bereits tiefen
-Bot-Austausch kuenstlich fortzusetzen. Plane hoechstens eine Delegationsebene
-zwischen Auftraggeber und Fachrolle und genau eine Abschlussmeldung zurueck. Ist
-das Hop-Budget wegen einer bereits laufenden Kette erschoepft, starte keine
-Wiederholungsserie: Sichere den erreichten Meilenstein in den kanonischen
-Projektdateien und benenne den eindeutigen Wiederaufnahmepunkt in
-`STATUS.json` (`next_action`) und im eigenen Bot-Chat. Ein neuer Controller- oder Benutzerturn beginnt eine frische
-Kette; das Sicherheitslimit bleibt unveraendert.
-
-Nach einem Review ordnest du alle Findings selbst den Eigentuemerrollen zu und
-versendest genau eine gebuendelte Korrekturwelle. Danach folgt genau eine
-gebuendelte Pruefwelle beziehungsweise ein Delta-Review. Lautet auch dessen
-Urteil `REJECTED`, startest du keine weitere Korrekturwelle: Du meldest dem
-Auftraggeber als Benutzergate die offenen `BLOCKER`, die vermutete Ursache
-(Auftrag, Rahmen, Rolle oder Pruefmassstab) und die Optionen weitere
-Korrekturrunde, Auftrag aendern oder abbrechen. Erst die Entscheidung des
-Benutzers setzt den Lauf fort. Leite Antworten nicht
-ueber @hermes oder einen anderen Bot weiter, wenn du den Zielagenten direkt
-erreichen kannst. Reserviere den verbleibenden Hop-Spielraum fuer Delta-Review
-und Abschlussmeldung. Wenn das Gateway eine Direktzustellung wegen `max_hops`
-ablehnt, nicht ueber weitere Bots umgehen und nicht unveraendert wiederholen;
-den vorbereiteten Auftrag und die betroffenen Rollen als konkreten Blocker an
-den Auftraggeber melden.
+- **Welle vorbereiten:** Vor jeder Welle eine kurze Zuordnung `Finding/Aufgabe ->
+  Eigentuemer -> Eingaben -> Ausgabe -> Pruefung`. Unabhaengige Auftraege in
+  einem gemeinsamen `message_agent`-Aufruf mit kommaseparierten Zielen und
+  getrennten Rollenabschnitten senden; gemeinsame Randbedingungen einmal nennen,
+  jede Rolle erhaelt einen eindeutigen Schreibbereich. Nur serialisieren, wenn
+  die Ausgabe einer Rolle Eingabe der naechsten ist. Zielagenten direkt
+  ansprechen, nie ueber `hermes` oder einen anderen Bot.
+- **Fertigmeldung verarbeiten:** Sie ist ein Arbeitssignal. Genannte Dateien und
+  Nachweise sofort verifizieren, den faelligen Meilenstein aktualisieren und den
+  naechsten abhaengigen Schritt im selben Turn starten. Bestaetigt eine Antwort
+  nur den Eingang, den Turn mit wartendem Eigentuemer und Wiederaufnahmepunkt
+  beenden, statt einen Abschluss zu behaupten.
+- **Auftraggeber `hermes`:** Eine spaete Antwort in deinem Bot-Chat erreicht ihn
+  nicht von selbst. Schliesst ein spaeteres Ergebnis die Kette ab oder erreicht
+  es ein Benutzergate, sende genau eine Abschlussmeldung per `message_agent` mit
+  `expects_reply=false`; keine Zwischenstaende, keine doppelten Meldungen.
+- **Hop-Budget:** Lehnt das Gateway eine Zustellung wegen `max_hops` ab oder ist
+  das Budget erschoepft, nicht wiederholen und nicht umgehen: erreichten Stand
+  sichern, Wiederaufnahmepunkt in `STATUS.json` (`next_action`) eintragen und
+  den vorbereiteten Auftrag samt betroffenen Rollen als Blocker an den
+  Auftraggeber melden.
 
 ## Standardprozess
 
@@ -132,29 +97,39 @@ darin:
   vorpruefen lassen, wenn dort etwas fehlt oder sich der Stand geaendert hat.
   Standardkomponenten loesen keinen Machbarkeitslauf aus.
 - **Wellen und Rahmen (Schritt 4):** Zwei gebuendelte Wellen nach
-  `_vorgaben/qualitaetsstandards/projektsteuerung.md`. Du fuehrst die
-  Ergebnisse der ersten Welle zu `RAHMEN.md` zusammen und frierst ihn ein; das
-  ist kein Reviewurteil. Plattformluecken als eigenen Auftrag fuehren.
-- **Review (Schritte 7 und 8):** Das fertige Gesamtpaket einmal an reviewer
-  geben. Fuer eine Standbindung einen Git-Stand referenzieren; keine Hashlisten
-  in Uebergaben abschreiben. Findings eines Durchgangs selbst den
-  Eigentuemerrollen zuordnen, in einer direkten Korrekturwelle versenden und
-  nur betroffene Teile nachpruefen lassen.
+  `_vorgaben/qualitaetsstandards/projektsteuerung.md`: erst Fachagent und
+  `didaktik` (vollstaendige Lernsituation mit Arbeitsauftraegen und
+  Aktivitaetenliste), dann `quiz` und `visual-designer`; danach folgt kein
+  Integrationsschritt. Du fuehrst die Ergebnisse der ersten Welle zu
+  `RAHMEN.md` zusammen, vergibst darin je Aktivitaet eine ID (gilt fuer
+  `{{LINK:id}}` und den Kursplan) und frierst ihn ein; das ist kein
+  Reviewurteil. Plattformluecken als eigenen Auftrag fuehren.
+- **Review (Schritte 7 und 8):** Vor dem Review den Kursordner im
+  Kurs-Repository `courses/` committen (nur den eigenen Kursordner, kein Push)
+  und den Commit als `package.binding` und im Reviewauftrag nennen; nach einer
+  Korrekturwelle erneut. Das fertige Gesamtpaket einmal an reviewer geben;
+  keine Hashlisten in Uebergaben abschreiben. Findings eines Durchgangs selbst den
+  Eigentuemerrollen zuordnen, in genau einer direkten Korrekturwelle versenden
+  und in genau einem Delta-Review nur betroffene Teile nachpruefen lassen.
+  Lautet auch dessen Urteil `REJECTED`, startest du keine weitere Korrekturwelle:
+  Du meldest dem Auftraggeber als Benutzergate die offenen `BLOCKER`, die
+  vermutete Ursache (Auftrag, Rahmen, Rolle oder Pruefmassstab) und die Optionen
+  weitere Korrekturrunde, Auftrag aendern oder abbrechen.
 - **Plan und Bau (Schritte 9 bis 11):** Nach gueltigem Artefakt-APPROVED
   beauftragst du `moodle-mbz` in derselben Kette mit Kursplan und finalem Bau;
-  eine gesonderte Benutzerfreigabe ist bei MBZ nicht noetig (`AGENTS.md`,
-  Deployment-Gate). Ein Benutzergate nur, wenn der Plan vom Auftrag abweicht,
-  ein Element nicht unterstuetzt wird oder Sichtbarkeit oder Schutz geaendert
-  werden. Vor der Uebergabe pruefst du Kursplan und Baunachweise selbst gegen
+  eine gesonderte Benutzerfreigabe ist bei MBZ nicht noetig. Wann trotzdem ein
+  Benutzergate entsteht, steht in `AGENTS.md` (Deployment-Gate). Vor der Uebergabe pruefst du Kursplan und Baunachweise selbst gegen
   das APPROVED-Paket (Quelle, Sichtbarkeit, Schutz, keine `_intern`-Datei als
   Lernendenressource); bei Abweichung keine Uebergabe, sondern ein Finding an
   `moodle-mbz`. Lokale Testbaeue sind vorab erlaubt. Technische Gates bleiben
   massgeblich. Bei wiederholtem Scheitern Ursache und Auftrag klaeren statt
   unveraendert erneut delegieren.
-- **Status:** `STATUS.json` nur an den fuenf Meilensteinen Auftrag, Rahmen,
-  Materialien, Review und MBZ-Bau aktualisieren. Artefakt-Review und technische
+- **Status:** `STATUS.json` inhaltlich nur an den fuenf Meilensteinen Auftrag,
+  Rahmen, Materialien, Review und MBZ-Bau aktualisieren; `next_action`
+  zusaetzlich an jedem Kettenende und Benutzergate. Artefakt-Review und technische
   Bereitschaft getrennt halten. Als Eigentuemer nur bestehende Rollen
-  eintragen. Routineentscheidungen selbst treffen, echte Fragen buendeln. Nach
+  eintragen. Routineentscheidungen selbst treffen, echte Fragen buendeln. An
+  jedem Meilenstein den Kursordner im Kurs-Repository committen. Nach
   einem Statusmeilenstein die Kursuebersicht mit `scripts/sync_obsidian.py` in
   den Vault aktualisieren; der Vault ist nie die verbindliche Statusquelle.
 
@@ -168,14 +143,9 @@ Kurs-IDs, Abschnitts-IDs und cmids werden niemals geraten.
 
 ## Pruefsteuerung
 
-Lies fuer Pruef-/Review-/Deployment-Auftraege
-`_vorgaben/qualitaetsstandards/pruefstrategie.md` im gemeinsamen Repository.
-Nenne im Auftrag Aenderungsumfang, betroffene Abhaengigkeiten, benoetigte
-Pruefeigenschaften und vorhandene Nachweise. Verlange keine komplette Testserie
-bei unveraendertem Paket oder blossen Titel-/Linkaenderungen. Fehlende oder
-ungueltige Nachweise gezielt nachholen; Wiederholungen begruenden.
-Trenne Werkzeugabnahme und Routinebetrieb. Werte vorhandene Pruefergebnisse aus,
-statt fuer Statusabfragen neue Agentenschleifen zu starten. `check_runner.py` ist
-fuer geaenderte technische Komponenten und ausdruecklich wiederverwendbare
-deterministische Tests vorgesehen, nicht als Pflichtschicht fuer jedes
-Unterrichtsdokument.
+Fuer Pruef-, Review- und Deployment-Auftraege gilt
+`_vorgaben/qualitaetsstandards/pruefstrategie.md`. Nenne im Auftrag
+Aenderungsumfang, betroffene Abhaengigkeiten, benoetigte Pruefeigenschaften und
+vorhandene Nachweise. Fehlende oder ungueltige Nachweise gezielt nachholen,
+Wiederholungen begruenden, und vorhandene Ergebnisse auswerten, statt fuer
+Statusabfragen neue Agentenschleifen zu starten.

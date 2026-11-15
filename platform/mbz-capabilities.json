@@ -3,7 +3,7 @@
   "purpose": "Zentrale MBZ-Machbarkeit: einzige Pflegequelle fuer die Grenzen der Variante MBZ. Rollen und Dokumente verweisen hierher, statt Listen zu wiederholen.",
   "owner": "moodle-mbz",
   "observed_at": "2026-11-15",
-  "source": "Nur lesende Containerabfragen (version.php, ls mod und question/type, version.php der Plugins) sowie agents/moodle-mbz/skills/moodle-mbz/SKILL.md und references/kursplan-format.md. Kein Bau, keine Importprobe.",
+  "source": "Nur lesende Containerabfragen (version.php, ls mod und question/type, version.php der Plugins) sowie das Bauwerkzeug agents/moodle-mbz/skills/moodle-mbz/scripts/bau.php und references/kursplan-format.md. Kein Bau, keine Importprobe.",
   "scope": "Lokaler Baucontainer und Bauwerkzeug. Kein Nachweis ueber die Schul-Moodle (Version, Plugins, Rechte, Seitenbereinigung, Browserdarstellung).",
   "environment": {
     "container": "mbz-moodle (Compose-Projekt mbzbau)",

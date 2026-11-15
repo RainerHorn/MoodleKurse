@@ -63,11 +63,10 @@ Die alten Optionen `-InstallHermes`, `-ForceRepoFiles`, `-MoodleMcpRoot` und
 Kein Remote-Installationsskript und keine automatische Änderung der aktiven Auswahl.
 
 Es gibt zwei Moodle-Rollen und damit zwei Profile: `moodle-mcp` (ehemals `moodle`) und
-`moodle-mbz`. Das bisherige Profil `moodle` wird nicht automatisch umbenannt. Neue Profile
-`moodle-mcp` und `moodle-mbz` mit der Hermes-CLI anlegen (bzw. das alte Profil dorthin
-übernehmen), `terminal.cwd` setzen und beim Profil `moodle-mcp` die MCP-Konfiguration
-samt Zugangsdaten aus dem alten Profil übernehmen; erst danach das alte Profil entfernen.
-Bis dahin meldet `config_audit.py` ein weiteres Profil mit Moodle-MCP als Abweichung.
+`moodle-mbz`. Beide Profile bestehen; das frühere Profil `moodle` wurde am 15.11.2026
+nach `moodle-mcp` umbenannt und existiert nicht mehr. Der Moodle-MCP ist nur im Profil
+`moodle-mcp` eingetragen; `config_audit.py` meldet jedes weitere Profil mit Moodle-MCP
+als Abweichung. Die folgenden Schritte gelten für künftige Umbenennungen.
 
 ### Pflichtschritte beim Umbenennen eines Profils
 

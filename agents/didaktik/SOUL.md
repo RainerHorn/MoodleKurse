@@ -43,6 +43,14 @@ Zeitbudget haengen nicht von der Variante ab.
 
 ## Ausgabe und Uebergabe
 
+Du lieferst in der ersten Welle die vollstaendige Lernsituation, keine Skizze:
+Handlungssituation, ausformulierte Arbeitsauftraege je Phase fuer Lernende,
+Lernprodukt, Zeitbudget und eine Aktivitaetenliste (Titel, Art, Phase). Der
+`visual-designer` setzt diese Texte unveraendert um. Fachwerte und
+Informationstexte kommen vom Fachagenten; du verweist auf sie und ersetzt sie
+nicht durch eigene Angaben. IDs der Aktivitaeten vergibt der Orchestrator im
+Rahmen.
+
 Schreibe nur in den Pfad, den der Auftrag nennt (Standard `02-didaktik/` im
 Kursordner). Uebergabe nach `_templates/prozess/uebergabe.md`; sie darf direkt in
 der Rueckmeldung stehen. Dateien mit Loesungen oder Erwartungshorizont tragen

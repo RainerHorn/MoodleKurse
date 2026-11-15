@@ -24,6 +24,9 @@ moodle-token*
 hermes-home/
 runtime/
 
+# Kursordner: eigenes privates Git-Repository (Loesungen), nie in dieses Repository
+courses/
+
 # Arbeitsbereich
 _workspace/*
 !_workspace/.gitkeep

@@ -10,8 +10,10 @@ ausgefüllte Aufträge/Übergaben können direkt in der Agentennachricht stehen.
 ## Verbindlicher Stand
 
 `courses/<Auftrag>/STATUS.json` ist die einzige aktuelle Statusquelle; Eigentümer
-ist der Orchestrator. Nur an den Meilensteinen Auftrag, Rahmen, fertige
-Materialien, Review und MBZ-Bau aktualisieren.
+ist der Orchestrator. Inhaltlich nur an den Meilensteinen Auftrag, Rahmen, fertige
+Materialien, Review und MBZ-Bau aktualisieren. Zusätzlich wird am Ende jeder
+Kette und an jedem Benutzergate `next_action` gesetzt, auch wenn kein
+Meilenstein erreicht ist (z. B. nach der Korrekturwelle).
 Andere Agenten liefern Änderungen, schreiben die Statusdatei nicht gleichzeitig.
 `PROZESS.md` ist nur Einstieg/Verweis. Frühere Reviews und Importprotokolle bleiben
 unveränderte Historie. Ein alter Satz „Review ausstehend“ in einer Quelle ist
@@ -23,10 +25,11 @@ oder Secrets in Statusdaten. STATUS, Reviews und interne Manifeste nie ausliefer
 
 - `brief`: Zielgruppe, Lernfeld, Zeit, Lernprodukt, Quellen und Abnahmekriterien.
 - `package`: ID und kurze Liste der Auslieferungsdateien mit Eigentümer. Keine
-  SHA-256 je Datei pflegen. Nur wenn eine exakte technische Standbindung benötigt
-  wird, einmal `binding` setzen: im Regelfall der Git-Commit; eine
-  Manifest-Prüfsumme nur, wenn ein vorhandenes Werkzeug das Manifest erzeugt
-  (nie von Hand abschreiben). Status, Berichte, Backups, Logs und temporäre
+  SHA-256 je Datei pflegen. `binding` nennt einmal den Stand des Pakets: den
+  Commit des Kurs-Repositorys `courses/` (`{"type": "git", "value": "<Hash>"}`),
+  den der Orchestrator am Meilenstein „fertige Materialien“ und nach jeder
+  Korrekturwelle anlegt (nur der eigene Kursordner, kein Push). Eine
+  Manifest-Prüfsumme ist für neue Kurse nicht vorgesehen. Status, Berichte, Backups, Logs und temporäre
   Dateien nicht aufnehmen. Eigentümer ist immer eine bestehende Rolle; schreibt
   ausnahmsweise eine Ersatzrolle, steht dort deren Name mit Verweis auf die
   ausdrückliche Eigentumsübertragung (Abschnitt „Parallele Wellen und Ausfälle“),
@@ -96,8 +99,8 @@ Aufbau für neue Aufträge (bestehende Kursordner werden nicht umbenannt):
 | Pfad im Kursordner | Eigentümer | Inhalt |
 |---|---|---|
 | `AUFTRAG.md`, `RAHMEN.md`, `STATUS.json` | orchestrator | Auftrag, eingefrorener Rahmen, Status |
-| `01-fach/` | Fachagent | Fachgrundlagen, Werte, Lösungen |
-| `02-didaktik/` | didaktik | Lernsituation, Ablauf, Zeitbudget |
+| `01-fach/` | Fachagent | Fachgrundlagen, Informationstexte für Lernende, Werte, Lösungen |
+| `02-didaktik/` | didaktik | Vollständige Lernsituation mit Arbeitsaufträgen, Ablauf, Zeitbudget, Aktivitätenliste |
 | `04-quiz/` | quiz | Blueprint, Fragen-XML, Testmaterial |
 | `06-design/` | visual-designer | Moodle-HTML für Lernende |
 | `moodle-mbz/` | moodle-mbz | `kursplan.json`, Bauprotokoll, `mbz/*.mbz` (bei MCP: `moodle/`) |
@@ -123,8 +126,9 @@ Drei Zustände werden nicht vermischt:
 - **Benutzerfreigabe**: Entscheidung des Benutzers für einen konkreten Umfang.
 
 „Freigegeben“ ohne Zusatz in älteren Texten meint bei Eingaben für quiz und
-visual-designer den eingefrorenen Rahmen, bei Bau und Auslieferung APPROVED plus
-Benutzerfreigabe.
+visual-designer den eingefrorenen Rahmen, bei Bau und Auslieferung das
+Reviewer-APPROVED; nur bei Variante MCP zusätzlich die Benutzerfreigabe für den
+konkreten Plan (`AGENTS.md`, Deployment-Gate).
 
 | Eigentümer | Verbindliche Angaben |
 |---|---|
@@ -149,14 +153,24 @@ wiederholt. Für die parallelen Wellen darin gelten diese Regeln:
 - Der Orchestrator legt Eingabeversion, Rollen und getrennte Ausgabepfade fest
   (Aufbau siehe oben). Eine gemeinsame Quelle hat genau einen
   schreibenden Eigentümer.
+- Erste Welle: Der Fachagent liefert Fachgrundlagen, Informationstexte für
+  Lernende, Werte und Lösungen; `didaktik` liefert die vollständige
+  Lernsituation mit ausformulierten Arbeitsaufträgen je Phase und einer
+  Aktivitätenliste (Titel, Art, Phase). Fachwerte übernimmt `didaktik` nicht aus
+  eigenem Wissen, sondern verweist auf die Fachquelle.
 - Der Rahmen (`RAHMEN.md`) fasst Lernziele, fachliche Werte, Zeit inklusive
   Assessment, Lernprodukt, Komponenten und offene Gates zusammen und wird in den
-  Folgeaufträgen genannt. Widersprüche vor dem Einfrieren klären; offene
+  Folgeaufträgen genannt. Er enthält die verbindliche Aktivitätenliste mit je
+  einer ID (nur `A-Z a-z 0-9 _ -`, im Kurs eindeutig), die der Orchestrator
+  vergibt. Diese IDs gelten für `{{LINK:id}}` im Design und unverändert für den
+  Kursplan; fehlt eine Aktivität, meldet die Rolle das an den Orchestrator und
+  erfindet keine ID. Widersprüche vor dem Einfrieren klären; offene
   Technikfragen dürfen nur unabhängige Arbeiten passieren.
-- In der zweiten Welle bleiben noch offene Quizdaten benannte Platzhalter.
-  Fachliche Lösungen werden referenziert, nicht in der Gestaltung neu erfunden.
-- Integration beginnt nach den benötigten Übergaben. Der zuständige Eigentümer
-  übernimmt fremde Änderungen ausdrücklich.
+- Zweite Welle: `quiz` und `visual-designer` arbeiten unabhängig auf dem Rahmen.
+  Der `visual-designer` setzt die Texte aus `01-fach/` und `02-didaktik/`
+  unverändert um und bindet den Test nur als Aktivität über dessen ID ein, nicht
+  dessen Inhalte. Einen eigenen Integrationsschritt gibt es nicht; fachliche
+  Lösungen werden referenziert, nicht in der Gestaltung neu erfunden.
 
 Der Auftrag nennt `depends_on`, Schreibpfade, Eingabestand, Fertigkriterium und
 Wiederaufnahmepunkt; kompakte Vorlage `_templates/prozess/parallelplan.json`.

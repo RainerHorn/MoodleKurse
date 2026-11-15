@@ -10,6 +10,7 @@ Bei „MBZ erstellen“, „Kurs/Abschnitt als Sicherung zum Hochladen“, „Ab
 - `SKILL.md` – Ablauf, Rückfragen, Regeln für Zeilenenden
 - `scripts/mbz.ps1` – Einstieg (baut, prüft, probiert)
 - `scripts/bau.php`, `plan.php`, `restore.php`, `pruef.php` – laufen im Container
+- `scripts/stage.py` – Quellen bytegleich unter den Plan-Ordner kopieren und gegen `quelle-manifest.json` prüfen
 - `scripts/eol.py` – Zeilenenden und Kodierung vereinheitlichen
 - `scripts/check_mbz.py` – statische Prüfung einer `.mbz` (auch einzeln nutzbar)
 - `docker/docker-compose.yml` – Moodle 4.5.4 und MariaDB, nur localhost
@@ -18,7 +19,7 @@ Bei „MBZ erstellen“, „Kurs/Abschnitt als Sicherung zum Hochladen“, „Ab
 - `beispiel/` – kleiner Beispielkurs mit zwei Abschnitten
 
 ## Voraussetzungen
-Docker Desktop, Python 3 im Pfad, PowerShell. Erster Lauf lädt die Images und installiert Moodle (einige Minuten, danach in Sekunden bis wenigen Minuten pro Kurs). Optional `MBZ_ADMIN_PASS` setzen.
+Docker Desktop, Python 3 im Pfad, PowerShell 7 (`pwsh`, nicht Windows PowerShell 5.1; Grund in `SKILL.md`). Erster Lauf lädt die Images und installiert Moodle (einige Minuten, danach in Sekunden bis wenigen Minuten pro Kurs). Optional `MBZ_ADMIN_PASS` setzen.
 
 ## Ablauf in vier Schritten
 1. Quellordner vorbereiten: `kursplan.json` und die Dateien, auf die sie verweist (siehe `references/kursplan-format.md`).
@@ -38,6 +39,4 @@ Alles wird als UTF-8 ohne BOM mit LF verarbeitet. Das Skript normalisiert eine A
 > Erzeuge aus java/kursplan.json den Abschnitt k03 als MBZ, ich füge ihn als Abschnitt 4 in einen bestehenden Kurs ein.
 
 ## Bekannte Grenzen
-Aktivitätsarten: Text/Medien, Seite, Link, Datei, Aufgabe, Test, Workshop (dazu Abschluss, Zugriff nach Abschluss, Einrückung, Fragensammlung); kein Forum, Lektion, H5P. Fragetypen nur die im Moodle-Kern; für `ddmatch`, `coderunner` u. a. das Plugin-Zip nach `docker/plugins/` oder in den Ordner aus `MBZ_PLUGIN_DIR` legen. Eine `.mbz` aus Moodle 4.5 lässt sich in 4.5 und neuer einspielen, nicht in ältere Versionen.
-
-Allgemeines zu Installation und Pfaden: [docs/INSTALLATION.md](../../docs/INSTALLATION.md), [docs/ABHAENGIGKEITEN.md](../../docs/ABHAENGIGKEITEN.md).
+Welche Aktivitätsarten und Fragetypen (Kern und Plugins wie `ddmatch`, `coderunner`) der Bau unterstützt, steht ausschließlich in `platform/mbz-capabilities.json`. Ein fehlendes Plugin als Zip nach `docker/plugins/` oder in den Ordner aus `MBZ_PLUGIN_DIR` legen. Eine `.mbz` aus Moodle 4.5 lässt sich in 4.5 und neuer einspielen, nicht in ältere Versionen.

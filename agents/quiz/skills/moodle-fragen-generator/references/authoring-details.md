@@ -3,7 +3,7 @@
 Diese Datei ist eine vertiefende Referenz. Die übergeordnete `../SKILL.md`, `agents/quiz/SOUL.md` und das Projekt-`AGENTS.md` haben Vorrang. Aussagen wie „Pflicht“ gelten nur, soweit sie diesen Quellen und der bestätigten Moodle-/Plugin-Konfiguration nicht widersprechen.
 
 ## Vorgehen (Standard-Workflow)
-Nur bei einem passenden Spezialfall lesen. Auftrag, aktueller Status und P0-Prüfnachweise
+Nur bei einem passenden Spezialfall lesen. Auftrag, aktueller Status und vorhandene Prüfnachweise
 haben Vorrang vor den nachstehenden Beispielen. Keine zusätzliche Vollprüfung starten.
 1. Kläre kurz die Parameter (falls nicht gegeben): Thema, Zielklasse/-stufe, Schwierigkeitsgrad (leicht/mittel/schwer), Anzahl Fragen, gewünschte Fragetypen.
 2. Nutze als Strukturvorlage die Dateien im Ordner `templates` und beachte `templates/README.md`.
@@ -246,7 +246,7 @@ Bei konservativ gerundeten Positionsfenstern auch die unmittelbar benachbarten,
 nach außen gerundeten Werte prüfen. Eine pauschale numerische Toleranz darf kein
 vergrößertes Fenster als voll richtig akzeptieren. Bei ausdrücklich geforderten
 Hundertstel-Endwerten gegebenenfalls Toleranz 0 verwenden und begründen.
-Nur bei Änderungen an Werten, Toleranzen oder Bewertungslogik neu prüfen (P0).
+Nur bei Änderungen an Werten, Toleranzen oder Bewertungslogik neu prüfen (`pruefstrategie.md`).
 
 ### Druckbare Testbögen
 

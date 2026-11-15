@@ -16,8 +16,10 @@ Kursplan erstellt und keine `.mbz` gebaut, auch nicht nach `APPROVED`.
 
 ## Kette 1
 
-Erwartet: erste Welle (`fiae`, `didaktik`) gebündelt, `RAHMEN.md` eingefroren,
-zweite Welle (`quiz`, `visual-designer`) gebündelt, Ordner `01-fach`,
+Erwartet: erste Welle (`fiae`, `didaktik`) gebündelt, `didaktik` liefert die
+vollständige Lernsituation mit Arbeitsaufträgen, `RAHMEN.md` eingefroren mit
+Aktivitätenliste und IDs, zweite Welle (`quiz`, `visual-designer`) gebündelt,
+kein Integrationsschritt, Ordner `01-fach`,
 `02-didaktik`, `04-quiz`, `06-design`, `STATUS.json` am Meilenstein
 „Materialien“, genau eine Meldung „Materialien fertig“. Der Lernfeldbezug ist
 von `fiae` aus dem lokalen Rahmenlehrplan belegt, nicht aus dem Projekttitel
