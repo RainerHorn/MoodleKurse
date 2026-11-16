@@ -90,7 +90,7 @@ gesonderte Sicherung.
 
 Der Vault `C:\Users\Horn\Projekte\Obsidian\vault` ist die Navigations- und
 Wissensschicht. Kursartefakte, `STATUS.json`, Pruefbelege und Auslieferungsdateien
-bleiben ausschliesslich in diesem Repository verbindlich. Der Orchestrator kann
+bleiben ausschliesslich im Kursordner unter `courses/` verbindlich. Der Orchestrator kann
 nach einem Statusmeilenstein `scripts/sync_obsidian.py` ausfuehren. Die
 Synchronisation laeuft nur von `Moodle-Kurse` nach Obsidian und kopiert keine
 geschuetzten Loesungen, internen Quizdaten, MBZ-Dateien oder technischen Rohlogs.
@@ -104,8 +104,8 @@ Bei Pruef-, Review- oder Deployment-Auftraegen gilt zusaetzlich
 unveraendertem Stand genuegt ein gueltiger Nachweis. Pruefungen nach
 Aenderungsumfang auswaehlen, vorhandene technische Nachweise wiederverwenden
 und gleichartige Metadatenabfragen buendeln. Im Routinebetrieb keine manuellen
-Hashlisten je Rolle oder Dokument pflegen. Falls eine unveraenderliche Bindung
-noetig ist, genau einen Git-Stand oder ein von einem Werkzeug erzeugtes Quellmanifest referenzieren. Die
+Hashlisten je Rolle oder Dokument pflegen. Die Standbindung eines
+Pakets ist genau ein Commit des Kurs-Repositorys `courses/`. Die
 finale `.mbz` erhaelt einen SHA-256. Wiederholungen brauchen einen konkreten
 Anlass. Fachliche Unabhaengigkeit und die Deployment-Gates bleiben verbindlich;
 ein technischer PASS ist kein Reviewer-APPROVED.
@@ -166,8 +166,9 @@ in `platform/components.json`; nur benoetigte Komponenten und Referenzen laden.
 Rollen/Skills im Repository sind die Pflegequelle. Profilabgleich nach
 `docs/hermes-setup.md`, niemals eingebettete Alttexte aus Setup-Skripten verwenden.
 
-Der Orchestrator beauftragt voneinander unabhaengige Fach-, Didaktik-, Quiz- und
-Designrollen direkt und moeglichst in einer gebuendelten Welle. Reviewer melden
+Der Orchestrator beauftragt voneinander unabhaengige Rollen direkt und je Welle
+gebuendelt: erst Fachagent und `didaktik`, nach dem eingefrorenen Rahmen `quiz`
+und `visual-designer` (`docs/mbz-workflow.md`, Schritt 4). Reviewer melden
 Findings an den Orchestrator und delegieren Korrekturen nicht selbst. Der
 Orchestrator ordnet Findings den Eigentuemerrollen zu, sendet eine direkte
 Korrekturwelle und danach hoechstens eine gezielte Delta-Pruefwelle. Lautet

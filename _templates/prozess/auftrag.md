@@ -3,6 +3,7 @@
 - Auftrag/Kursordner, Rolle und Ziel:
 - Bildungsgang, belegtes Lernfeld, Voraussetzungen:
 - Umfang inklusive Test, Lernprodukt:
+- Moodle-Variante (Standard MBZ) und Ebene: ganzer Kurs oder Abschnitt; bei Abschnitt Weg A (neuer Kurs) oder Weg B (bestehender Kurs) mit Zielabschnittsnummer:
 - Verbindliche Quellen und Eingabedateien/Paket-ID aus STATUS.json:
 - Gewünschte Materialien, technische Zusatzfunktionen und Zielumgebung:
 - Bekannter Machbarkeitsnachweis / noch offene Abhängigkeiten:

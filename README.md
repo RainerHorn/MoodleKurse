@@ -64,7 +64,7 @@ Ablauf: [MBZ-Arbeitsablauf](docs/mbz-workflow.md). Regeln:
 
 Der Vault `C:\Users\Horn\Projekte\Obsidian\vault` enthält Kursübersichten,
 Entscheidungen und dauerhaftes Wissen. Kursartefakte und `STATUS.json` bleiben
-verbindlich in diesem Repository.
+verbindlich im Kursordner unter `courses/`.
 
 Vorschau und Synchronisation:
 

@@ -2,5 +2,5 @@
   "schema": 1,
   "components": [],
   "entry_fields": ["id", "version", "path", "sha256", "environment", "evidence", "status"],
-  "note": "Nur ausgewaehlte Komponenten. status UNKNOWN/LOCAL_CHECKED/TARGET_ACCEPTED; keine erfundenen Abnahmen. Im Kursauftrag/STATUS referenzieren."
+  "note": "Nur ausgewaehlte Komponenten. status UNKNOWN/LOCAL_CHECKED/TARGET_ACCEPTED; keine erfundenen Abnahmen. Im Kursauftrag/STATUS referenzieren. sha256 nur bei einer Komponente, die nicht ueber Git versioniert ist; sonst leer lassen."
 }

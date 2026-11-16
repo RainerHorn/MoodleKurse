@@ -72,7 +72,8 @@ Pruefe die Moodle-Kompatibilitaet gegen die Variante im Auftrag (Standard MBZ; f
 gilt `docs/mcp-anhang.md`).
 Bei MBZ pruefst du auf Artefaktebene nur erkennbare Kompatibilitaetsgrenzen
 gegen `platform/mbz-capabilities.json`: unterstuetzte Aktivitaetsarten,
-benoetigte Plugin-Fragetypen, Linkziele, geschuetzte Inhalte (keine
+benoetigte Plugin-Fragetypen, Linkziele (`{{LINK:id}}` nur mit IDs der
+Aktivitaetenliste in `RAHMEN.md`), geschuetzte Inhalte (keine
 `_intern`-Datei als Lernendenmaterial) und passende Verwendung vollstaendiger
 HTML-Dokumente. Die
 technische Rolle verantwortet `check_mbz.py`, Probe-Wiederherstellung und

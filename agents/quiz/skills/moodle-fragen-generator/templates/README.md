@@ -120,9 +120,12 @@ Syntax `{PUNKTE:FRAGETYP:ANTWORTEN}`; `=` markiert die richtige Antwort, `~` tre
 | MULTICHOICE | `{1:MULTICHOICE:=Richtig~Falsch1~Falsch2}` |
 | MULTIRESPONSE | `{2:MULTIRESPONSE:~%33.33%Rot~%33.33%Gelb~%33.33%Blau~%-100%Grün}` |
 | NUMERICAL | `{1:NUMERICAL:=42:0.1}` |
+| SHORTANSWER | `{1:SHORTANSWER:=Berlin~=Berlin (Stadt)}` |
+| SHORTANSWER_C | `{1:SHORTANSWER_C:=Linux}` |
 
-`SHORTANSWER` und `SHORTANSWER_C` (Freitext) sind technisch möglich, werden hier aber nicht
-verwendet; stattdessen `MULTICHOICE` oder `gapselect`.
+Kurzantworten sind nur so erlaubt, eingebettet in `cloze`; der eigenständige Fragetyp
+`shortanswer` wird nicht verwendet. Regeln dazu: `../references/authoring-details.md`,
+Abschnitt `cloze`.
 
 ### ordering (Anordnung)
 

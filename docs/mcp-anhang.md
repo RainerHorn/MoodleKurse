@@ -21,7 +21,9 @@ betreffen. Beide Varianten für denselben Kurs nur auf ausdrücklichen Wunsch.
 
 ## Ablauf und Gate
 
-Die Schritte 1 bis 8 aus `docs/mbz-workflow.md` gelten unverändert. Danach:
+Die Schritte 1 bis 8 aus `docs/mbz-workflow.md` gelten sinngemäß; für Quiz-XML
+und Links gilt statt der MBZ-Angaben der Abschnitt „Material für MCP
+aufbereiten“. Danach:
 
 1. Der Orchestrator legt einen konkreten Deployment-Plan vor (Zielinstanz,
    Zielkurs, Objekte, Sichtbarkeit).

@@ -23,7 +23,10 @@
   
   - SHORTANSWER_C: Case-sensitive Kurzantwort
     Beispiel: {1:SHORTANSWER_C:=Linux}
-  
+
+  Kurzantworten nur so, eingebettet in cloze; der eigenständige Fragetyp
+  shortanswer wird nicht verwendet.
+
   WICHTIG:
   - Alle Fragen sind direkt im questiontext eingebettet
   - = markiert die richtige Antwort

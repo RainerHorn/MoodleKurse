@@ -89,20 +89,8 @@
       <group>3</group>
     </selectoption>
 
-    <!-- Die folgenden <answer>-Elemente stammen aus der Ursprungsvorlage; die
-         richtige Antwort ergibt sich allein aus der Position der selectoption. -->
-    <answer>
-      <questiontext>[Richtige Option für Lücke 1]</questiontext>
-      <answer>1</answer>
-    </answer>
-    <answer>
-      <questiontext>[Richtige Option für Lücke 2]</questiontext>
-      <answer>1</answer>
-    </answer>
-    <answer>
-      <questiontext>[Richtige Option für Lücke 3]</questiontext>
-      <answer>1</answer>
-    </answer>
+    <!-- Kein <answer>-Element: gapselect kennt nur <selectoption>; die richtige
+         Antwort ergibt sich allein aus der Position der selectoption. -->
     <tags><tag><text>[BILDUNGSGANG]</text></tag><tag><text>[LERNFELD]</text></tag><tag><text>[THEMA]</text></tag></tags>
   </question>
 

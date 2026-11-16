@@ -8,7 +8,7 @@ Moegliche Formate:
 - Multiple Response
 - Zuordnung
 - Lueckentext
-- Kurzantwort
+- Kurzantwort (nur eingebettet in Cloze als `SHORTANSWER`, nicht als eigenstaendiger Fragetyp)
 - numerische Fragen
 - situationsbezogene Aufgaben
 - Transferfragen

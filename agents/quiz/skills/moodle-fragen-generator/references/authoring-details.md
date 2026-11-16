@@ -87,6 +87,12 @@ Status und vorhandene Prüfnachweise haben Vorrang vor den Beispielen hier.
   - `{1:MULTICHOICE:Option1~Option2~=Richtig~Option3}`
 - `=` markiert die richtige Option, `~` trennt Optionen.
 - Kein zusätzliches `<defaultgrade>` nötig.
+- **Kurzantworten nur eingebettet:** `SHORTANSWER` (Groß-/Kleinschreibung egal) und
+  `SHORTANSWER_C` (Groß-/Kleinschreibung zählt) sind innerhalb von `cloze` erlaubt. Der
+  eigenständige Fragetyp `shortanswer` wird nicht verwendet.
+- Bei Kurzantworten jede zulässige Schreibweise als eigene richtige Antwort angeben
+  (`{1:SHORTANSWER:=Berlin~=Berlin (Stadt)}`) und nur einsetzen, wenn die Antwort
+  eindeutig und kurz ist; sonst `MULTICHOICE` oder `gapselect`.
 
 #### Sourcecode in Aufgabentexten
 

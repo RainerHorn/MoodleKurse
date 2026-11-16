@@ -3,7 +3,8 @@
   <question type="category"><category><text>$course$/top/[BILDUNGSGANG]/[LERNFELD]/[QUIZTITEL]</text></category></question>
 <!-- ==================== FRAGETYP: cloze mit SVG ==================== -->
 <!--
-  NUR eingebettete Antworten – KEIN Freitext (kein SHORTANSWER / SHORTANSWER_C)
+  NUR eingebettete Antworten. Kurzantworten sind als SHORTANSWER / SHORTANSWER_C
+  innerhalb von cloze erlaubt, nicht als eigenständiger Fragetyp shortanswer.
 
   ERLAUBTE EINGEBETTETE TYPEN:
   ┌─────────────────────────────────────────────────────────────────────┐
@@ -16,11 +17,15 @@
   ├───────────────┼─────────────────────────────────────────────────────┤
   │ NUMERICAL     │ {1:NUMERICAL:=42:0.5}                              │
   │               │ Zahl mit optionaler Toleranz (=Wert:Toleranz)      │
+  ├───────────────┼─────────────────────────────────────────────────────┤
+  │ SHORTANSWER   │ {1:SHORTANSWER:=Berlin~=Berlin (Stadt)}            │
+  │               │ Kurzantwort, Groß-/Kleinschreibung egal            │
+  ├───────────────┼─────────────────────────────────────────────────────┤
+  │ SHORTANSWER_C │ {1:SHORTANSWER_C:=Linux}                           │
+  │               │ Kurzantwort, Groß-/Kleinschreibung zählt           │
   └─────────────────────────────────────────────────────────────────────┘
 
   NICHT ERLAUBT in diesem Template:
-  ✘ SHORTANSWER   (Freitext – manuelle oder automatische Texteingabe)
-  ✘ SHORTANSWER_C (Freitext, Groß-/Kleinschreibung beachten)
   ✘ ESSAY         (Freitext – nur manuell bewertbar)
 
   SYNTAX ALLGEMEIN: {PUNKTE:TYP:ANTWORTEN}

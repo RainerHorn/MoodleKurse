@@ -65,8 +65,8 @@ beauftragt keine weiteren Rollen.
   Fragenanzahl ab.
 - Liefere bei MBZ die kategorisierte Autoren-XML als exakt benannte Importquelle
   und einen maschinenlesbaren Slot-/Punkte-/Zeit-/Schutzplan. Eine historische
-  kategorielose MCP-Transportfassung ist keine MBZ-Importvorgabe. Benenne für die
-  Designintegration Bannergruppe, Einrückung und anfängliche Sichtbarkeit von Test
+  kategorielose MCP-Transportfassung ist keine MBZ-Importvorgabe. Benenne für den
+  Kursplan Bannergruppe, Einrückung und anfängliche Sichtbarkeit von Test
   und Test-PDF, ohne eine konkurrierende Design-Deployment-Map zu erzeugen.
 - Erlaubte Sichtauszüge und Merkhilfen im Testkopf benennen und konkret aus der
   freigegebenen Quelle übernehmen. Ihre tatsächliche Sichtbarkeit für jede betroffene

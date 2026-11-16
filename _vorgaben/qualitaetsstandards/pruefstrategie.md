@@ -33,7 +33,7 @@ Steht in `docs/mcp-anhang.md` und gilt nur nach ausdrücklichem Variantenwechsel
 je Lauf drei Nachweise: statische Prüfung der `.mbz` (`check_mbz.py`: XML ohne CR,
 Deklaration, Prüfsummen), Probe-Wiederherstellung im Baucontainer und Planvergleich
 (`pruef.php`: Typ, Name, Sichtbarkeit, Textlängen, Fragenanzahl, Dateitypen, Bewertung).
-Sie gelten für genau diese `.mbz` (SHA-256), den Plan-Hash und den Image-/Plugin-Stand.
+Sie gelten für genau diese `.mbz` (SHA-256), den Planstand und den Image-/Plugin-Stand.
 Bei unverändertem Plan und gleichem Stand nicht erneut bauen; ein geänderter Abschnitt
 verlangt nur den Neubau und die Prüfung dieses Abschnitts. Die Probe im Container belegt
 weder Rechte noch das Verhalten in der Schul-Moodle noch Browserfunktion von HTML-Dateien;

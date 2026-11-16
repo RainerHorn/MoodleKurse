@@ -35,9 +35,11 @@ und Readback durch `moodle-mcp` nach `docs/mcp-anhang.md`.
    führen. Keine Hashes in den Fachdokumenten pflegen.
 5. `quiz` benennt in der Übergabe die **genaue MBZ-XML-Quelle** (kategorisierte Autoren-XML, Dateipfad im Kursordner) samt Slot-, Punkte-, Zeit- und Schutzplan und prüft die XML lokal auf Wohlgeformtheit. Den Importpfad gibt es zu diesem Zeitpunkt noch nicht: `moodle-mbz` trägt genau diese Datei in Schritt 10 als `quiz.quelle` in den Kursplan ein, und der Import wird erst im Bau geprüft (Schritt 11). Historische Transportdateien einer anderen Variante nicht stillschweigend verwenden. Lösungen/Antworten, XML mit Antwortdaten und Prüflogs bleiben intern.
 6. `visual-designer` ordnet alle Lernendenressourcen den Aktivitäten und IDs des Rahmens zu (Seite/Datei/Test, Zugriffsstatus) und verlinkt mit `{{LINK:id}}`. Vollständige HTML-Dokumente mit eigenem CSS/JS sind als Dateien zu planen; Moodle-Editor-Fragmente als Seiten benötigen eine spätere Darstellungsprüfung. Optionale Vertiefung, Testmaterial und geschützte Lösungen getrennt halten.
-7. Der Orchestrator committet den Kursordner im Kurs-Repository `courses/`
-   (kein Push) und nennt diesen Commit als Standbindung des Pakets; der Review
-   bezieht sich darauf. Nach einer Korrekturwelle entsteht ein neuer Commit.
+7. Standbindung des Pakets ist der Commit des Kursordners im Kurs-Repository
+   `courses/` (kein Push), den der Orchestrator am Meilenstein „fertige
+   Materialien“ angelegt hat; hat sich seither etwas geändert, committet er
+   erneut. Der Review bezieht sich auf diesen Commit. Nach einer Korrekturwelle
+   entsteht ein neuer Commit, auf den sich das Delta-Review bezieht.
    Keine Teilmanifeste je Rolle und keine Hashlisten in Rahmen-,
    Design-, Quiz-, Status- oder Übergabedokumenten. Das `quelle-manifest.json`
    von `moodle-mbz` (Schritt 10) ist ein internes Werkzeugprotokoll des
@@ -77,7 +79,7 @@ Kette hat höchstens zwei Wellen aus Auftrag und Rückmeldung; mit dem Weg über
 |---|---|---|---|
 | 1 Materialien | 1 bis 6 | Auftrag, erste Welle, Rahmen einfrieren, zweite Welle | Meldung „Materialien fertig“ |
 | 2 Review | 7 bis 11 | Gesamt-Review; bei `APPROVED` Kursplan und finaler Bau, bei `REJECTED` die eine Korrekturwelle | Übergabe der `.mbz` oder Meldung „Korrekturen fertig“ |
-| 3 Delta-Review | 8 bis 11 | nur nach `REJECTED` in Kette 2: Delta-Review der Korrekturen; bei `APPROVED` Kursplan und finaler Bau | Übergabe der `.mbz`; bei `REJECTED` Benutzergate |
+| 3 Delta-Review | 7 bis 11 | nur nach `REJECTED` in Kette 2: neuer Commit, Delta-Review der Korrekturen; bei `APPROVED` Kursplan und finaler Bau | Übergabe der `.mbz`; bei `REJECTED` Benutzergate |
 
 Schritt 12 macht die Lehrkraft außerhalb der Ketten.
 
@@ -92,6 +94,6 @@ den Auftraggeber nicht von selbst, ist `STATUS.json` der Wiederaufnahmepunkt.
 
 - Nutzer erhält eine kurze Zusammenfassung, die freigegebene `.mbz` als Datei **erst nach den Gates**, deren vollständigen SHA-256 und Größe, Kurs-/Abschnittsebene und lokale Bau-/Prüfnachweise sowie offene Lehrkraft-Schritte.
 - Keine Artefakt-Hashliste standardmaessig ausliefern. Nur auf ausdrueckliche
-  Nachfrage den Git-Stand oder ein von einem Werkzeug erzeugtes Quellmanifest nennen; geschuetzte
+  Nachfrage den Commit des Kurs-Repositorys nennen; geschuetzte
   Loesungsdateien, Statusdaten und Prueflogs bleiben intern.
 - Keine erfundenen Kurs-IDs, Wiederherstellungslinks oder Moodle-Erfolgsnachweise.

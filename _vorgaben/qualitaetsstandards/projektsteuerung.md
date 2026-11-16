@@ -103,7 +103,7 @@ Aufbau für neue Aufträge (bestehende Kursordner werden nicht umbenannt):
 | `02-didaktik/` | didaktik | Vollständige Lernsituation mit Arbeitsaufträgen, Ablauf, Zeitbudget, Aktivitätenliste |
 | `04-quiz/` | quiz | Blueprint, Fragen-XML, Testmaterial |
 | `06-design/` | visual-designer | Moodle-HTML für Lernende |
-| `moodle-mbz/` | moodle-mbz | `kursplan.json`, Bauprotokoll, `mbz/*.mbz` (bei MCP: `moodle/`) |
+| `moodle-mbz/` | moodle-mbz | `kursplan.json`, Quellkopien `quelle/` mit `quelle-zuordnung.json` und `quelle-manifest.json`, Bauprotokoll, `mbz/*.mbz` (bei MCP: `moodle/`) |
 | `review/` | reviewer | Reviewberichte |
 
 Jede Rolle schreibt nur in ihren Pfad. Weitere Dateien im Kursordner sind
@@ -158,7 +158,7 @@ wiederholt. Für die parallelen Wellen darin gelten diese Regeln:
   Lernsituation mit ausformulierten Arbeitsaufträgen je Phase und einer
   Aktivitätenliste (Titel, Art, Phase). Fachwerte übernimmt `didaktik` nicht aus
   eigenem Wissen, sondern verweist auf die Fachquelle.
-- Der Rahmen (`RAHMEN.md`) fasst Lernziele, fachliche Werte, Zeit inklusive
+- Der Rahmen (`RAHMEN.md`, Vorlage `_templates/prozess/rahmen.md`) fasst Lernziele, fachliche Werte, Zeit inklusive
   Assessment, Lernprodukt, Komponenten und offene Gates zusammen und wird in den
   Folgeaufträgen genannt. Er enthält die verbindliche Aktivitätenliste mit je
   einer ID (nur `A-Z a-z 0-9 _ -`, im Kurs eindeutig), die der Orchestrator

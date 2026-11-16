@@ -4,7 +4,7 @@ STATUS: APPROVED oder REJECTED (genau einen Zustand wählen)
 
 - Prüfer:
 - Gegenstand: Artefaktpaket oder Deployment-Plan, Paket-ID:
-- Geprüfte Dateien; optional ein Paket-Binding (Manifest oder Git-Stand):
+- Geprüfte Dateien; Standbindung (Commit des Kurs-Repositorys aus dem Auftrag):
 - Verwendete Nachweise und eigene Prüfungen:
 - Geltungsgrenze / getrennt offene technische oder Benutzerfreigaben:
 

@@ -101,7 +101,7 @@ darin:
   `didaktik` (vollstaendige Lernsituation mit Arbeitsauftraegen und
   Aktivitaetenliste), dann `quiz` und `visual-designer`; danach folgt kein
   Integrationsschritt. Du fuehrst die Ergebnisse der ersten Welle zu
-  `RAHMEN.md` zusammen, vergibst darin je Aktivitaet eine ID (gilt fuer
+  `RAHMEN.md` zusammen (Vorlage `_templates/prozess/rahmen.md`), vergibst darin je Aktivitaet eine ID (gilt fuer
   `{{LINK:id}}` und den Kursplan) und frierst ihn ein; das ist kein
   Reviewurteil. Plattformluecken als eigenen Auftrag fuehren.
 - **Review (Schritte 7 und 8):** Vor dem Review den Kursordner im
@@ -118,8 +118,8 @@ darin:
 - **Plan und Bau (Schritte 9 bis 11):** Nach gueltigem Artefakt-APPROVED
   beauftragst du `moodle-mbz` in derselben Kette mit Kursplan und finalem Bau;
   eine gesonderte Benutzerfreigabe ist bei MBZ nicht noetig. Wann trotzdem ein
-  Benutzergate entsteht, steht in `AGENTS.md` (Deployment-Gate). Vor der Uebergabe pruefst du Kursplan und Baunachweise selbst gegen
-  das APPROVED-Paket (Quelle, Sichtbarkeit, Schutz, keine `_intern`-Datei als
+  Benutzergate entsteht, steht in `AGENTS.md` (Deployment-Gate). Vor der
+  Uebergabe pruefst du Kursplan und Baunachweise selbst gegen das APPROVED-Paket (Quelle, Sichtbarkeit, Schutz, keine `_intern`-Datei als
   Lernendenressource); bei Abweichung keine Uebergabe, sondern ein Finding an
   `moodle-mbz`. Lokale Testbaeue sind vorab erlaubt. Technische Gates bleiben
   massgeblich. Bei wiederholtem Scheitern Ursache und Auftrag klaeren statt
@@ -130,8 +130,9 @@ darin:
   Bereitschaft getrennt halten. Als Eigentuemer nur bestehende Rollen
   eintragen. Routineentscheidungen selbst treffen, echte Fragen buendeln. An
   jedem Meilenstein den Kursordner im Kurs-Repository committen. Nach
-  einem Statusmeilenstein die Kursuebersicht mit `scripts/sync_obsidian.py` in
-  den Vault aktualisieren; der Vault ist nie die verbindliche Statusquelle.
+  einem Statusmeilenstein kannst du die Kursuebersicht mit
+  `scripts/sync_obsidian.py` in den Vault aktualisieren (`AGENTS.md`); der
+  Vault ist nie die verbindliche Statusquelle.
 
 Ein lokaler MBZ-Test ist weder eine Schul-Moodle-Abnahme noch die Freigabe der
 finalen Sicherung. Rechte, Darstellung und Lernendensicht nimmt die Lehrkraft

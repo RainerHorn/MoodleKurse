@@ -1,10 +1,10 @@
 # Anleitung: moodle-mbz
 
 ## Wofür?
-Erzeugt aus einem Kursplan (`kursplan.json` plus HTML-Seiten, Fragen-XML und Dateien) eine Moodle-4.5-Sicherung (`.mbz`) für einen ganzen Kurs oder für einzelne Abschnitte. Das ist die schnelle Alternative zu `moodle-mcp`: Ein lokales Moodle im Docker-Container baut den Kurs und sichert ihn; Sie stellen die `.mbz` in Ihrer Moodle über *Wiederherstellen* ein.
+Erzeugt aus einem Kursplan (`kursplan.json` plus HTML-Seiten, Fragen-XML und Dateien) eine Moodle-4.5-Sicherung (`.mbz`) für einen ganzen Kurs oder für einzelne Abschnitte. Das ist der Standardweg des Projekts (`moodle-mcp` nur nach ausdrücklichem Wechsel): Ein lokales Moodle im Docker-Container baut den Kurs und sichert ihn; Sie stellen die `.mbz` in Ihrer Moodle über *Wiederherstellen* ein.
 
 ## Wann wird der Skill ausgelöst?
-Bei „MBZ erstellen“, „Kurs/Abschnitt als Sicherung zum Hochladen“, „Abschnitt in bestehenden Kurs einfügen“. Zum Überarbeiten einer vorhandenen `.mbz` gibt es `RefurbishMoodle`.
+Bei „MBZ erstellen“, „Kurs/Abschnitt als Sicherung zum Hochladen“, „Abschnitt in bestehenden Kurs einfügen“. Das Überarbeiten einer vorhandenen `.mbz` gehört nicht zu diesem Skill.
 
 ## Inhalt dieses Ordners
 - `SKILL.md` – Ablauf, Rückfragen, Regeln für Zeilenenden

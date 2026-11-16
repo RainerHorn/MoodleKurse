@@ -20,7 +20,7 @@ Nutzer spricht der Skill nur bei einem Einzelauftrag ausserhalb davon.
 
 ## Eingaben
 
-- Ein Ordner mit `kursplan.json` und allen Quellen (HTML-Seiten von `material`/`aufgaben`, Fragen-XML von `moodle-fragen-generator`, Dateien). Format: `references/kursplan-format.md`, Beispiel: `beispiel/`.
+- Ein Ordner mit `kursplan.json` und allen Quellen (in einer Kursproduktion: HTML aus `06-design/`, Fragen-XML aus `04-quiz/`, Dateien; als Kopien unter `quelle/`, siehe unten). Format: `references/kursplan-format.md`, Beispiel: `beispiel/`.
 - Docker Desktop läuft. Python 3 im Pfad. Erster Lauf installiert Moodle einmalig (einige Minuten).
 
 ## Vor dem Start immer klären (nachfragen, nicht raten)
